@@ -1,0 +1,3 @@
+#pragma once
+
+// he used this for dllexport / import macros, not needed on unix, so...
