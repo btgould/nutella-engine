@@ -1,5 +1,6 @@
 #pragma once
 
+// TODO: he does not need to include this... why do I?
 #include "Log.hpp"
 
 extern Nutella::Application* Nutella::CreateApplication();
