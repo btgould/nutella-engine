@@ -1,2 +1,6 @@
+# vscode specific ignores
 .vscode/
 *.code-workspace
+
+# ignore generated resources
+bin/**

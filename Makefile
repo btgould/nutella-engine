@@ -41,7 +41,7 @@ EXECUTABLE := $(OUTPUT_DIR)/$(APP_NAME)
 .PHONY := all run clean INT_DIRS
 
 VPATH := # added to by all included makefiles
-INCLUDE := # added to by all included makefiles
+INCLUDE := -Ivendor/spdlog/include # added to by all included makefiles
 DEPS :=  # added to by all included makefiles
 
 include $(LIB_DIR)/nutella.mk
@@ -51,6 +51,7 @@ include $(DEPS)
 all: $(EXECUTABLE) # final goal is executable
 
 $(EXECUTABLE): $(ENG_LIB) # executable needs lib
+$(APP_OBJS): $(ENG_LIB)
 
 $(ENG_LIB): | $(OUTPUT_DIR) # output dir must exist, don't care about when it was last updated
 
