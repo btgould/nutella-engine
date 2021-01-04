@@ -3,4 +3,5 @@
 *.code-workspace
 
 # ignore generated resources
-bin/**
+/bin/
+/bin-int/

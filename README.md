@@ -1,3 +1,3 @@
 # Nutella Engine
 
-Game engine based on The Cherno's Hazel engine using his youtube series. 
+Game engine based on TheCherno's Hazel engine using his YouTube series. 
