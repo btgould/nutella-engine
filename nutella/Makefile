@@ -16,7 +16,7 @@ ifeq ($(config),debug)
   TARGET = $(TARGETDIR)/libNutella.so
   OBJDIR = ../bin-int/Debug-linux-x86_64/Nutella
   DEFINES += -DNT_DEBUG
-  INCLUDES += -Ivendor/spdlog/include
+  INCLUDES += -Isrc -Ivendor/spdlog/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
@@ -46,7 +46,7 @@ ifeq ($(config),release)
   TARGET = $(TARGETDIR)/libNutella.so
   OBJDIR = ../bin-int/Release-linux-x86_64/Nutella
   DEFINES += -DNT_RELEASE
-  INCLUDES += -Ivendor/spdlog/include
+  INCLUDES += -Isrc -Ivendor/spdlog/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
@@ -76,7 +76,7 @@ ifeq ($(config),dist)
   TARGET = $(TARGETDIR)/libNutella.so
   OBJDIR = ../bin-int/Dist-linux-x86_64/Nutella
   DEFINES += -DNT_DIST
-  INCLUDES += -Ivendor/spdlog/include
+  INCLUDES += -Isrc -Ivendor/spdlog/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC

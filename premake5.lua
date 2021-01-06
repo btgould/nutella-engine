@@ -20,6 +20,7 @@ project "Nutella"
     }
 
     includedirs {
+        "%{prj.location}/src",
         "%{prj.location}/vendor/spdlog/include"
     }
 
