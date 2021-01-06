@@ -15,12 +15,11 @@ project "Nutella"
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
     files {
-        "%{prj.location}/src/*.cpp",
-        "%{prj.location}/include/*.hpp",
+        "%{prj.location}/src/**.cpp",
+        "%{prj.location}/src/**.hpp",
     }
 
     includedirs {
-        "%{prj.location}/include",
         "%{prj.location}/vendor/spdlog/include"
     }
 
@@ -28,9 +27,6 @@ project "Nutella"
         "mkdir -p ../bin/" .. outputdir .. "/Sandbox",
         "{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox/%{cfg.buildtarget.name}"
     }
-
-    filter "system:windows"
-        -- do all windows specific stuff here
     
     filter "configurations:Debug"
         defines "NT_DEBUG"
@@ -54,21 +50,18 @@ project "Sandbox"
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
     links "Nutella"
-    runpathdirs "%{cfg.targetdir}"
+    runpathdirs "%{cfg.targetdir}" -- adds relatively (i.e. this is $ORIGIN)
 
     files {
-        "%{prj.location}/src/*.cpp",
-        "%{prj.location}/include/*.hpp",
+        "%{prj.location}/src/**.cpp",
+        "%{prj.location}/src/**.hpp",
     }
 
     includedirs {
-        "%{prj.location}/include",
-        "nutella/include",
+        "nutella/src",
+        "nutella/src/**",
         "nutella/vendor/spdlog/include"
     }
-
-    filter "system:windows"
-        -- do all windows specific stuff here
     
     filter "configurations:Debug"
         defines "NT_DEBUG"

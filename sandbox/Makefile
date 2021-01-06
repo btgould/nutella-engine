@@ -16,7 +16,7 @@ ifeq ($(config),debug)
   TARGET = $(TARGETDIR)/Sandbox
   OBJDIR = ../bin-int/Debug-linux-x86_64/Sandbox
   DEFINES += -DNT_DEBUG
-  INCLUDES += -Iinclude -I../nutella/include -I../nutella/vendor/spdlog/include
+  INCLUDES += -I../nutella/src -I../nutella/vendor/spdlog/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
@@ -43,7 +43,7 @@ ifeq ($(config),release)
   TARGET = $(TARGETDIR)/Sandbox
   OBJDIR = ../bin-int/Release-linux-x86_64/Sandbox
   DEFINES += -DNT_RELEASE
-  INCLUDES += -Iinclude -I../nutella/include -I../nutella/vendor/spdlog/include
+  INCLUDES += -I../nutella/src -I../nutella/vendor/spdlog/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
@@ -70,7 +70,7 @@ ifeq ($(config),dist)
   TARGET = $(TARGETDIR)/Sandbox
   OBJDIR = ../bin-int/Dist-linux-x86_64/Sandbox
   DEFINES += -DNT_DIST
-  INCLUDES += -Iinclude -I../nutella/include -I../nutella/vendor/spdlog/include
+  INCLUDES += -I../nutella/src -I../nutella/vendor/spdlog/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2

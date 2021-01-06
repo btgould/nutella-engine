@@ -2,8 +2,6 @@
 
 #include <memory>
 
-#include "Core.hpp"
-
 #include "spdlog/spdlog.h"
 
 namespace Nutella {
