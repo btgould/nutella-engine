@@ -2,8 +2,6 @@
 
 #include "Event.hpp"
 
-#include <sstream>
-
 namespace Nutella {
 	class KeyEvent : public Event {
 	  public:

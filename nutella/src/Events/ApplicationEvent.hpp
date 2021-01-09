@@ -2,8 +2,6 @@
 
 #include "Event.hpp"
 
-#include <sstream>
-
 namespace Nutella {
 	class WindowResizedEvent : public Event {
 	  public:

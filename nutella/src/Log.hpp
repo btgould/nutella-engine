@@ -1,7 +1,7 @@
 #pragma once
 
-#include <memory>
-
+// NOTE: BE VERY CAREFUL, spdlog.h MUST BE INCLUDED BEFORE fmt/ostr.h
+// IF IT IS NOT, A LINKING ERROR IS GENERATED FOR SANDBOX, BUT NOT NUTELLA
 #include "spdlog/spdlog.h"
 #include "spdlog/fmt/ostr.h"
 

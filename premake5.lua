@@ -11,6 +11,8 @@ project "Nutella"
     language "C++"
     staticruntime "On"
 
+    pchheader "ntpch.hpp"
+
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 

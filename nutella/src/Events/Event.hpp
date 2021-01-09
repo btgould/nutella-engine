@@ -2,9 +2,6 @@
 
 #include "Core.hpp"
 
-#include <functional>
-#include <string>
-
 namespace Nutella {
 	// currently, events block execution of other parts of the engine
 	enum class EventType {

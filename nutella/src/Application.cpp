@@ -1,7 +1,9 @@
+#include "ntpch.hpp"
+
 #include "Application.hpp"
 
+#include "Events/ApplicationEvent.hpp"
 #include "Events/Event.hpp"
-#include "Events/KeyEvent.hpp"
 #include "Log.hpp"
 
 namespace Nutella {
@@ -10,7 +12,7 @@ namespace Nutella {
 	Application::~Application() {}
 
 	void Application::run() {
-		KeyReleasedEvent e(5);
+		WindowClosedEvent e = WindowClosedEvent();
 
 		if (e.isInCategory(EventCategoryApplication)) {
 			NT_CORE_TRACE(e);
