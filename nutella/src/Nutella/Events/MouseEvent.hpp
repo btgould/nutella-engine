@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Event.hpp"
+#include "Nutella/Events/Event.hpp"
 
 namespace Nutella {
 	class MouseMovedEvent : public Event {

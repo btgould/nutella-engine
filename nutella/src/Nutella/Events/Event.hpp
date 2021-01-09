@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core.hpp"
+#include "Nutella/Core.hpp"
 
 namespace Nutella {
 	// currently, events block execution of other parts of the engine

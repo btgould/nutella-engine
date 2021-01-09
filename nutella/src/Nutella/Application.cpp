@@ -1,9 +1,9 @@
 #include "ntpch.hpp"
 
-#include "Application.hpp"
+#include "Nutella/Application.hpp"
 
-#include "Events/ApplicationEvent.hpp"
-#include "Events/Event.hpp"
+#include "Nutella/Events/ApplicationEvent.hpp"
+#include "Nutella/Events/Event.hpp"
 #include "Log.hpp"
 
 namespace Nutella {

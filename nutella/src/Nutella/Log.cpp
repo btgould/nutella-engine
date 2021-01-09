@@ -1,6 +1,6 @@
 #include "ntpch.hpp"
 
-#include "Log.hpp"
+#include "Nutella/Log.hpp"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
 namespace Nutella {
