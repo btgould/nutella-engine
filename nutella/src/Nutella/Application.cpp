@@ -6,21 +6,20 @@
 #include "Nutella/Events/Event.hpp"
 #include "Log.hpp"
 
+#include "GLFW/glfw3.h"
+
 namespace Nutella {
-	Application::Application() {}
+	Application::Application() {
+		m_Window = std::unique_ptr<Window>(Window::Create());
+	}
 
 	Application::~Application() {}
 
 	void Application::run() {
-		WindowClosedEvent e = WindowClosedEvent();
-
-		if (e.isInCategory(EventCategoryApplication)) {
-			NT_CORE_TRACE(e);
-		} else {
-			NT_CORE_WARN(e);
+		while (m_Running) {
+			glClearColor(0, 0.2, 0.8, 1);
+			glClear(GL_COLOR_BUFFER_BIT);
+			m_Window->OnUpdate();
 		}
-
-		while (true)
-			;
 	}
 } // namespace Nutella

@@ -6,8 +6,10 @@
 #include "spdlog/fmt/ostr.h"
 
 namespace Nutella {
+	// class to encapsulate logging methods
 	class Log {
 	  public:
+		// creates and initializes spdlog outputs for nutella and client
 		static void Init();
 
 		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() {

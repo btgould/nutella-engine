@@ -11,25 +11,34 @@ ifndef verbose
 endif
 
 ifeq ($(config),debug)
+  GLFW_config = debug
   Nutella_config = debug
   Sandbox_config = debug
 endif
 ifeq ($(config),release)
+  GLFW_config = release
   Nutella_config = release
   Sandbox_config = release
 endif
 ifeq ($(config),dist)
+  GLFW_config = dist
   Nutella_config = dist
   Sandbox_config = dist
 endif
 
-PROJECTS := Nutella Sandbox
+PROJECTS := GLFW Nutella Sandbox
 
 .PHONY: all clean help $(PROJECTS) 
 
 all: $(PROJECTS)
 
-Nutella:
+GLFW:
+ifneq (,$(GLFW_config))
+	@echo "==== Building GLFW ($(GLFW_config)) ===="
+	@${MAKE} --no-print-directory -C nutella/vendor/GLFW -f Makefile config=$(GLFW_config)
+endif
+
+Nutella: GLFW
 ifneq (,$(Nutella_config))
 	@echo "==== Building Nutella ($(Nutella_config)) ===="
 	@${MAKE} --no-print-directory -C nutella -f Makefile config=$(Nutella_config)
@@ -42,6 +51,7 @@ ifneq (,$(Sandbox_config))
 endif
 
 clean:
+	@${MAKE} --no-print-directory -C nutella/vendor/GLFW -f Makefile clean
 	@${MAKE} --no-print-directory -C nutella -f Makefile clean
 	@${MAKE} --no-print-directory -C sandbox -f Makefile clean
 
@@ -56,6 +66,7 @@ help:
 	@echo "TARGETS:"
 	@echo "   all (default)"
 	@echo "   clean"
+	@echo "   GLFW"
 	@echo "   Nutella"
 	@echo "   Sandbox"
 	@echo ""

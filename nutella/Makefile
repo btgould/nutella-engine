@@ -17,16 +17,16 @@ ifeq ($(config),debug)
   OBJDIR = ../bin-int/Debug-linux-x86_64/Nutella
   PCH = src/ntpch.hpp
   GCH = $(OBJDIR)/$(notdir $(PCH)).gch
-  DEFINES += -DNT_DEBUG
-  INCLUDES += -Isrc -Ivendor/spdlog/include
+  DEFINES += -DNT_DEBUG -DNT_ENABLE_ASSERTS
+  INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include
   FORCE_INCLUDE += -include $(OBJDIR)/$(notdir $(PCH))
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS +=
-  LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -shared -Wl,-soname=libNutella.so
+  LIBS += vendor/GLFW/bin/Debug-linux-x86_64/GLFW/libGLFW.a -lGL -ldl
+  LDDEPS += vendor/GLFW/bin/Debug-linux-x86_64/GLFW/libGLFW.a
+  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -shared -Wl,-soname=libNutella.so -pthread
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -50,15 +50,15 @@ ifeq ($(config),release)
   PCH = src/ntpch.hpp
   GCH = $(OBJDIR)/$(notdir $(PCH)).gch
   DEFINES += -DNT_RELEASE
-  INCLUDES += -Isrc -Ivendor/spdlog/include
+  INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include
   FORCE_INCLUDE += -include $(OBJDIR)/$(notdir $(PCH))
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS +=
-  LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -shared -Wl,-soname=libNutella.so -s
+  LIBS += vendor/GLFW/bin/Release-linux-x86_64/GLFW/libGLFW.a -lGL -ldl
+  LDDEPS += vendor/GLFW/bin/Release-linux-x86_64/GLFW/libGLFW.a
+  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -shared -Wl,-soname=libNutella.so -s -pthread
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -82,15 +82,15 @@ ifeq ($(config),dist)
   PCH = src/ntpch.hpp
   GCH = $(OBJDIR)/$(notdir $(PCH)).gch
   DEFINES += -DNT_DIST
-  INCLUDES += -Isrc -Ivendor/spdlog/include
+  INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include
   FORCE_INCLUDE += -include $(OBJDIR)/$(notdir $(PCH))
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS +=
-  LDDEPS +=
-  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -shared -Wl,-soname=libNutella.so -s
+  LIBS += vendor/GLFW/bin/Dist-linux-x86_64/GLFW/libGLFW.a -lGL -ldl
+  LDDEPS += vendor/GLFW/bin/Dist-linux-x86_64/GLFW/libGLFW.a
+  ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -shared -Wl,-soname=libNutella.so -s -pthread
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -109,6 +109,7 @@ endif
 OBJECTS := \
 	$(OBJDIR)/Application.o \
 	$(OBJDIR)/Log.o \
+	$(OBJDIR)/LinuxWindow.o \
 
 RESOURCES := \
 
@@ -167,10 +168,13 @@ else
 $(OBJECTS): | $(OBJDIR)
 endif
 
-$(OBJDIR)/Application.o: src/Application.cpp
+$(OBJDIR)/Application.o: src/Nutella/Application.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/Log.o: src/Log.cpp
+$(OBJDIR)/Log.o: src/Nutella/Log.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/LinuxWindow.o: src/Platform/Linux/LinuxWindow.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 

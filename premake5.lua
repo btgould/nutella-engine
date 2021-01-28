@@ -4,6 +4,12 @@ workspace "Nutella"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "nutella/vendor/GLFW/include"
+
+-- include GLFW premake file
+include "nutella/vendor/GLFW"
+
 project "Nutella"
     location "nutella"
     kind "SharedLib"
@@ -23,7 +29,16 @@ project "Nutella"
 
     includedirs {
         "%{prj.location}/src",
-        "%{prj.location}/vendor/spdlog/include"
+        "%{prj.location}/vendor/spdlog/include",
+        "%{IncludeDir.GLFW}"
+    }
+
+    links {
+        "GLFW", "GL", "dl"
+    }
+
+    linkoptions { 
+        "-pthread"
     }
 
     postbuildcommands {
@@ -32,7 +47,7 @@ project "Nutella"
     }
     
     filter "configurations:Debug"
-        defines "NT_DEBUG"
+        defines {"NT_DEBUG", "NT_ENABLE_ASSERTS"}
         symbols "On"
 
     filter "configurations:Release"

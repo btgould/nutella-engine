@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Window.hpp"
+
 namespace Nutella {
 
 	class Application {
@@ -8,6 +10,10 @@ namespace Nutella {
 		virtual ~Application();
 
 		void run();
+
+	  private:
+		std::unique_ptr<Window> m_Window;
+        bool m_Running = true;
 	};
 
 	// client decides how to obtain application

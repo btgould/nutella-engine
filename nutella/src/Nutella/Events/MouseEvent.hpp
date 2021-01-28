@@ -3,14 +3,18 @@
 #include "Nutella/Events/Event.hpp"
 
 namespace Nutella {
+	// class representing a mouse moved event
 	class MouseMovedEvent : public Event {
 	  public:
+		// constructs a new mouse moved event with the given x and y coords
 		MouseMovedEvent(float x, float y) : m_MouseX(x), m_MouseY(y) {};
 
+		// gets the x coord the mouse was moved to
 		inline float GetX() const {
 			return m_MouseX;
 		}
 
+		// gets the y coord the mouse was moved to
 		inline float GetY() const {
 			return m_MouseY;
 		}
@@ -28,15 +32,19 @@ namespace Nutella {
 		float m_MouseX, m_MouseY;
 	};
 
+	// class representing a mouse scrolled event
 	class MouseScrolledEvent : public Event {
 	  public:
+		// constructs a new mouse scrolled event with the given x and y offsets
 		MouseScrolledEvent(float xOffset, float yOffset)
 			: m_XOffset(xOffset), m_YOffset(yOffset) {};
 
+		// gets the x offset of the scroll
 		inline float GetXOffset() {
 			return m_XOffset;
 		}
 
+		// gets the y offset of the scroll
 		inline float GetYOffset() {
 			return m_YOffset;
 		}
@@ -55,8 +63,10 @@ namespace Nutella {
 		float m_XOffset, m_YOffset;
 	};
 
+	// class representing an abstract mouse button event
 	class MouseButtonEvent : public Event {
 	  public:
+		// gets the mouse button of this event
 		inline int GetMouseButton() const {
 			return m_Button;
 		}
@@ -69,8 +79,10 @@ namespace Nutella {
 		int m_Button;
 	};
 
+	// class representing a mouse button pressed event
 	class MouseButtonPressedEvent : public MouseButtonEvent {
 	  public:
+		// constructs a new mouse button pressed event for the given button
 		MouseButtonPressedEvent(int button) : MouseButtonEvent(button) {};
 
 		std::string ToString() const override {
@@ -82,8 +94,10 @@ namespace Nutella {
 		EVENT_CLASS_TYPE(MouseButtonPressed)
 	};
 
+	// class representing a mouse button pressed event
 	class MouseButtonReleasedEvent : public MouseButtonEvent {
 	  public:
+		// constructs a new mouse button pressed event for the given button
 		MouseButtonReleasedEvent(int button) : MouseButtonEvent(button) {};
 
 		std::string ToString() const override {
@@ -94,4 +108,5 @@ namespace Nutella {
 
 		EVENT_CLASS_TYPE(MouseButtonReleased)
 	};
+
 } // namespace Nutella

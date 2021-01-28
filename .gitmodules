@@ -1,3 +1,6 @@
 [submodule "vendor/spdlog"]
 	path = vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "nutella/vendor/GLFW"]
+	path = nutella/vendor/GLFW
+	url = https://github.com/TheCherno/GLFW
