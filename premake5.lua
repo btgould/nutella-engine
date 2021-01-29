@@ -15,7 +15,7 @@ project "Nutella"
     kind "SharedLib"
 
     language "C++"
-    staticruntime "On"
+    staticruntime "Off"
 
     pchheader "ntpch.hpp"
 
@@ -63,6 +63,7 @@ project "Sandbox"
     kind "ConsoleApp"
 
     language "C++"
+    staticruntime "Off"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")

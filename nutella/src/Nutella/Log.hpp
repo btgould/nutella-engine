@@ -35,13 +35,11 @@ namespace Nutella {
 	::Nutella::Log::GetCoreLogger()->critical(__VA_ARGS__)
 
 // client logger macros
-#define NT_CLIENT_TRACE(...)                                                   \
-	::Nutella::Log::GetClientLogger()->trace(__VA_ARGS__)
-#define NT_CLIENT_INFO(...) ::Nutella::Log::GetClientLogger()->info(__VA_ARGS__)
-#define NT_CLIENT_WARN(...) ::Nutella::Log::GetClientLogger()->warn(__VA_ARGS__)
-#define NT_CLIENT_ERROR(...)                                                   \
-	::Nutella::Log::GetClientLogger()->error(__VA_ARGS__)
-#define NT_CLIENT_CRITICAL(...)                                                \
+#define NT_TRACE(...) ::Nutella::Log::GetClientLogger()->trace(__VA_ARGS__)
+#define NT_INFO(...) ::Nutella::Log::GetClientLogger()->info(__VA_ARGS__)
+#define NT_WARN(...) ::Nutella::Log::GetClientLogger()->warn(__VA_ARGS__)
+#define NT_ERROR(...) ::Nutella::Log::GetClientLogger()->error(__VA_ARGS__)
+#define NT_CRITICAL(...)                                                       \
 	::Nutella::Log::GetClientLogger()->critical(__VA_ARGS__)
 
 // TODO: strip definitions from distribution builds

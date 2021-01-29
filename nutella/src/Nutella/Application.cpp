@@ -23,15 +23,31 @@ namespace Nutella {
 		dispatcher.Dispatch<WindowClosedEvent>(
 			BIND_EVENT_FN(Application::OnWindowClose));
 
-		NT_CORE_TRACE("{0}", e);
+		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();) {
+			(*--it)->OnEvent(e);
+			if (e.handled)
+				break;
+		}
 	}
 
 	void Application::run() {
 		while (m_Running) {
 			glClearColor(0, 0.2, 0.8, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
+
+			for (Layer* layer : m_LayerStack)
+				layer->OnUpdate();
+
 			m_Window->OnUpdate();
 		}
+	}
+
+	void Application::PushLayer(Layer* layer) {
+		m_LayerStack.PushLayer(layer);
+	}
+
+	void Application::PopLayer(Layer* layer) {
+		m_LayerStack.PopLayer(layer);
 	}
 
 	bool Application::OnWindowClose(WindowClosedEvent& e) {

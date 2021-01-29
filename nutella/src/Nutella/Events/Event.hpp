@@ -77,9 +77,8 @@ namespace Nutella {
 			return GetCategoryFlags() & category;
 		}
 
-	  protected:
 		// whether or not this event has been handled
-		bool m_Handled = false;
+		bool handled = false;
 	};
 
 	class EventDistpatcher {
@@ -92,7 +91,7 @@ namespace Nutella {
 			// check if the dispatch function is valid for current event
 			if (m_Event.GetEventType() == T::GetStaticType()) {
 				// call dispatch function on event, decide if handled
-				m_Event.m_Handled = func(*(T*) &m_Event);
+				m_Event.handled = func(*(T*) &m_Event);
 				return true;
 			}
 

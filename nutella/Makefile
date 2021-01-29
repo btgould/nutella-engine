@@ -108,6 +108,8 @@ endif
 
 OBJECTS := \
 	$(OBJDIR)/Application.o \
+	$(OBJDIR)/Layer.o \
+	$(OBJDIR)/LayerStack.o \
 	$(OBJDIR)/Log.o \
 	$(OBJDIR)/LinuxWindow.o \
 
@@ -169,6 +171,12 @@ $(OBJECTS): | $(OBJDIR)
 endif
 
 $(OBJDIR)/Application.o: src/Nutella/Application.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Layer.o: src/Nutella/Layer.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/LayerStack.o: src/Nutella/LayerStack.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Log.o: src/Nutella/Log.cpp
