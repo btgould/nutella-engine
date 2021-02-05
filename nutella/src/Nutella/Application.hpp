@@ -19,6 +19,16 @@ namespace Nutella {
 
 		void PushLayer(Layer* layer);
 		void PopLayer(Layer* layer);
+		void PushOverlay(Layer* overlay);
+		void PopOverlay(Layer* overlay);
+
+		inline static Application& get() {
+			return *s_Instance;
+		}
+
+		inline Window& getWindow() {
+			return *m_Window;
+		}
 
 	  private:
 		bool OnWindowClose(WindowClosedEvent& e);
@@ -27,6 +37,8 @@ namespace Nutella {
 		bool m_Running = true;
 
 		LayerStack m_LayerStack;
+
+		static Application* s_Instance;
 	};
 
 	// client decides how to obtain application

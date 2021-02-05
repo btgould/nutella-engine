@@ -12,21 +12,27 @@ endif
 
 ifeq ($(config),debug)
   GLFW_config = debug
+  Glad_config = debug
+  ImGui_config = debug
   Nutella_config = debug
   Sandbox_config = debug
 endif
 ifeq ($(config),release)
   GLFW_config = release
+  Glad_config = release
+  ImGui_config = release
   Nutella_config = release
   Sandbox_config = release
 endif
 ifeq ($(config),dist)
   GLFW_config = dist
+  Glad_config = dist
+  ImGui_config = dist
   Nutella_config = dist
   Sandbox_config = dist
 endif
 
-PROJECTS := GLFW Nutella Sandbox
+PROJECTS := GLFW Glad ImGui Nutella Sandbox
 
 .PHONY: all clean help $(PROJECTS) 
 
@@ -38,7 +44,19 @@ ifneq (,$(GLFW_config))
 	@${MAKE} --no-print-directory -C nutella/vendor/GLFW -f Makefile config=$(GLFW_config)
 endif
 
-Nutella: GLFW
+Glad:
+ifneq (,$(Glad_config))
+	@echo "==== Building Glad ($(Glad_config)) ===="
+	@${MAKE} --no-print-directory -C nutella/vendor/Glad -f Makefile config=$(Glad_config)
+endif
+
+ImGui:
+ifneq (,$(ImGui_config))
+	@echo "==== Building ImGui ($(ImGui_config)) ===="
+	@${MAKE} --no-print-directory -C nutella/vendor/imgui -f Makefile config=$(ImGui_config)
+endif
+
+Nutella: GLFW Glad ImGui
 ifneq (,$(Nutella_config))
 	@echo "==== Building Nutella ($(Nutella_config)) ===="
 	@${MAKE} --no-print-directory -C nutella -f Makefile config=$(Nutella_config)
@@ -52,6 +70,8 @@ endif
 
 clean:
 	@${MAKE} --no-print-directory -C nutella/vendor/GLFW -f Makefile clean
+	@${MAKE} --no-print-directory -C nutella/vendor/Glad -f Makefile clean
+	@${MAKE} --no-print-directory -C nutella/vendor/imgui -f Makefile clean
 	@${MAKE} --no-print-directory -C nutella -f Makefile clean
 	@${MAKE} --no-print-directory -C sandbox -f Makefile clean
 
@@ -67,6 +87,8 @@ help:
 	@echo "   all (default)"
 	@echo "   clean"
 	@echo "   GLFW"
+	@echo "   Glad"
+	@echo "   ImGui"
 	@echo "   Nutella"
 	@echo "   Sandbox"
 	@echo ""

@@ -6,9 +6,13 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["GLFW"] = "nutella/vendor/GLFW/include"
+IncludeDir["Glad"] = "nutella/vendor/Glad/include"
+IncludeDir["ImGui"] = "nutella/vendor/imgui"
 
--- include GLFW premake file
+-- include vendor premake files
 include "nutella/vendor/GLFW"
+include "nutella/vendor/Glad"
+include "nutella/vendor/imgui"
 
 project "Nutella"
     location "nutella"
@@ -30,15 +34,23 @@ project "Nutella"
     includedirs {
         "%{prj.location}/src",
         "%{prj.location}/vendor/spdlog/include",
-        "%{IncludeDir.GLFW}"
+        "%{IncludeDir.GLFW}",
+        "%{IncludeDir.Glad}",
+        "%{IncludeDir.ImGui}"
     }
 
     links {
-        "GLFW", "GL", "dl"
+        "GLFW", "GL", "dl",
+        "Glad",
+        "ImGui"
     }
 
     linkoptions { 
         "-pthread"
+    }
+
+    defines {
+        "GLFW_INCLUDE_NONE"
     }
 
     postbuildcommands {

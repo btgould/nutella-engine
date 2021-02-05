@@ -5,13 +5,20 @@
 #include "Nutella/Events/Event.hpp"
 #include "Log.hpp"
 
-#include "GLFW/glfw3.h"
+#include "glad/glad.h"
 
 namespace Nutella {
 
 #define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
+	// Singleton instance of Application
+	Application* Application::s_Instance = nullptr;
 
 	Application::Application() {
+		// ensure only one instance exists
+		NT_CORE_ASSERT(!s_Instance,
+					   "Cannot create multiple instances of Application class");
+		s_Instance = this;
+
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
 	}
@@ -44,10 +51,22 @@ namespace Nutella {
 
 	void Application::PushLayer(Layer* layer) {
 		m_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
 	void Application::PopLayer(Layer* layer) {
 		m_LayerStack.PopLayer(layer);
+		layer->OnDetach();
+	}
+
+	void Application::PushOverlay(Layer* overlay) {
+		m_LayerStack.PushOverlay(overlay);
+		overlay->OnAttach();
+	}
+
+	void Application::PopOverlay(Layer* overlay) {
+		m_LayerStack.PopOverlay(overlay);
+		overlay->OnDetach();
 	}
 
 	bool Application::OnWindowClose(WindowClosedEvent& e) {

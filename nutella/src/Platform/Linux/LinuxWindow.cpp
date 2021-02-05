@@ -5,6 +5,8 @@
 #include "Nutella/Events/KeyEvent.hpp"
 #include "Nutella/Events/MouseEvent.hpp"
 
+#include "glad/glad.h"
+
 namespace Nutella {
 	static bool s_GLFWInitialized = false;
 
@@ -47,11 +49,16 @@ namespace Nutella {
 		m_Window = glfwCreateWindow((int) props.Width, (int) props.Height,
 									m_Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
+
+		int status = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+		NT_CORE_ASSERT(status, "Failed to initialize Glad");
+
 		glfwSetWindowUserPointer(m_Window,
 								 &m_Data); // associates our window data w/ GLFW
 		SetVSync(true);
 
 		// set GLFW callbacks
+		// 1. Create Nutella event from GLFW data, 2. pass to m_Data's callback
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width,
 											   int height) {
 			WindowData& data = *(WindowData*) glfwGetWindowUserPointer(window);
