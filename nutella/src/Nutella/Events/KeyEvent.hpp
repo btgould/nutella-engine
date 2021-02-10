@@ -60,4 +60,20 @@ namespace Nutella {
 
 		EVENT_CLASS_TYPE(KeyReleased)
 	};
+
+	class KeyTypedEvent : public KeyEvent {
+	  public:
+		// constructs a new key pressed event with the given code and repeat
+		// count
+		KeyTypedEvent(int keycode) : KeyEvent(keycode) {};
+
+		std::string ToString() const override {
+			std::stringstream ss;
+			ss << "KeyTypedEvent Code: " << m_KeyCode;
+			return ss.str();
+		}
+
+		EVENT_CLASS_TYPE(KeyTyped);
+	};
+
 } // namespace Nutella

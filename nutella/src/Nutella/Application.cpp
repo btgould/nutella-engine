@@ -1,5 +1,7 @@
 #include "ntpch.hpp"
 
+#include "Nutella/Core.hpp"
+
 #include "Nutella/Application.hpp"
 
 #include "Nutella/Events/Event.hpp"
@@ -9,7 +11,6 @@
 
 namespace Nutella {
 
-#define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 	// Singleton instance of Application
 	Application* Application::s_Instance = nullptr;
 

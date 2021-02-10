@@ -20,6 +20,7 @@ namespace Nutella {
 		AppRender,
 		KeyPressed,
 		KeyReleased,
+		KeyTyped,
 		MouseButtonPressed,
 		MouseButtonReleased,
 		MouseMoved,
