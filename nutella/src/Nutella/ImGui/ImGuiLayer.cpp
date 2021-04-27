@@ -5,11 +5,12 @@
 
 #include "Nutella/Core.hpp"
 #include "Nutella/Application.hpp"
+#include "Nutella/KeyCodes.hpp"
 
 #include "ImGuiLayer.hpp"
 
-// TEMPORARY
-#include <GLFW/glfw3.h> // keycodes
+// TEMP: needed for delta t + viewport
+#include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
 namespace Nutella {
@@ -27,30 +28,30 @@ namespace Nutella {
 		io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
 
 		// set ImGui keybindings
-		// TODO: should really use engine specific key codes
-		io.KeyMap[ImGuiKey_Tab] = GLFW_KEY_TAB;
-		io.KeyMap[ImGuiKey_LeftArrow] = GLFW_KEY_LEFT;
-		io.KeyMap[ImGuiKey_RightArrow] = GLFW_KEY_RIGHT;
-		io.KeyMap[ImGuiKey_UpArrow] = GLFW_KEY_UP;
-		io.KeyMap[ImGuiKey_DownArrow] = GLFW_KEY_DOWN;
-		io.KeyMap[ImGuiKey_PageUp] = GLFW_KEY_PAGE_UP;
-		io.KeyMap[ImGuiKey_PageDown] = GLFW_KEY_PAGE_DOWN;
-		io.KeyMap[ImGuiKey_Home] = GLFW_KEY_HOME;
-		io.KeyMap[ImGuiKey_End] = GLFW_KEY_END;
-		io.KeyMap[ImGuiKey_Insert] = GLFW_KEY_INSERT;
-		io.KeyMap[ImGuiKey_Delete] = GLFW_KEY_DELETE;
-		io.KeyMap[ImGuiKey_Backspace] = GLFW_KEY_BACKSPACE;
-		io.KeyMap[ImGuiKey_Space] = GLFW_KEY_SPACE;
-		io.KeyMap[ImGuiKey_Enter] = GLFW_KEY_ENTER;
-		io.KeyMap[ImGuiKey_Escape] = GLFW_KEY_ESCAPE;
-		io.KeyMap[ImGuiKey_KeyPadEnter] = GLFW_KEY_KP_ENTER;
-		io.KeyMap[ImGuiKey_A] = GLFW_KEY_A;
-		io.KeyMap[ImGuiKey_C] = GLFW_KEY_C;
-		io.KeyMap[ImGuiKey_V] = GLFW_KEY_V;
-		io.KeyMap[ImGuiKey_X] = GLFW_KEY_X;
-		io.KeyMap[ImGuiKey_Y] = GLFW_KEY_Y;
-		io.KeyMap[ImGuiKey_Z] = GLFW_KEY_Z;
+		io.KeyMap[ImGuiKey_Tab] = NT_KEY_TAB;
+		io.KeyMap[ImGuiKey_LeftArrow] = NT_KEY_LEFT;
+		io.KeyMap[ImGuiKey_RightArrow] = NT_KEY_RIGHT;
+		io.KeyMap[ImGuiKey_UpArrow] = NT_KEY_UP;
+		io.KeyMap[ImGuiKey_DownArrow] = NT_KEY_DOWN;
+		io.KeyMap[ImGuiKey_PageUp] = NT_KEY_PAGE_UP;
+		io.KeyMap[ImGuiKey_PageDown] = NT_KEY_PAGE_DOWN;
+		io.KeyMap[ImGuiKey_Home] = NT_KEY_HOME;
+		io.KeyMap[ImGuiKey_End] = NT_KEY_END;
+		io.KeyMap[ImGuiKey_Insert] = NT_KEY_INSERT;
+		io.KeyMap[ImGuiKey_Delete] = NT_KEY_DELETE;
+		io.KeyMap[ImGuiKey_Backspace] = NT_KEY_BACKSPACE;
+		io.KeyMap[ImGuiKey_Space] = NT_KEY_SPACE;
+		io.KeyMap[ImGuiKey_Enter] = NT_KEY_ENTER;
+		io.KeyMap[ImGuiKey_Escape] = NT_KEY_ESCAPE;
+		io.KeyMap[ImGuiKey_KeyPadEnter] = NT_KEY_KP_ENTER;
+		io.KeyMap[ImGuiKey_A] = NT_KEY_A; // for text edit CTRL+A: select all
+		io.KeyMap[ImGuiKey_C] = NT_KEY_C; // for text edit CTRL+C: copy
+		io.KeyMap[ImGuiKey_V] = NT_KEY_V; // for text edit CTRL+V: paste
+		io.KeyMap[ImGuiKey_X] = NT_KEY_X; // for text edit CTRL+X: cut
+		io.KeyMap[ImGuiKey_Y] = NT_KEY_Y; // for text edit CTRL+Y: redo
+		io.KeyMap[ImGuiKey_Z] = NT_KEY_Z; // for text edit CTRL+Z: undo
 
+		// HACK: this assumes we are using OpenGL
 		ImGui_ImplOpenGL3_Init("#version 410");
 	}
 
@@ -59,8 +60,7 @@ namespace Nutella {
 	void ImGuiLayer::OnUpdate() {
 		// update window size
 		ImGuiIO& io = ImGui::GetIO();
-		io.DisplaySize =
-			ImVec2(app.getWindow().GetWidth(), app.getWindow().GetHeight());
+		io.DisplaySize = ImVec2(app.getWindow().GetWidth(), app.getWindow().GetHeight());
 
 		// update delta T
 		float time = (float) glfwGetTime();
@@ -86,22 +86,16 @@ namespace Nutella {
 			BIND_EVENT_FN(ImGuiLayer::OnMouseButtonPressedEvent));
 		dispatcher.Dispatch<MouseButtonReleasedEvent>(
 			BIND_EVENT_FN(ImGuiLayer::OnMouseButtonReleasedEvent));
-		dispatcher.Dispatch<MouseMovedEvent>(
-			BIND_EVENT_FN(ImGuiLayer::OnMouseMovedEvent));
-		dispatcher.Dispatch<MouseScrolledEvent>(
-			BIND_EVENT_FN(ImGuiLayer::OnMouseScrolledEvent));
+		dispatcher.Dispatch<MouseMovedEvent>(BIND_EVENT_FN(ImGuiLayer::OnMouseMovedEvent));
+		dispatcher.Dispatch<MouseScrolledEvent>(BIND_EVENT_FN(ImGuiLayer::OnMouseScrolledEvent));
 
 		// bind dispatch functions for key events
-		dispatcher.Dispatch<KeyPressedEvent>(
-			BIND_EVENT_FN(ImGuiLayer::OnKeyPressedEvent));
-		dispatcher.Dispatch<KeyReleasedEvent>(
-			BIND_EVENT_FN(ImGuiLayer::OnKeyReleasedEvent));
-		dispatcher.Dispatch<KeyTypedEvent>(
-			BIND_EVENT_FN(ImGuiLayer::OnKeyTypedEvent));
+		dispatcher.Dispatch<KeyPressedEvent>(BIND_EVENT_FN(ImGuiLayer::OnKeyPressedEvent));
+		dispatcher.Dispatch<KeyReleasedEvent>(BIND_EVENT_FN(ImGuiLayer::OnKeyReleasedEvent));
+		dispatcher.Dispatch<KeyTypedEvent>(BIND_EVENT_FN(ImGuiLayer::OnKeyTypedEvent));
 
 		// bind dispatch functions for window events
-		dispatcher.Dispatch<WindowResizedEvent>(
-			BIND_EVENT_FN(ImGuiLayer::OnWindowResizedEvent));
+		dispatcher.Dispatch<WindowResizedEvent>(BIND_EVENT_FN(ImGuiLayer::OnWindowResizedEvent));
 	}
 
 	bool ImGuiLayer::OnMouseButtonPressedEvent(MouseButtonPressedEvent& e) {
@@ -138,14 +132,10 @@ namespace Nutella {
 		io.KeysDown[e.GetKeyCode()] = true;
 
 		// set any needed modifiers
-		io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] ||
-					 io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
-		io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] ||
-					  io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
-		io.KeyAlt =
-			io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT];
-		io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER] ||
-					  io.KeysDown[GLFW_KEY_RIGHT_SUPER];
+		io.KeyCtrl = io.KeysDown[NT_KEY_LEFT_CONTROL] || io.KeysDown[NT_KEY_RIGHT_CONTROL];
+		io.KeyShift = io.KeysDown[NT_KEY_LEFT_SHIFT] || io.KeysDown[NT_KEY_RIGHT_SHIFT];
+		io.KeyAlt = io.KeysDown[NT_KEY_LEFT_ALT] || io.KeysDown[NT_KEY_RIGHT_ALT];
+		io.KeySuper = io.KeysDown[NT_KEY_LEFT_SUPER] || io.KeysDown[NT_KEY_RIGHT_SUPER];
 
 		return false;
 	}

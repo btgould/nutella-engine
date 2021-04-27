@@ -1,6 +1,8 @@
 #include "ntpch.hpp"
 #include "LinuxWindow.hpp"
 
+#include "Nutella/KeyCodes.hpp"
+
 #include "Nutella/Events/ApplicationEvent.hpp"
 #include "Nutella/Events/KeyEvent.hpp"
 #include "Nutella/Events/MouseEvent.hpp"
@@ -32,8 +34,7 @@ namespace Nutella {
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
 
-		NT_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width,
-					 props.Height);
+		NT_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
 		// check if GLFW needs to be initialized
 		if (!s_GLFWInitialized) {
@@ -46,8 +47,8 @@ namespace Nutella {
 		}
 
 		// create new GLFW window
-		m_Window = glfwCreateWindow((int) props.Width, (int) props.Height,
-									m_Data.Title.c_str(), nullptr, nullptr);
+		m_Window = glfwCreateWindow((int) props.Width, (int) props.Height, m_Data.Title.c_str(),
+									nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
 
 		int status = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
@@ -59,8 +60,7 @@ namespace Nutella {
 
 		// set GLFW callbacks
 		// 1. Create Nutella event from GLFW data, 2. pass to m_Data's callback
-		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width,
-											   int height) {
+		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) {
 			WindowData& data = *(WindowData*) glfwGetWindowUserPointer(window);
 			WindowResizedEvent event(width, height);
 
@@ -76,75 +76,74 @@ namespace Nutella {
 			data.EventCallback(event);
 		});
 
-		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int keycode,
-										int scancode, int action, int mods) {
-			WindowData& data = *(WindowData*) glfwGetWindowUserPointer(window);
+		glfwSetKeyCallback(m_Window,
+						   [](GLFWwindow* window, int keycode, int scancode, int action, int mods) {
+							   WindowData& data = *(WindowData*) glfwGetWindowUserPointer(window);
 
-			switch (action) {
-				{
-				case GLFW_PRESS:
-					KeyPressedEvent event(keycode, 0);
-					data.EventCallback(event);
-					break;
-				}
-				{
-				case GLFW_RELEASE:
-					KeyReleasedEvent event(keycode);
-					data.EventCallback(event);
-					break;
-				}
-				{
-				case GLFW_REPEAT:
-					KeyPressedEvent event(keycode, 1);
-					data.EventCallback(event);
-					break;
-				}
-			default:
-				NT_CORE_ERROR("Key action type unrecognized");
-				break;
-			}
-		});
+							   keycode = GLFWKeyToNTKey(keycode);
 
-		glfwSetCharCallback(m_Window, [](GLFWwindow* window,
-										 unsigned int keycode) {
+							   switch (action) {
+								   {
+								   case GLFW_PRESS:
+									   KeyPressedEvent event(keycode, 0);
+									   data.EventCallback(event);
+									   break;
+								   }
+								   {
+								   case GLFW_RELEASE:
+									   KeyReleasedEvent event(keycode);
+									   data.EventCallback(event);
+									   break;
+								   }
+								   {
+								   case GLFW_REPEAT:
+									   KeyPressedEvent event(keycode, 1);
+									   data.EventCallback(event);
+									   break;
+								   }
+							   default:
+								   NT_CORE_ERROR("Key action type unrecognized");
+								   break;
+							   }
+						   });
+
+		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int keycode) {
 			WindowData& data = *(WindowData*) glfwGetWindowUserPointer(window);
 			KeyTypedEvent event(keycode);
 			data.EventCallback(event);
 		});
 
-		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button,
-												int action, int mods) {
-			WindowData& data = *(WindowData*) glfwGetWindowUserPointer(window);
+		glfwSetMouseButtonCallback(
+			m_Window, [](GLFWwindow* window, int button, int action, int mods) {
+				WindowData& data = *(WindowData*) glfwGetWindowUserPointer(window);
 
-			switch (action) {
-				{
-				case GLFW_PRESS:
-					MouseButtonPressedEvent event(button);
-					data.EventCallback(event);
+				switch (action) {
+					{
+					case GLFW_PRESS:
+						MouseButtonPressedEvent event(button);
+						data.EventCallback(event);
+						break;
+					}
+					{
+					case GLFW_RELEASE:
+						MouseButtonReleasedEvent event(button);
+						data.EventCallback(event);
+						break;
+					}
+				default:
+					NT_CORE_ERROR("Mouse action type unrecognized");
 					break;
 				}
-				{
-				case GLFW_RELEASE:
-					MouseButtonReleasedEvent event(button);
-					data.EventCallback(event);
-					break;
-				}
-			default:
-				NT_CORE_ERROR("Mouse action type unrecognized");
-				break;
-			}
-		});
+			});
 
-		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xPos,
-											  double yPos) {
+		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xPos, double yPos) {
 			WindowData& data = *(WindowData*) glfwGetWindowUserPointer(window);
 
 			MouseMovedEvent event((float) xPos, (float) yPos);
 			data.EventCallback(event);
 		});
 
-		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xOffset,
-										   double yOffset) {
+		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xOffset, double yOffset) {
 			WindowData& data = *(WindowData*) glfwGetWindowUserPointer(window);
 
 			MouseScrolledEvent event((float) xOffset, (float) yOffset);

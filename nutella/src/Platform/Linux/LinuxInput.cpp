@@ -3,15 +3,17 @@
 #include "Platform/Linux/LinuxInput.hpp"
 
 #include "Nutella/Application.hpp"
+#include "Nutella/KeyCodes.hpp"
 
 #include <GLFW/glfw3.h>
 
 namespace Nutella {
+	// NOTE: platform dependent, should add ifdef?
 	Input* Input::s_instance = new LinuxInput();
 
 	bool LinuxInput::isKeyPressedImpl(int keycode) {
 		auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
-		return glfwGetKey(window, keycode) == GLFW_PRESS;
+		return glfwGetKey(window, NTKeyToGLFWKey(keycode)) == GLFW_PRESS;
 	}
 
 	bool LinuxInput::isMouseButtonPressedImpl(int button) {

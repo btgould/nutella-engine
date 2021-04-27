@@ -5,11 +5,13 @@ class ExampleLayer : public Nutella::Layer {
 	ExampleLayer() : Layer("Example") {};
 
 	void OnUpdate() override {
-		// NT_TRACE("Example Layer::Update");
+		if (Nutella::Input::isKeyPressed(NT_KEY_TAB)) {
+			NT_TRACE("Tab is pressed");
+		}
 	}
 
 	void OnEvent(Nutella::Event& event) override {
-		NT_TRACE("{0}", event);
+		// NT_TRACE("{0}", event);
 	}
 };
 
