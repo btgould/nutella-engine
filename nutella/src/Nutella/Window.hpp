@@ -11,8 +11,8 @@ namespace Nutella {
 		unsigned int Width;
 		unsigned int Height;
 
-		WindowProps(const std::string& title = "Nutella Engine",
-					unsigned int width = 940, unsigned int height = 600)
+		WindowProps(const std::string& title = "Nutella Engine", unsigned int width = 940,
+					unsigned int height = 600)
 			: Title(title), Width(width), Height(height) {}
 	};
 
@@ -37,6 +37,8 @@ namespace Nutella {
 		virtual void SetVSync(bool enabled) = 0;
 		// gets whether the window is VSynced
 		virtual bool IsVSync() const = 0;
+
+		virtual void* getNativeWindow() const = 0;
 
 		// creates a new window with the given window properties
 		static Window* Create(const WindowProps& props = WindowProps());

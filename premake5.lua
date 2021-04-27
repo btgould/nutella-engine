@@ -19,6 +19,7 @@ project "Nutella"
     kind "SharedLib"
 
     language "C++"
+    cppdialect "C++17"
     staticruntime "Off"
 
     pchheader "ntpch.hpp"

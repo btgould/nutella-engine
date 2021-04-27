@@ -20,6 +20,10 @@ namespace Nutella {
 			return m_Data.Height;
 		}
 
+		inline virtual void* getNativeWindow() const override {
+			return m_Window;
+		}
+
 		// window attributes
 		// ----------------------------------------------------------------------------------
 

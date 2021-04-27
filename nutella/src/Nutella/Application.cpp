@@ -5,6 +5,7 @@
 #include "Nutella/Application.hpp"
 
 #include "Nutella/Events/Event.hpp"
+
 #include "Log.hpp"
 
 #include "glad/glad.h"
@@ -16,8 +17,7 @@ namespace Nutella {
 
 	Application::Application() {
 		// ensure only one instance exists
-		NT_CORE_ASSERT(!s_Instance,
-					   "Cannot create multiple instances of Application class");
+		NT_CORE_ASSERT(!s_Instance, "Cannot create multiple instances of Application class");
 		s_Instance = this;
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
@@ -28,8 +28,7 @@ namespace Nutella {
 
 	void Application::OnEvent(Event& e) {
 		EventDistpatcher dispatcher(e);
-		dispatcher.Dispatch<WindowClosedEvent>(
-			BIND_EVENT_FN(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowClosedEvent>(BIND_EVENT_FN(Application::OnWindowClose));
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();) {
 			(*--it)->OnEvent(e);
