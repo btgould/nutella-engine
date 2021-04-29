@@ -1,12 +1,9 @@
 #include "ntpch.hpp"
+#include "Nutella/Application.hpp"
+#include "Log.hpp"
 
 #include "Nutella/Core.hpp"
-
-#include "Nutella/Application.hpp"
-
 #include "Nutella/Events/Event.hpp"
-
-#include "Log.hpp"
 
 #include "glad/glad.h"
 
@@ -22,9 +19,14 @@ namespace Nutella {
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
+
+		m_ImGuiLayer = new ImGuiLayer();
+		PushOverlay(m_ImGuiLayer);
 	}
 
-	Application::~Application() {}
+	Application::~Application() {
+		// m_ImGuiLayer deleted by layer stack
+	}
 
 	void Application::OnEvent(Event& e) {
 		EventDistpatcher dispatcher(e);
@@ -44,6 +46,11 @@ namespace Nutella {
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
+
+			m_ImGuiLayer->begin();
+			for (Layer* layer : m_LayerStack)
+				layer->OnImGuiRender();
+			m_ImGuiLayer->end();
 
 			m_Window->OnUpdate();
 		}

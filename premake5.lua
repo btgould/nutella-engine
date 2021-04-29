@@ -8,6 +8,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "nutella/vendor/GLFW/include"
 IncludeDir["Glad"] = "nutella/vendor/Glad/include"
 IncludeDir["ImGui"] = "nutella/vendor/imgui"
+IncludeDir["glm"] = "nutella/vendor/glm"
 
 -- include vendor premake files
 include "nutella/vendor/GLFW"
@@ -37,7 +38,8 @@ project "Nutella"
         "%{prj.location}/vendor/spdlog/include",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
-        "%{IncludeDir.ImGui}"
+        "%{IncludeDir.ImGui}",
+        "%{IncludeDir.glm}"
     }
 
     links {
@@ -91,8 +93,8 @@ project "Sandbox"
 
     includedirs {
         "nutella/src",
-        "nutella/src/**",
-        "nutella/vendor/spdlog/include"
+        "nutella/vendor/spdlog/include",
+        "%{IncludeDir.glm}"
     }
     
     filter "configurations:Debug"

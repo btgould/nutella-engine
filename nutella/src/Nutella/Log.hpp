@@ -26,20 +26,30 @@ namespace Nutella {
 	};
 } // namespace Nutella
 
-// core logging macros
-#define NT_CORE_TRACE(...) ::Nutella::Log::GetCoreLogger()->trace(__VA_ARGS__)
-#define NT_CORE_INFO(...) ::Nutella::Log::GetCoreLogger()->info(__VA_ARGS__)
-#define NT_CORE_WARN(...) ::Nutella::Log::GetCoreLogger()->warn(__VA_ARGS__)
-#define NT_CORE_ERROR(...) ::Nutella::Log::GetCoreLogger()->error(__VA_ARGS__)
-#define NT_CORE_CRITICAL(...)                                                  \
-	::Nutella::Log::GetCoreLogger()->critical(__VA_ARGS__)
+#ifndef NT_DIST
+  // core logging macros
+	#define NT_CORE_TRACE(...) ::Nutella::Log::GetCoreLogger()->trace(__VA_ARGS__)
+	#define NT_CORE_INFO(...) ::Nutella::Log::GetCoreLogger()->info(__VA_ARGS__)
+	#define NT_CORE_WARN(...) ::Nutella::Log::GetCoreLogger()->warn(__VA_ARGS__)
+	#define NT_CORE_ERROR(...) ::Nutella::Log::GetCoreLogger()->error(__VA_ARGS__)
+	#define NT_CORE_CRITICAL(...) ::Nutella::Log::GetCoreLogger()->critical(__VA_ARGS__)
 
-// client logger macros
-#define NT_TRACE(...) ::Nutella::Log::GetClientLogger()->trace(__VA_ARGS__)
-#define NT_INFO(...) ::Nutella::Log::GetClientLogger()->info(__VA_ARGS__)
-#define NT_WARN(...) ::Nutella::Log::GetClientLogger()->warn(__VA_ARGS__)
-#define NT_ERROR(...) ::Nutella::Log::GetClientLogger()->error(__VA_ARGS__)
-#define NT_CRITICAL(...)                                                       \
-	::Nutella::Log::GetClientLogger()->critical(__VA_ARGS__)
+	// client logger macros
+	#define NT_TRACE(...) ::Nutella::Log::GetClientLogger()->trace(__VA_ARGS__)
+	#define NT_INFO(...) ::Nutella::Log::GetClientLogger()->info(__VA_ARGS__)
+	#define NT_WARN(...) ::Nutella::Log::GetClientLogger()->warn(__VA_ARGS__)
+	#define NT_ERROR(...) ::Nutella::Log::GetClientLogger()->error(__VA_ARGS__)
+	#define NT_CRITICAL(...) ::Nutella::Log::GetClientLogger()->critical(__VA_ARGS__)
+#else
+	#define NT_CORE_TRACE(...)
+	#define NT_CORE_INFO(...)
+	#define NT_CORE_WARN(...)
+	#define NT_CORE_ERROR(...)
+	#define NT_CORE_CRITICAL(...)
 
-// TODO: strip definitions from distribution builds
+	#define NT_TRACE(...)
+	#define NT_INFO(...)
+	#define NT_WARN(...)
+	#define NT_ERROR(...)
+	#define NT_CRITICAL(...)
+#endif

@@ -19,7 +19,6 @@ class Sandbox : public Nutella::Application {
   public:
 	Sandbox() {
 		PushLayer(new ExampleLayer());
-		PushOverlay(new Nutella::ImGuiLayer());
 	}
 
 	~Sandbox() {}

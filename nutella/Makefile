@@ -18,7 +18,7 @@ ifeq ($(config),debug)
   PCH = src/ntpch.hpp
   GCH = $(OBJDIR)/$(notdir $(PCH)).gch
   DEFINES += -DGLFW_INCLUDE_NONE -DNT_DEBUG -DNT_ENABLE_ASSERTS
-  INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include -Ivendor/Glad/include -Ivendor/imgui
+  INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include -Ivendor/Glad/include -Ivendor/imgui -Ivendor/glm
   FORCE_INCLUDE += -include $(OBJDIR)/$(notdir $(PCH))
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
@@ -50,7 +50,7 @@ ifeq ($(config),release)
   PCH = src/ntpch.hpp
   GCH = $(OBJDIR)/$(notdir $(PCH)).gch
   DEFINES += -DGLFW_INCLUDE_NONE -DNT_RELEASE
-  INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include -Ivendor/Glad/include -Ivendor/imgui
+  INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include -Ivendor/Glad/include -Ivendor/imgui -Ivendor/glm
   FORCE_INCLUDE += -include $(OBJDIR)/$(notdir $(PCH))
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
@@ -82,7 +82,7 @@ ifeq ($(config),dist)
   PCH = src/ntpch.hpp
   GCH = $(OBJDIR)/$(notdir $(PCH)).gch
   DEFINES += -DGLFW_INCLUDE_NONE -DNT_DIST
-  INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include -Ivendor/Glad/include -Ivendor/imgui
+  INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include -Ivendor/Glad/include -Ivendor/imgui -Ivendor/glm
   FORCE_INCLUDE += -include $(OBJDIR)/$(notdir $(PCH))
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
@@ -108,13 +108,13 @@ endif
 
 OBJECTS := \
 	$(OBJDIR)/Application.o \
+	$(OBJDIR)/ImGuiBuild.o \
 	$(OBJDIR)/ImGuiLayer.o \
 	$(OBJDIR)/Layer.o \
 	$(OBJDIR)/LayerStack.o \
 	$(OBJDIR)/Log.o \
 	$(OBJDIR)/LinuxInput.o \
 	$(OBJDIR)/LinuxWindow.o \
-	$(OBJDIR)/ImGuiOpenGLRenderer.o \
 
 RESOURCES := \
 
@@ -176,6 +176,9 @@ endif
 $(OBJDIR)/Application.o: src/Nutella/Application.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/ImGuiBuild.o: src/Nutella/ImGui/ImGuiBuild.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/ImGuiLayer.o: src/Nutella/ImGui/ImGuiLayer.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
@@ -192,9 +195,6 @@ $(OBJDIR)/LinuxInput.o: src/Platform/Linux/LinuxInput.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/LinuxWindow.o: src/Platform/Linux/LinuxWindow.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/ImGuiOpenGLRenderer.o: src/Platform/OpenGL/ImGuiOpenGLRenderer.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 

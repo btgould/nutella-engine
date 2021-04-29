@@ -13,6 +13,8 @@ namespace Nutella {
 		virtual void OnUpdate() {};
 		virtual void OnEvent(Event& e) {};
 
+		virtual void OnImGuiRender() {};
+
 		inline const std::string getName() {
 			return m_DebugName;
 		}

@@ -5,6 +5,7 @@
 #include "Nutella/Events/ApplicationEvent.hpp"
 
 #include "Nutella/LayerStack.hpp"
+#include "Nutella/ImGui/ImGuiLayer.hpp"
 
 namespace Nutella {
 
@@ -34,6 +35,7 @@ namespace Nutella {
 		bool OnWindowClose(WindowClosedEvent& e);
 
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 
 		LayerStack m_LayerStack;

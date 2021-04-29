@@ -7,3 +7,6 @@
 [submodule "nutella/vendor/imgui"]
 	path = nutella/vendor/imgui
 	url = https://github.com/TheCherno/imgui.git
+[submodule "nutella/vendor/glm"]
+	path = nutella/vendor/glm
+	url = https://github.com/g-truc/glm.git
