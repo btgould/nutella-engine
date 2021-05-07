@@ -1,6 +1,6 @@
 #pragma once
 
-// Nutella uses NT mouse button codes internally
+// Nutella uses GLFW mouse button codes internally
 #define NT_MOUSE_BUTTON_1 0
 #define NT_MOUSE_BUTTON_2 1
 #define NT_MOUSE_BUTTON_3 2

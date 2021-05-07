@@ -16,11 +16,11 @@ ifeq ($(config),debug)
   TARGET = $(TARGETDIR)/Sandbox
   OBJDIR = ../bin-int/Debug-linux-x86_64/Sandbox
   DEFINES += -DNT_DEBUG
-  INCLUDES += -I../nutella/src -I../nutella/vendor/spdlog/include -I../nutella/vendor/glm
+  INCLUDES += -I../nutella/src -I../nutella/vendor/spdlog/include -I../nutella/vendor/imgui -I../nutella/vendor/glm
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++17
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS += ../bin/Debug-linux-x86_64/Nutella/libNutella.so
   LDDEPS += ../bin/Debug-linux-x86_64/Nutella/libNutella.so
@@ -43,11 +43,11 @@ ifeq ($(config),release)
   TARGET = $(TARGETDIR)/Sandbox
   OBJDIR = ../bin-int/Release-linux-x86_64/Sandbox
   DEFINES += -DNT_RELEASE
-  INCLUDES += -I../nutella/src -I../nutella/vendor/spdlog/include -I../nutella/vendor/glm
+  INCLUDES += -I../nutella/src -I../nutella/vendor/spdlog/include -I../nutella/vendor/imgui -I../nutella/vendor/glm
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS += ../bin/Release-linux-x86_64/Nutella/libNutella.so
   LDDEPS += ../bin/Release-linux-x86_64/Nutella/libNutella.so
@@ -70,11 +70,11 @@ ifeq ($(config),dist)
   TARGET = $(TARGETDIR)/Sandbox
   OBJDIR = ../bin-int/Dist-linux-x86_64/Sandbox
   DEFINES += -DNT_DIST
-  INCLUDES += -I../nutella/src -I../nutella/vendor/spdlog/include -I../nutella/vendor/glm
+  INCLUDES += -I../nutella/src -I../nutella/vendor/spdlog/include -I../nutella/vendor/imgui -I../nutella/vendor/glm
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
-  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2
+  ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   LIBS += ../bin/Dist-linux-x86_64/Nutella/libNutella.so
   LDDEPS += ../bin/Dist-linux-x86_64/Nutella/libNutella.so

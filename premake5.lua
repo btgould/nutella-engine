@@ -60,17 +60,20 @@ project "Nutella"
         "mkdir -p ../bin/" .. outputdir .. "/Sandbox",
         "{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox/%{cfg.buildtarget.name}"
     }
-    
+
     filter "configurations:Debug"
         defines {"NT_DEBUG", "NT_ENABLE_ASSERTS"}
+        runtime "Debug"
         symbols "On"
 
     filter "configurations:Release"
         defines "NT_RELEASE"
+        runtime "Release"
         optimize "On"
 
     filter "configurations:Dist"
         defines "NT_DIST"
+        runtime "Release"
         optimize "On"
 
 project "Sandbox"
@@ -78,6 +81,7 @@ project "Sandbox"
     kind "ConsoleApp"
 
     language "C++"
+    cppdialect "C++17"
     staticruntime "Off"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -94,17 +98,21 @@ project "Sandbox"
     includedirs {
         "nutella/src",
         "nutella/vendor/spdlog/include",
+        "%{IncludeDir.ImGui}",
         "%{IncludeDir.glm}"
     }
     
     filter "configurations:Debug"
         defines "NT_DEBUG"
+        runtime "Debug"
         symbols "On"
 
     filter "configurations:Release"
         defines "NT_RELEASE"
+        runtime "Release"
         optimize "On"
 
     filter "configurations:Dist"
         defines "NT_DIST"
+        runtime "Release"
         optimize "On"

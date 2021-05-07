@@ -10,9 +10,8 @@
 
 #include "ImGuiLayer.hpp"
 
-// TEMP: needed for delta t + viewport
+// TEMP: currently imgui backend is assumed to be glfw
 #include <GLFW/glfw3.h>
-#include <glad/glad.h>
 
 namespace Nutella {
 	ImGuiLayer::ImGuiLayer() : Layer("ImGui Layer"), app(Application::get()) {}
@@ -28,8 +27,9 @@ namespace Nutella {
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
 		// io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
-		io.ConfigFlags |=
-			ImGuiConfigFlags_ViewportsEnable; // Enable Multi-Viewport / Platform Windows
+		// NOTE: multi-viewport has known problems on linux, no fix yet
+		// io.ConfigFlags |=
+		// ImGuiConfigFlags_ViewportsEnable; // Enable Multi-Viewport / Platform Windows
 		// io.ConfigViewportsNoAutoMerge = true;
 		// io.ConfigViewportsNoTaskBarIcon = true;
 
