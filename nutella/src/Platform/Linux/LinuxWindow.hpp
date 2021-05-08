@@ -2,6 +2,7 @@
 
 #include "Nutella/Window.hpp"
 
+#include "Nutella/Renderer/GraphicsContext.hpp"
 #include "GLFW/glfw3.h"
 
 namespace Nutella {
@@ -36,6 +37,7 @@ namespace Nutella {
 
 	  private:
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();

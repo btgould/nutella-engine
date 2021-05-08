@@ -1,0 +1,20 @@
+#include "ntpch.hpp"
+
+#include "OpenGLContext.hpp"
+#include "glad/glad.h"
+
+namespace Nutella {
+	OpenGLContext::OpenGLContext(GLFWwindow* windowHandle) : m_Window(windowHandle) {
+		NT_ASSERT(windowHandle, "[ERROR]: Graphics context received null window handle!");
+	}
+
+	void OpenGLContext::Init() {
+		glfwMakeContextCurrent(m_Window);
+		int status = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+		NT_CORE_ASSERT(status, "Failed to initialize Glad");
+	}
+
+	void OpenGLContext::SwapBuffers() {
+		glfwSwapBuffers(m_Window);
+	}
+} // namespace Nutella

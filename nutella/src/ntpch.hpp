@@ -13,3 +13,4 @@
 #include <vector>
 
 #include "Nutella/Log.hpp"
+#include "Nutella/Core.hpp"

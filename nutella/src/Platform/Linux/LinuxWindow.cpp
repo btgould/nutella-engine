@@ -7,7 +7,7 @@
 #include "Nutella/Events/KeyEvent.hpp"
 #include "Nutella/Events/MouseEvent.hpp"
 
-#include "glad/glad.h"
+#include "Platform/OpenGL/OpenGLContext.hpp"
 
 namespace Nutella {
 	static bool s_GLFWInitialized = false;
@@ -49,10 +49,9 @@ namespace Nutella {
 		// create new GLFW window
 		m_Window = glfwCreateWindow((int) props.Width, (int) props.Height, m_Data.Title.c_str(),
 									nullptr, nullptr);
-		glfwMakeContextCurrent(m_Window);
 
-		int status = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
-		NT_CORE_ASSERT(status, "Failed to initialize Glad");
+		m_Context = new OpenGLContext(m_Window);
+		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window,
 								 &m_Data); // associates our window data w/ GLFW
@@ -157,7 +156,7 @@ namespace Nutella {
 
 	void LinuxWindow::OnUpdate() {
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void LinuxWindow::SetVSync(bool enabled) {
