@@ -10,8 +10,14 @@ namespace Nutella {
 
 	void OpenGLContext::Init() {
 		glfwMakeContextCurrent(m_Window);
+
 		int status = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
 		NT_CORE_ASSERT(status, "Failed to initialize Glad");
+
+		NT_CORE_INFO("OpenGL Renderer Selected:");
+		NT_CORE_INFO("  Vendor: {0}", glGetString(GL_VENDOR));
+		NT_CORE_INFO("  Version: {0}", glGetString(GL_VERSION));
+		NT_CORE_INFO("  Renderer: {0}", glGetString(GL_RENDERER));
 	}
 
 	void OpenGLContext::SwapBuffers() {

@@ -41,6 +41,8 @@ namespace Nutella {
 		LayerStack m_LayerStack;
 
 		static Application* s_Instance;
+
+		unsigned int m_VertexArrayID, m_VertexBufferID, m_IndexBufferID;
 	};
 
 	// client decides how to obtain application

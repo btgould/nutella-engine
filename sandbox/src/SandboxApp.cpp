@@ -18,7 +18,7 @@ class ExampleLayer : public Nutella::Layer {
 
 	void OnImGuiRender() override {
 		ImGui::Begin("Sandbox Window");
-		ImGui::Text("This is a test");
+		ImGui::Text("This is created from the sandbox client");
 		ImGui::End();
 	}
 };
