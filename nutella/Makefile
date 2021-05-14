@@ -113,6 +113,7 @@ OBJECTS := \
 	$(OBJDIR)/Layer.o \
 	$(OBJDIR)/LayerStack.o \
 	$(OBJDIR)/Log.o \
+	$(OBJDIR)/Shader.o \
 	$(OBJDIR)/LinuxInput.o \
 	$(OBJDIR)/LinuxWindow.o \
 	$(OBJDIR)/OpenGLContext.o \
@@ -190,6 +191,9 @@ $(OBJDIR)/LayerStack.o: src/Nutella/LayerStack.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Log.o: src/Nutella/Log.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Shader.o: src/Nutella/Renderer/Shader.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/LinuxInput.o: src/Platform/Linux/LinuxInput.cpp

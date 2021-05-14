@@ -24,7 +24,7 @@ namespace Nutella {
 		PushOverlay(m_ImGuiLayer);
 
 		// Vertex array (combines vertex buffer + index buffer)
-		glGenBuffers(1, &m_VertexArrayID);
+		glGenVertexArrays(1, &m_VertexArrayID);
 		glBindVertexArray(m_VertexArrayID);
 
 		// Vertex buffer (stores data about vertices)
@@ -47,10 +47,34 @@ namespace Nutella {
 		glGenBuffers(1, &m_IndexBufferID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBufferID);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+		// Shaders (color geometry)
+		std::string vertexSrc = R"(
+			#version 330 core
+
+			layout(location = 0) in vec3 a_position;
+
+			void main() {
+				gl_Position = vec4(a_position, 1.0f);
+			};
+		)";
+
+		std::string fragmentSrc = R"(
+			#version 330 core
+
+			layout(location = 0) out vec4 color;
+
+			void main() {
+				color = vec4(0.2f, 0.2f, 0.8f, 1.0f);
+			};
+		)";
+
+		m_Shader.reset(new Shader(vertexSrc, fragmentSrc));
 	}
 
 	Application::~Application() {
 		// m_ImGuiLayer deleted by layer stack
+		// Do I need to delete shader here?
 	}
 
 	void Application::OnEvent(Event& e) {
@@ -71,6 +95,8 @@ namespace Nutella {
 
 			// OpenGL Draw call
 			glBindVertexArray(m_VertexArrayID);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBufferID);
+			m_Shader->Bind();
 			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
 
 			for (Layer* layer : m_LayerStack)

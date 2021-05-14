@@ -7,6 +7,8 @@
 #include "Nutella/LayerStack.hpp"
 #include "Nutella/ImGui/ImGuiLayer.hpp"
 
+#include "Renderer/Shader.hpp"
+
 namespace Nutella {
 
 	class Application {
@@ -43,6 +45,7 @@ namespace Nutella {
 		static Application* s_Instance;
 
 		unsigned int m_VertexArrayID, m_VertexBufferID, m_IndexBufferID;
+		std::unique_ptr<Shader> m_Shader;
 	};
 
 	// client decides how to obtain application
