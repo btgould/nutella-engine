@@ -7,6 +7,9 @@
 #include "Nutella/LayerStack.hpp"
 #include "Nutella/ImGui/ImGuiLayer.hpp"
 
+#include "Renderer/VertexBuffer.hpp"
+#include "Renderer/IndexBuffer.hpp"
+#include "Renderer/VertexArray.hpp"
 #include "Renderer/Shader.hpp"
 
 namespace Nutella {
@@ -44,7 +47,9 @@ namespace Nutella {
 
 		static Application* s_Instance;
 
-		unsigned int m_VertexArrayID, m_VertexBufferID, m_IndexBufferID;
+		std::unique_ptr<VertexArray> m_VertexArray;
+		std::unique_ptr<VertexBuffer> m_VertexBuffer;
+		std::unique_ptr<IndexBuffer> m_IndexBuffer;
 		std::unique_ptr<Shader> m_Shader;
 	};
 

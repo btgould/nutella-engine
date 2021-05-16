@@ -23,53 +23,27 @@ namespace Nutella {
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 
-		// Vertex array (combines vertex buffer + index buffer)
-		glGenVertexArrays(1, &m_VertexArrayID);
-		glBindVertexArray(m_VertexArrayID);
-
 		// Vertex buffer (stores data about vertices)
-		float positions[3 * 3] = {
-			-0.5, -0.5f, 0.0f, // Vertex 1
-			0.5f, -0.5f, 0.0f, // Vertex 2
-			0.0f, 0.5f,	 0.0f  // Vertex 3
+		float positions[] = {
+			-0.5,  -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, // Vertex 1
+			0.5f,  -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // Vertex 2
+			0.5f,  0.5f,  0.0f, 0.0f, 1.0f, 0.0f, // Vertex 3
+			-0.5f, 0.5f,  0.0f, 0.0f, 0.0f, 1.0f  // Vertex 4
 		};
-
-		glGenBuffers(1, &m_VertexBufferID);
-		glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
-
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*) 0);
+		m_VertexBuffer.reset(new VertexBuffer(positions, sizeof(positions)));
 
 		// Index Buffer (list of order to render vertices)
-		unsigned int vertices[3] = {0, 1, 2};
+		unsigned int vertices[] = {0, 1, 2, 2, 3, 0};
+		m_IndexBuffer.reset(new IndexBuffer(vertices, sizeof(vertices)));
 
-		glGenBuffers(1, &m_IndexBufferID);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBufferID);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		// Vertex array (combines vertex buffer + index buffer)
+		VertexBufferLayout layout;
+		layout.push<GL_FLOAT>(3, GL_FALSE); // position
+		layout.push<GL_FLOAT>(3, GL_FALSE); // color
+		m_VertexArray.reset(new VertexArray(layout, *m_VertexBuffer, *m_IndexBuffer));
 
-		// Shaders (color geometry)
-		std::string vertexSrc = R"(
-			#version 330 core
-
-			layout(location = 0) in vec3 a_position;
-
-			void main() {
-				gl_Position = vec4(a_position, 1.0f);
-			};
-		)";
-
-		std::string fragmentSrc = R"(
-			#version 330 core
-
-			layout(location = 0) out vec4 color;
-
-			void main() {
-				color = vec4(0.2f, 0.2f, 0.8f, 1.0f);
-			};
-		)";
-
-		m_Shader.reset(new Shader(vertexSrc, fragmentSrc));
+		// Shader (colors geometry)
+		m_Shader.reset(new Shader("nutella/res/shaders/Basic.shader"));
 	}
 
 	Application::~Application() {
@@ -94,10 +68,9 @@ namespace Nutella {
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			// OpenGL Draw call
-			glBindVertexArray(m_VertexArrayID);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBufferID);
+			m_VertexArray->Bind();
 			m_Shader->Bind();
-			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();

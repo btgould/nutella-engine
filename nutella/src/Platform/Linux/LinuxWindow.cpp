@@ -9,6 +9,8 @@
 
 #include "Platform/OpenGL/OpenGLContext.hpp"
 
+#include "stb_image.h"
+
 namespace Nutella {
 	static bool s_GLFWInitialized = false;
 
@@ -52,6 +54,13 @@ namespace Nutella {
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		m_Window = glfwCreateWindow((int) props.Width, (int) props.Height, m_Data.Title.c_str(),
 									nullptr, nullptr);
+
+		// set window icon
+		GLFWimage images[1];
+		images[0].pixels = stbi_load("nutella/app_icon.jpg", &images[0].width, &images[0].height, 0,
+									 4); // rgba channels
+		glfwSetWindowIcon(m_Window, 1, images);
+		stbi_image_free(images[0].pixels);
 
 		m_Context = new OpenGLContext(m_Window);
 		m_Context->Init();

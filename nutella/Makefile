@@ -18,7 +18,7 @@ ifeq ($(config),debug)
   PCH = src/ntpch.hpp
   GCH = $(OBJDIR)/$(notdir $(PCH)).gch
   DEFINES += -DGLFW_INCLUDE_NONE -DNT_DEBUG -DNT_ENABLE_ASSERTS
-  INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include -Ivendor/Glad/include -Ivendor/imgui -Ivendor/glm
+  INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include -Ivendor/Glad/include -Ivendor/imgui -Ivendor/glm -Ivendor/stb_image
   FORCE_INCLUDE += -include $(OBJDIR)/$(notdir $(PCH))
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
@@ -50,7 +50,7 @@ ifeq ($(config),release)
   PCH = src/ntpch.hpp
   GCH = $(OBJDIR)/$(notdir $(PCH)).gch
   DEFINES += -DGLFW_INCLUDE_NONE -DNT_RELEASE
-  INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include -Ivendor/Glad/include -Ivendor/imgui -Ivendor/glm
+  INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include -Ivendor/Glad/include -Ivendor/imgui -Ivendor/glm -Ivendor/stb_image
   FORCE_INCLUDE += -include $(OBJDIR)/$(notdir $(PCH))
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
@@ -82,7 +82,7 @@ ifeq ($(config),dist)
   PCH = src/ntpch.hpp
   GCH = $(OBJDIR)/$(notdir $(PCH)).gch
   DEFINES += -DGLFW_INCLUDE_NONE -DNT_DIST
-  INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include -Ivendor/Glad/include -Ivendor/imgui -Ivendor/glm
+  INCLUDES += -Isrc -Ivendor/spdlog/include -Ivendor/GLFW/include -Ivendor/Glad/include -Ivendor/imgui -Ivendor/glm -Ivendor/stb_image
   FORCE_INCLUDE += -include $(OBJDIR)/$(notdir $(PCH))
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
@@ -113,10 +113,14 @@ OBJECTS := \
 	$(OBJDIR)/Layer.o \
 	$(OBJDIR)/LayerStack.o \
 	$(OBJDIR)/Log.o \
+	$(OBJDIR)/IndexBuffer.o \
 	$(OBJDIR)/Shader.o \
+	$(OBJDIR)/VertexArray.o \
+	$(OBJDIR)/VertexBuffer.o \
 	$(OBJDIR)/LinuxInput.o \
 	$(OBJDIR)/LinuxWindow.o \
 	$(OBJDIR)/OpenGLContext.o \
+	$(OBJDIR)/stb_image.o \
 
 RESOURCES := \
 
@@ -193,7 +197,16 @@ $(OBJDIR)/LayerStack.o: src/Nutella/LayerStack.cpp
 $(OBJDIR)/Log.o: src/Nutella/Log.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/IndexBuffer.o: src/Nutella/Renderer/IndexBuffer.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Shader.o: src/Nutella/Renderer/Shader.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/VertexArray.o: src/Nutella/Renderer/VertexArray.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/VertexBuffer.o: src/Nutella/Renderer/VertexBuffer.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/LinuxInput.o: src/Platform/Linux/LinuxInput.cpp
@@ -203,6 +216,9 @@ $(OBJDIR)/LinuxWindow.o: src/Platform/Linux/LinuxWindow.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/OpenGLContext.o: src/Platform/OpenGL/OpenGLContext.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/stb_image.o: vendor/stb_image/stb_image.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 

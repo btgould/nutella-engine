@@ -3,9 +3,14 @@
 #include <string>
 
 namespace Nutella {
+	struct ShaderProgramSource {
+		std::string vertexSource;
+		std::string fragmentSource;
+	};
+
 	class Shader {
 	  public:
-		Shader(std::string& vertexSrc, std::string& fragmentSrc);
+		Shader(const std::string& filepath);
 		~Shader();
 
 		void Bind();
@@ -13,5 +18,10 @@ namespace Nutella {
 
 	  private:
 		uint32_t m_RendererID;
+
+		ShaderProgramSource sourceShaders(const std::string& filepath);
+		unsigned int compileShader(unsigned int type, const std::string& source);
+		unsigned int createShader(const std::string& vertexShader,
+								  const std::string& fragmentShader);
 	};
 } // namespace Nutella

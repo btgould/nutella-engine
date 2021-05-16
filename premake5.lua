@@ -5,10 +5,13 @@ workspace "Nutella"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
+IncludeDir["spdlog"] = "nutella/vendor/spdlog/include"
 IncludeDir["GLFW"] = "nutella/vendor/GLFW/include"
 IncludeDir["Glad"] = "nutella/vendor/Glad/include"
 IncludeDir["ImGui"] = "nutella/vendor/imgui"
 IncludeDir["glm"] = "nutella/vendor/glm"
+IncludeDir["stb_image"] = "nutella/vendor/stb_image"
+
 
 -- include vendor premake files
 include "nutella/vendor/GLFW"
@@ -31,15 +34,17 @@ project "Nutella"
     files {
         "%{prj.location}/src/**.cpp",
         "%{prj.location}/src/**.hpp",
+        "%{prj.location}/vendor/stb_image/stb_image.cpp"
     }
 
     includedirs {
         "%{prj.location}/src",
-        "%{prj.location}/vendor/spdlog/include",
+        "%{IncludeDir.spdlog}",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.ImGui}",
-        "%{IncludeDir.glm}"
+        "%{IncludeDir.glm}",
+        "%{IncludeDir.stb_image}"
     }
 
     links {
