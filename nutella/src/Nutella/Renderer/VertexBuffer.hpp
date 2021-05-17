@@ -3,13 +3,10 @@
 namespace Nutella {
 	class VertexBuffer {
 	  public:
-		VertexBuffer(const void* data, const unsigned int size);
-		~VertexBuffer();
+		static VertexBuffer* Create(const void* data, const unsigned int size);
+		virtual ~VertexBuffer() {};
 
-		void Bind();
-		void Unbind();
-
-	  private:
-		unsigned int m_RendererID;
+		virtual void Bind() const = 0;
+		virtual void Unbind() const = 0;
 	};
 } // namespace Nutella

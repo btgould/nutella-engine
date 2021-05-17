@@ -1,24 +1,29 @@
-#include "Nutella/Renderer/IndexBuffer.hpp"
+#include "Platform/OpenGL/OpenGLIndexBuffer.hpp"
 
 #include "glad/glad.h"
 #include "Platform/OpenGL/glutil.hpp"
 
 namespace Nutella {
-	IndexBuffer::IndexBuffer(const unsigned int* vertexOrder, const unsigned int size) {
+	OpenGLIndexBuffer::OpenGLIndexBuffer(const unsigned int* vertexOrder, const unsigned int size)
+		: m_length(size / sizeof(unsigned int)) {
 		GL_CALL(glGenBuffers(1, &m_RendererID));
 		GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID));
 		GL_CALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, vertexOrder, GL_STATIC_DRAW));
 	}
 
-	IndexBuffer::~IndexBuffer() {
+	OpenGLIndexBuffer::~OpenGLIndexBuffer() {
 		GL_CALL(glDeleteBuffers(1, &m_RendererID));
 	}
 
-	void IndexBuffer::Bind() {
+	void OpenGLIndexBuffer::Bind() const {
 		GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID));
 	}
 
-	void IndexBuffer::Unbind() {
+	void OpenGLIndexBuffer::Unbind() const {
 		GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+	}
+
+	unsigned int OpenGLIndexBuffer::GetLength() const {
+		return m_length;
 	}
 } // namespace Nutella

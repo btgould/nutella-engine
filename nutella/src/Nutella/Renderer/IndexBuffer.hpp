@@ -3,13 +3,12 @@
 namespace Nutella {
 	class IndexBuffer {
 	  public:
-		IndexBuffer(const unsigned int* vertexOrder, const unsigned int size);
-		~IndexBuffer();
+		static IndexBuffer* Create(const unsigned int* vertexOrder, const unsigned int size);
+		virtual ~IndexBuffer() {};
 
-		void Bind();
-		void Unbind();
+		virtual void Bind() const = 0;
+		virtual void Unbind() const = 0;
 
-	  private:
-		unsigned int m_RendererID;
+		virtual unsigned int GetLength() const = 0;
 	};
 } // namespace Nutella

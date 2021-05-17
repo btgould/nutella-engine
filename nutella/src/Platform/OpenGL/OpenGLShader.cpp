@@ -1,5 +1,5 @@
 #include "ntpch.hpp"
-#include "Nutella/Renderer/Shader.hpp"
+#include "Platform/OpenGL/OpenGLShader.hpp"
 
 #include "glad/glad.h"
 #include "Platform/OpenGL/glutil.hpp"
@@ -7,24 +7,24 @@
 #include <fstream>
 
 namespace Nutella {
-	Shader::Shader(const std::string& filepath) {
+	OpenGLShader::OpenGLShader(const std::string& filepath) {
 		ShaderProgramSource source = sourceShaders(filepath);
 		m_RendererID = createShader(source.vertexSource, source.fragmentSource);
 	}
 
-	Shader::~Shader() {
+	OpenGLShader::~OpenGLShader() {
 		GL_CALL(glDeleteProgram(m_RendererID));
 	}
 
-	void Shader::Bind() {
+	void OpenGLShader::Bind() const {
 		GL_CALL(glUseProgram(m_RendererID));
 	}
 
-	void Shader::Unbind() {
+	void OpenGLShader::Unbind() const {
 		GL_CALL(glUseProgram(0));
 	}
 
-	ShaderProgramSource Shader::sourceShaders(const std::string& filepath) {
+	ShaderProgramSource OpenGLShader::sourceShaders(const std::string& filepath) {
 		std::stringstream source[2];
 		std::ifstream file(filepath);
 
@@ -49,7 +49,7 @@ namespace Nutella {
 		return {source[0].str(), source[1].str()};
 	}
 
-	unsigned int Shader::compileShader(unsigned int type, const std::string& source) {
+	unsigned int OpenGLShader::compileShader(unsigned int type, const std::string& source) {
 		// create + compile shader
 		GL_CALL(unsigned int id = glCreateShader(type));
 		const char* const src = source.c_str();
@@ -77,8 +77,8 @@ namespace Nutella {
 		return id;
 	}
 
-	unsigned int Shader::createShader(const std::string& vertexShader,
-									  const std::string& fragmentShader) {
+	unsigned int OpenGLShader::createShader(const std::string& vertexShader,
+											const std::string& fragmentShader) {
 		GL_CALL(unsigned int id = glCreateProgram());
 
 		unsigned int vertexShaderID = compileShader(GL_VERTEX_SHADER, vertexShader);

@@ -1,24 +1,24 @@
-#include "Nutella/Renderer/VertexBuffer.hpp"
+#include "Platform/OpenGL/OpenGLVertexBuffer.hpp"
 
 #include "glad/glad.h"
 #include "Platform/OpenGL/glutil.hpp"
 
 namespace Nutella {
-	VertexBuffer::VertexBuffer(const void* data, const unsigned int size) {
+	OpenGLVertexBuffer::OpenGLVertexBuffer(const void* data, const unsigned int size) {
 		GL_CALL(glGenBuffers(1, &m_RendererID));
 		GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, m_RendererID));
 		GL_CALL(glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW));
 	}
 
-	VertexBuffer::~VertexBuffer() {
+	OpenGLVertexBuffer::~OpenGLVertexBuffer() {
 		GL_CALL(glDeleteBuffers(1, &m_RendererID));
 	}
 
-	void VertexBuffer::Bind() {
+	void OpenGLVertexBuffer::Bind() const {
 		GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, m_RendererID));
 	}
 
-	void VertexBuffer::Unbind() {
+	void OpenGLVertexBuffer::Unbind() const {
 		GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, 0));
 	}
 } // namespace Nutella

@@ -30,11 +30,11 @@ namespace Nutella {
 			0.5f,  0.5f,  0.0f, 0.0f, 1.0f, 0.0f, // Vertex 3
 			-0.5f, 0.5f,  0.0f, 0.0f, 0.0f, 1.0f  // Vertex 4
 		};
-		m_VertexBuffer.reset(new VertexBuffer(positions, sizeof(positions)));
+		m_VertexBuffer.reset(VertexBuffer::Create(positions, sizeof(positions)));
 
 		// Index Buffer (list of order to render vertices)
 		unsigned int vertices[] = {0, 1, 2, 2, 3, 0};
-		m_IndexBuffer.reset(new IndexBuffer(vertices, sizeof(vertices)));
+		m_IndexBuffer.reset(IndexBuffer::Create(vertices, sizeof(vertices)));
 
 		// Vertex array (combines vertex buffer + index buffer)
 		VertexBufferLayout layout;
@@ -43,7 +43,7 @@ namespace Nutella {
 		m_VertexArray.reset(new VertexArray(layout, *m_VertexBuffer, *m_IndexBuffer));
 
 		// Shader (colors geometry)
-		m_Shader.reset(new Shader("nutella/res/shaders/Basic.shader"));
+		m_Shader.reset(Shader::Create("nutella/res/shaders/Basic.shader"));
 	}
 
 	Application::~Application() {
@@ -70,7 +70,7 @@ namespace Nutella {
 			// OpenGL Draw call
 			m_VertexArray->Bind();
 			m_Shader->Bind();
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetLength(), GL_UNSIGNED_INT, nullptr);
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();

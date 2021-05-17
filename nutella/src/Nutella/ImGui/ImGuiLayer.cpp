@@ -10,7 +10,6 @@
 
 #include "ImGuiLayer.hpp"
 
-// TEMP: currently imgui backend is assumed to be glfw
 #include <GLFW/glfw3.h>
 
 namespace Nutella {
