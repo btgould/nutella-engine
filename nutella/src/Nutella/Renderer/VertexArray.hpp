@@ -6,12 +6,33 @@
 #include "Nutella/Renderer/IndexBuffer.hpp"
 
 namespace Nutella {
-	struct VertexBufferAttrib {
-		unsigned int type;
-		unsigned int count;
-		unsigned char normalized;
 
-		static unsigned int getTypeSize(unsigned int type);
+	enum class VertexAttribType { NONE = 0, FLOAT, INT, UINT };
+
+	struct VertexBufferAttrib {
+		VertexAttribType type;
+		unsigned int count;
+		bool normalized;
+
+		inline static size_t getTypeSize(VertexAttribType type) {
+			switch (type) {
+			case VertexAttribType::FLOAT:
+				return sizeof(float);
+				break;
+			case VertexAttribType::INT:
+				return sizeof(int);
+				break;
+			case VertexAttribType::UINT:
+				return sizeof(unsigned int);
+				break;
+
+			default:
+				NT_CORE_ASSERT(false, "Vertex Attribute type unrecognized!");
+				break;
+			}
+
+			return 0;
+		};
 	};
 
 	class VertexBufferLayout {
@@ -23,8 +44,7 @@ namespace Nutella {
 		VertexBufferLayout() : m_stride(0) {};
 		~VertexBufferLayout() {};
 
-		template <unsigned int type>
-		inline void push(unsigned int count, unsigned char normalised) {
+		inline void push(VertexAttribType type, unsigned int count, bool normalised) {
 			m_vertexAttribs.push_back({type, count, normalised});
 			m_stride += count * VertexBufferAttrib::getTypeSize(type);
 		}
@@ -33,20 +53,22 @@ namespace Nutella {
 			return m_vertexAttribs;
 		}
 
-		inline unsigned int getStride() {
+		inline unsigned int getStride() const {
 			return m_stride;
 		}
 	};
 
 	class VertexArray {
 	  public:
-		VertexArray(VertexBufferLayout& layout, VertexBuffer& vbo, IndexBuffer& ibo);
-		~VertexArray();
+		static VertexArray* Create(const VertexBufferLayout& layout,
+								   const std::shared_ptr<VertexBuffer>& vbo,
+								   const std::shared_ptr<IndexBuffer>& ibo);
+		virtual ~VertexArray() {};
 
-		void Bind();
-		void Unbind();
+		virtual void Bind() const = 0;
+		virtual void Unbind() const = 0;
 
-	  private:
-		unsigned int m_RendererID;
+		virtual const std::shared_ptr<VertexBuffer>& GetVertexBuffer() const = 0;
+		virtual const std::shared_ptr<IndexBuffer>& GetIndexBuffer() const = 0;
 	};
 } // namespace Nutella

@@ -8,8 +8,8 @@ namespace Nutella {
 		OpenGLVertexBuffer(const void* data, const unsigned int size);
 		virtual ~OpenGLVertexBuffer();
 
-		virtual void Bind() const;
-		virtual void Unbind() const;
+		virtual void Bind() const override;
+		virtual void Unbind() const override;
 
 	  private:
 		unsigned int m_RendererID;

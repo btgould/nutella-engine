@@ -47,10 +47,8 @@ namespace Nutella {
 
 		static Application* s_Instance;
 
-		std::unique_ptr<VertexArray> m_VertexArray;
-		std::unique_ptr<VertexBuffer> m_VertexBuffer;
-		std::unique_ptr<IndexBuffer> m_IndexBuffer;
-		std::unique_ptr<Shader> m_Shader;
+		std::shared_ptr<VertexArray> m_VertexArray;
+		std::shared_ptr<Shader> m_Shader;
 	};
 
 	// client decides how to obtain application
