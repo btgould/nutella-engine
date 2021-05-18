@@ -5,7 +5,7 @@
 #include "Nutella/Core.hpp"
 #include "Nutella/Events/Event.hpp"
 
-#include "glad/glad.h"
+#include "Renderer/RendererCommand.hpp"
 
 namespace Nutella {
 
@@ -22,37 +22,10 @@ namespace Nutella {
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
-
-		// Vertex buffer (stores data about vertices)
-		float positions[] = {
-			-0.5,  -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, // Vertex 1
-			0.5f,  -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // Vertex 2
-			0.5f,  0.5f,  0.0f, 0.0f, 1.0f, 0.0f, // Vertex 3
-			-0.5f, 0.5f,  0.0f, 0.0f, 0.0f, 1.0f  // Vertex 4
-		};
-
-		std::shared_ptr<VertexBuffer> vertexBuffer;
-		vertexBuffer.reset(VertexBuffer::Create(positions, sizeof(positions)));
-
-		// Index Buffer (list of order to render vertices)
-		unsigned int vertices[] = {0, 1, 2, 2, 3, 0};
-
-		std::shared_ptr<IndexBuffer> indexBuffer;
-		indexBuffer.reset(IndexBuffer::Create(vertices, sizeof(vertices)));
-
-		// Vertex array (combines vertex buffer + index buffer)
-		VertexBufferLayout layout;
-		layout.push(VertexAttribType::FLOAT, 3, false); // position
-		layout.push(VertexAttribType::FLOAT, 3, false); // color
-		m_VertexArray.reset(VertexArray::Create(layout, vertexBuffer, indexBuffer));
-
-		// Shader (colors geometry)
-		m_Shader.reset(Shader::Create("nutella/res/shaders/Basic.shader"));
 	}
 
 	Application::~Application() {
 		// m_ImGuiLayer deleted by layer stack
-		// Do I need to delete shader here?
 	}
 
 	void Application::OnEvent(Event& e) {
@@ -68,14 +41,8 @@ namespace Nutella {
 
 	void Application::run() {
 		while (m_Running) {
-			glClearColor(0.2, 0.2, 0.2, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
-
-			// OpenGL Draw call
-			m_VertexArray->Bind();
-			m_Shader->Bind();
-			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(),
-						   GL_UNSIGNED_INT, nullptr);
+			RenderCommand::SetClearColor({0.2f, 0.2f, 0.2f, 1.0f});
+			RenderCommand::Clear();
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();

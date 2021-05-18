@@ -1,23 +1,19 @@
 #pragma once
 
+#include "RendererAPI.hpp"
+
 #include "VertexArray.hpp"
-#include "Shader.hpp"
 
 namespace Nutella {
-	enum class RenderAPI { NONE = 0, OPEN_GL = 1 };
-
 	class Renderer {
 	  public:
-		/*void setClearColor(float red, float green, float blue, float alpha);
-		void clear();
+		static void BeginScene();
+		static void EndScene();
 
-		void render(const VertexArray& VAO, const Shader& shader);*/
+		static void DrawIndexed(std::shared_ptr<VertexArray>& vao);
 
-		inline static RenderAPI getAPI() {
-			return renderAPI;
+		inline static RendererAPI::API getAPI() {
+			return RendererAPI::GetAPI();
 		}
-
-	  private:
-		static RenderAPI renderAPI;
 	};
 } // namespace Nutella

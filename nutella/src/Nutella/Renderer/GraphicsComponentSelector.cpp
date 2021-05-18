@@ -15,11 +15,11 @@ namespace Nutella {
 
 	VertexBuffer* VertexBuffer::Create(const void* data, const unsigned int size) {
 		switch (Renderer::getAPI()) {
-		case RenderAPI::NONE:
+		case RendererAPI::API::NONE:
 			NT_CORE_ASSERT(false, "No render API selected!");
 			return nullptr;
 			break;
-		case RenderAPI::OPEN_GL:
+		case RendererAPI::API::OPEN_GL:
 			return new OpenGLVertexBuffer(data, size);
 			break;
 		default:
@@ -31,11 +31,11 @@ namespace Nutella {
 
 	IndexBuffer* IndexBuffer::Create(const unsigned int* vertexOrder, const unsigned int size) {
 		switch (Renderer::getAPI()) {
-		case RenderAPI::NONE:
+		case RendererAPI::API::NONE:
 			NT_CORE_ASSERT(false, "No render API selected!");
 			return nullptr;
 			break;
-		case RenderAPI::OPEN_GL:
+		case RendererAPI::API::OPEN_GL:
 			return new OpenGLIndexBuffer(vertexOrder, size);
 			break;
 		default:
@@ -49,11 +49,11 @@ namespace Nutella {
 									 const std::shared_ptr<VertexBuffer>& vbo,
 									 const std::shared_ptr<IndexBuffer>& ibo) {
 		switch (Renderer::getAPI()) {
-		case RenderAPI::NONE:
+		case RendererAPI::API::NONE:
 			NT_CORE_ASSERT(false, "No render API selected!");
 			return nullptr;
 			break;
-		case RenderAPI::OPEN_GL:
+		case RendererAPI::API::OPEN_GL:
 			return new OpenGLVertexArray(layout, vbo, ibo);
 			break;
 		default:
@@ -65,11 +65,11 @@ namespace Nutella {
 
 	Shader* Shader::Create(const std::string& filepath) {
 		switch (Renderer::getAPI()) {
-		case RenderAPI::NONE:
+		case RendererAPI::API::NONE:
 			NT_CORE_ASSERT(false, "No render API selected!");
 			return nullptr;
 			break;
-		case RenderAPI::OPEN_GL:
+		case RendererAPI::API::OPEN_GL:
 			return new OpenGLShader(filepath);
 			break;
 		default:

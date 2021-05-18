@@ -115,10 +115,13 @@ OBJECTS := \
 	$(OBJDIR)/Log.o \
 	$(OBJDIR)/GraphicsComponentSelector.o \
 	$(OBJDIR)/Renderer.o \
+	$(OBJDIR)/RendererAPI.o \
+	$(OBJDIR)/RendererCommand.o \
 	$(OBJDIR)/LinuxInput.o \
 	$(OBJDIR)/LinuxWindow.o \
 	$(OBJDIR)/OpenGLContext.o \
 	$(OBJDIR)/OpenGLIndexBuffer.o \
+	$(OBJDIR)/OpenGLRendererAPI.o \
 	$(OBJDIR)/OpenGLShader.o \
 	$(OBJDIR)/OpenGLVertexArray.o \
 	$(OBJDIR)/OpenGLVertexBuffer.o \
@@ -205,6 +208,12 @@ $(OBJDIR)/GraphicsComponentSelector.o: src/Nutella/Renderer/GraphicsComponentSel
 $(OBJDIR)/Renderer.o: src/Nutella/Renderer/Renderer.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/RendererAPI.o: src/Nutella/Renderer/RendererAPI.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/RendererCommand.o: src/Nutella/Renderer/RendererCommand.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/LinuxInput.o: src/Platform/Linux/LinuxInput.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
@@ -215,6 +224,9 @@ $(OBJDIR)/OpenGLContext.o: src/Platform/OpenGL/OpenGLContext.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/OpenGLIndexBuffer.o: src/Platform/OpenGL/OpenGLIndexBuffer.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/OpenGLRendererAPI.o: src/Platform/OpenGL/OpenGLRendererAPI.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/OpenGLShader.o: src/Platform/OpenGL/OpenGLShader.cpp

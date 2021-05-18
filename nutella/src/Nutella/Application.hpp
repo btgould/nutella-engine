@@ -7,11 +7,6 @@
 #include "Nutella/LayerStack.hpp"
 #include "Nutella/ImGui/ImGuiLayer.hpp"
 
-#include "Renderer/VertexBuffer.hpp"
-#include "Renderer/IndexBuffer.hpp"
-#include "Renderer/VertexArray.hpp"
-#include "Renderer/Shader.hpp"
-
 namespace Nutella {
 
 	class Application {
@@ -46,9 +41,6 @@ namespace Nutella {
 		LayerStack m_LayerStack;
 
 		static Application* s_Instance;
-
-		std::shared_ptr<VertexArray> m_VertexArray;
-		std::shared_ptr<Shader> m_Shader;
 	};
 
 	// client decides how to obtain application
