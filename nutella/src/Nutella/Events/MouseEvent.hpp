@@ -9,15 +9,8 @@ namespace Nutella {
 		// constructs a new mouse moved event with the given x and y coords
 		MouseMovedEvent(float x, float y) : m_MouseX(x), m_MouseY(y) {};
 
-		// gets the x coord the mouse was moved to
-		inline float GetX() const {
-			return m_MouseX;
-		}
-
-		// gets the y coord the mouse was moved to
-		inline float GetY() const {
-			return m_MouseY;
-		}
+		inline float GetX() const { return m_MouseX; }
+		inline float GetY() const { return m_MouseY; }
 
 		std::string ToString() const override {
 			std::stringstream ss;
@@ -39,20 +32,12 @@ namespace Nutella {
 		MouseScrolledEvent(float xOffset, float yOffset)
 			: m_XOffset(xOffset), m_YOffset(yOffset) {};
 
-		// gets the x offset of the scroll
-		inline float GetXOffset() {
-			return m_XOffset;
-		}
-
-		// gets the y offset of the scroll
-		inline float GetYOffset() {
-			return m_YOffset;
-		}
+		inline float GetXOffset() { return m_XOffset; }
+		inline float GetYOffset() { return m_YOffset; }
 
 		std::string ToString() const override {
 			std::stringstream ss;
-			ss << "MouseScrolledEvent: (" << m_XOffset << ", " << m_YOffset
-			   << ")";
+			ss << "MouseScrolledEvent: (" << m_XOffset << ", " << m_YOffset << ")";
 			return ss.str();
 		}
 
@@ -67,9 +52,7 @@ namespace Nutella {
 	class MouseButtonEvent : public Event {
 	  public:
 		// gets the mouse button of this event
-		inline int GetMouseButton() const {
-			return m_Button;
-		}
+		inline int GetMouseButton() const { return m_Button; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 

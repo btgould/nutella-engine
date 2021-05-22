@@ -49,13 +49,8 @@ namespace Nutella {
 			m_stride += count * VertexBufferAttrib::getTypeSize(type);
 		}
 
-		inline const std::vector<VertexBufferAttrib>& getAttribs() const {
-			return m_vertexAttribs;
-		}
-
-		inline unsigned int getStride() const {
-			return m_stride;
-		}
+		inline const std::vector<VertexBufferAttrib>& getAttribs() const { return m_vertexAttribs; }
+		inline unsigned int getStride() const { return m_stride; }
 	};
 
 	class VertexArray {

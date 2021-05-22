@@ -4,7 +4,12 @@
 
 #include "Nutella/Renderer/VertexArray.hpp"
 #include "Nutella/Renderer/Shader.hpp"
+#include "Nutella/Renderer/OrthographicCamera.hpp"
 #include "Nutella/Renderer/Renderer.hpp"
+
+#include "Nutella/Application.hpp"
+
+#include "glm/gtc/matrix_transform.hpp"
 
 class ExampleLayer : public Nutella::Layer {
   public:
@@ -29,13 +34,16 @@ class ExampleLayer : public Nutella::Layer {
 
 class RenderingLayer : public Nutella::Layer {
   public:
-	RenderingLayer() : Layer("Rendering Test") {
+	RenderingLayer()
+		: Layer("Rendering Test"),
+		  m_Camera(0, Nutella::Application::get().getWindow().GetWidth(), 0,
+				   Nutella::Application::get().getWindow().GetHeight()) {
 		// Vertex buffer (stores data about vertices)
 		float positions[] = {
-			-0.5,  -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, // Vertex 1
-			0.5f,  -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // Vertex 2
-			0.5f,  0.5f,  0.0f, 0.0f, 1.0f, 0.0f, // Vertex 3
-			-0.5f, 0.5f,  0.0f, 0.0f, 0.0f, 1.0f  // Vertex 4
+			-50.0f, -50.0f, 0.0f, 0.0f, 0.0f, 0.0f, // Vertex 1
+			50.0f,	-50.0f, 0.0f, 1.0f, 0.0f, 0.0f, // Vertex 2
+			50.0f,	50.0f,	0.0f, 0.0f, 1.0f, 0.0f, // Vertex 3
+			-50.0f, 50.0f,	0.0f, 0.0f, 0.0f, 1.0f	// Vertex 4
 		};
 
 		std::shared_ptr<Nutella::VertexBuffer> vertexBuffer;
@@ -55,17 +63,24 @@ class RenderingLayer : public Nutella::Layer {
 		m_VertexArray.reset(Nutella::VertexArray::Create(layout, vertexBuffer, indexBuffer));
 
 		// Shader (colors geometry)
-		m_Shader.reset(Nutella::Shader::Create("nutella/res/shaders/Basic.shader"));
+		m_Shader.reset(Nutella::Shader::Create("nutella/res/shaders/MVP.shader"));
 	};
 
 	void OnUpdate() override {
+		// TEMP: this should be set by the model itself
 		m_Shader->Bind();
-		Nutella::Renderer::DrawIndexed(m_VertexArray);
+		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(400.0, 200.0, 0.0));
+		m_Shader->SetUniformMat4f("u_Model", model);
+
+		Nutella::Renderer::BeginScene(m_Camera);
+		Nutella::Renderer::Submit(m_VertexArray, m_Shader);
+		Nutella::Renderer::EndScene();
 	}
 
   private:
 	std::shared_ptr<Nutella::VertexArray> m_VertexArray;
 	std::shared_ptr<Nutella::Shader> m_Shader;
+	Nutella::OrthographicCamera m_Camera;
 };
 
 class Sandbox : public Nutella::Application {

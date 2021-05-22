@@ -23,13 +23,8 @@ namespace Nutella {
 		void PushOverlay(Layer* overlay);
 		void PopOverlay(Layer* overlay);
 
-		inline static Application& get() {
-			return *s_Instance;
-		}
-
-		inline Window& getWindow() {
-			return *m_Window;
-		}
+		inline static Application& get() { return *s_Instance; }
+		inline Window& getWindow() { return *m_Window; }
 
 	  private:
 		bool OnWindowClose(WindowClosedEvent& e);

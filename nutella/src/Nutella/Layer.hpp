@@ -15,9 +15,7 @@ namespace Nutella {
 
 		virtual void OnImGuiRender() {};
 
-		inline const std::string getName() {
-			return m_DebugName;
-		}
+		inline const std::string getName() { return m_DebugName; }
 
 	  private:
 		std::string m_DebugName;

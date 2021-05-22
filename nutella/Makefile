@@ -114,6 +114,7 @@ OBJECTS := \
 	$(OBJDIR)/LayerStack.o \
 	$(OBJDIR)/Log.o \
 	$(OBJDIR)/GraphicsComponentSelector.o \
+	$(OBJDIR)/OrthographicCamera.o \
 	$(OBJDIR)/Renderer.o \
 	$(OBJDIR)/RendererAPI.o \
 	$(OBJDIR)/RendererCommand.o \
@@ -203,6 +204,9 @@ $(OBJDIR)/Log.o: src/Nutella/Log.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/GraphicsComponentSelector.o: src/Nutella/Renderer/GraphicsComponentSelector.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/OrthographicCamera.o: src/Nutella/Renderer/OrthographicCamera.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Renderer.o: src/Nutella/Renderer/Renderer.cpp

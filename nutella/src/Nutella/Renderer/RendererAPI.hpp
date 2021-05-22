@@ -15,9 +15,7 @@ namespace Nutella {
 
 		virtual void DrawIndexed(std::shared_ptr<VertexArray>& vao) = 0;
 
-		inline static API GetAPI() {
-			return s_API;
-		}
+		inline static API GetAPI() { return s_API; }
 
 	  private:
 		static API s_API;

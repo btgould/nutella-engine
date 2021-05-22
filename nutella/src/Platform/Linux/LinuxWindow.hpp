@@ -14,16 +14,10 @@ namespace Nutella {
 
 		void OnUpdate() override;
 
-		inline unsigned int GetWidth() const override {
-			return m_Data.Width;
-		}
-		inline unsigned int GetHeight() const override {
-			return m_Data.Height;
-		}
+		inline unsigned int GetWidth() const override { return m_Data.Width; }
+		inline unsigned int GetHeight() const override { return m_Data.Height; }
 
-		inline virtual void* getNativeWindow() const override {
-			return m_Window;
-		}
+		inline virtual void* getNativeWindow() const override { return m_Window; }
 
 		// window attributes
 		// ----------------------------------------------------------------------------------

@@ -8,9 +8,7 @@ namespace Nutella {
 	class KeyEvent : public Event {
 	  public:
 		// gets the code of the key the event represents
-		inline int GetKeyCode() {
-			return m_KeyCode;
-		}
+		inline int GetKeyCode() { return m_KeyCode; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 
@@ -29,14 +27,11 @@ namespace Nutella {
 			: KeyEvent(keycode), m_RepeatCount(repeatCount) {};
 
 		// gets the amount of times the event should repeat when the key is held
-		inline int GetRepeatCount() {
-			return m_RepeatCount;
-		}
+		inline int GetRepeatCount() { return m_RepeatCount; }
 
 		std::string ToString() const override {
 			std::stringstream ss;
-			ss << "KeyPressedEvent Code: " << m_KeyCode << " (" << m_RepeatCount
-			   << " repeats)";
+			ss << "KeyPressedEvent Code: " << m_KeyCode << " (" << m_RepeatCount << " repeats)";
 			return ss.str();
 		}
 

@@ -26,16 +26,11 @@ namespace Nutella {
 		// function to be called each frame to update the window
 		virtual void OnUpdate() = 0;
 
-		// gets the width of the window
 		virtual unsigned int GetWidth() const = 0;
-		// gets the height of the window
 		virtual unsigned int GetHeight() const = 0;
 
-		// sets the callback function used to handle events
 		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
-		// sets whether the window should be VSynced
 		virtual void SetVSync(bool enabled) = 0;
-		// gets whether the window is VSynced
 		virtual bool IsVSync() const = 0;
 
 		virtual void* getNativeWindow() const = 0;

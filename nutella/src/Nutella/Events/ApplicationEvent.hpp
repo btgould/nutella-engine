@@ -11,14 +11,10 @@ namespace Nutella {
 			: m_Width(width), m_Height(height) {};
 
 		// gets the new width of the window
-		inline unsigned int GetWidth() {
-			return m_Width;
-		}
+		inline unsigned int GetWidth() { return m_Width; }
 
 		// gets the new height of the window
-		inline unsigned int GetHeight() {
-			return m_Height;
-		}
+		inline unsigned int GetHeight() { return m_Height; }
 
 		std::string ToString() const override {
 			std::stringstream ss;

@@ -2,6 +2,8 @@
 
 #include "Nutella/Renderer/Shader.hpp"
 
+#include "glm/glm.hpp"
+
 namespace Nutella {
 	struct ShaderProgramSource {
 		std::string vertexSource;
@@ -16,6 +18,9 @@ namespace Nutella {
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
 
+		virtual void SetUniformVec4f(const std::string& name, const glm::vec4& vec) override;
+		virtual void SetUniformMat4f(const std::string& name, const glm::mat4& mat) override;
+
 	  private:
 		uint32_t m_RendererID;
 
@@ -23,5 +28,9 @@ namespace Nutella {
 		unsigned int compileShader(unsigned int type, const std::string& source);
 		unsigned int createShader(const std::string& vertexShader,
 								  const std::string& fragmentShader);
+
+		std::unordered_map<std::string, int> m_UniformLocationCache;
+
+		int GetUniformLocation(const std::string& name);
 	};
 } // namespace Nutella

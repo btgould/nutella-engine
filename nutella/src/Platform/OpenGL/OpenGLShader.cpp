@@ -12,16 +12,18 @@ namespace Nutella {
 		m_RendererID = createShader(source.vertexSource, source.fragmentSource);
 	}
 
-	OpenGLShader::~OpenGLShader() {
-		GL_CALL(glDeleteProgram(m_RendererID));
+	OpenGLShader::~OpenGLShader() { GL_CALL(glDeleteProgram(m_RendererID)); }
+
+	void OpenGLShader::Bind() const { GL_CALL(glUseProgram(m_RendererID)); }
+
+	void OpenGLShader::Unbind() const { GL_CALL(glUseProgram(0)); }
+
+	void OpenGLShader::SetUniformVec4f(const std::string& name, const glm::vec4& vec) {
+		GL_CALL(glUniform4f(GetUniformLocation(name), vec.x, vec.y, vec.z, vec.w));
 	}
 
-	void OpenGLShader::Bind() const {
-		GL_CALL(glUseProgram(m_RendererID));
-	}
-
-	void OpenGLShader::Unbind() const {
-		GL_CALL(glUseProgram(0));
+	void OpenGLShader::SetUniformMat4f(const std::string& name, const glm::mat4& mat) {
+		GL_CALL(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &mat[0][0]));
 	}
 
 	ShaderProgramSource OpenGLShader::sourceShaders(const std::string& filepath) {
@@ -112,5 +114,18 @@ namespace Nutella {
 		GL_CALL(glDetachShader(id, fragmentShaderID));
 
 		return id;
+	}
+
+	int OpenGLShader::GetUniformLocation(const std::string& name) {
+		if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end())
+			return m_UniformLocationCache[name];
+
+		GL_CALL(int location = glGetUniformLocation(m_RendererID, name.c_str()));
+
+		if (location == -1)
+			NT_CORE_WARN("Uniform {0} not found!", name);
+
+		m_UniformLocationCache[name] = location;
+		return location;
 	}
 } // namespace Nutella

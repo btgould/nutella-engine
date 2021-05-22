@@ -38,22 +38,14 @@ namespace Nutella {
 	};
 
 // set event name and type
-#define EVENT_CLASS_TYPE(type)                                                 \
-	static EventType GetStaticType() {                                         \
-		return EventType::type;                                                \
-	}                                                                          \
-	virtual EventType GetEventType() const override {                          \
-		return GetStaticType();                                                \
-	}                                                                          \
-	virtual const char* GetName() const override {                             \
-		return #type;                                                          \
-	}
+#define EVENT_CLASS_TYPE(type)                                                                     \
+	static EventType GetStaticType() { return EventType::type; }                                   \
+	virtual EventType GetEventType() const override { return GetStaticType(); }                    \
+	virtual const char* GetName() const override { return #type; }
 
 // set event category(ies)
-#define EVENT_CLASS_CATEGORY(category)                                         \
-	virtual int GetCategoryFlags() const override {                            \
-		return category;                                                       \
-	}
+#define EVENT_CLASS_CATEGORY(category)                                                             \
+	virtual int GetCategoryFlags() const override { return category; }
 
 	// class representing an application event
 	class Event {
@@ -69,14 +61,10 @@ namespace Nutella {
 		// overriden in EVENT_CLASS_CATEGORY macro
 		virtual int GetCategoryFlags() const = 0;
 
-		virtual std::string ToString() const {
-			return GetName();
-		}
+		virtual std::string ToString() const { return GetName(); }
 
 		// checks if an event is in the given category
-		inline bool isInCategory(EventCategory category) {
-			return GetCategoryFlags() & category;
-		}
+		inline bool isInCategory(EventCategory category) { return GetCategoryFlags() & category; }
 
 		// whether or not this event has been handled
 		bool handled = false;
@@ -105,8 +93,6 @@ namespace Nutella {
 	};
 
 	// define how Event's should be push to streams
-	inline std::ostream& operator<<(std::ostream& os, const Event& e) {
-		return os << e.ToString();
-	}
+	inline std::ostream& operator<<(std::ostream& os, const Event& e) { return os << e.ToString(); }
 
 } // namespace Nutella

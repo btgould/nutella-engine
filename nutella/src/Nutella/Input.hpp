@@ -15,13 +15,9 @@ namespace Nutella {
 			return s_instance->getMousePosImpl();
 		}
 
-		inline static float getMouseX() {
-			return s_instance->getMouseXImpl();
-		}
+		inline static float getMouseX() { return s_instance->getMouseXImpl(); }
 
-		inline static float getMouseY() {
-			return s_instance->getMouseYImpl();
-		}
+		inline static float getMouseY() { return s_instance->getMouseYImpl(); }
 
 	  protected:
 		virtual bool isKeyPressedImpl(int keycode) = 0;
