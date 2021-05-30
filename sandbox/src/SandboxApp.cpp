@@ -2,13 +2,6 @@
 
 #include "imgui.h"
 
-#include "Nutella/Renderer/VertexArray.hpp"
-#include "Nutella/Renderer/Shader.hpp"
-#include "Nutella/Renderer/OrthographicCamera.hpp"
-#include "Nutella/Renderer/Renderer.hpp"
-
-#include "Nutella/Application.hpp"
-
 #include "glm/gtc/matrix_transform.hpp"
 
 class ExampleLayer : public Nutella::Layer {
@@ -38,48 +31,106 @@ class RenderingLayer : public Nutella::Layer {
 		: Layer("Rendering Test"),
 		  m_Camera(0, Nutella::Application::get().getWindow().GetWidth(), 0,
 				   Nutella::Application::get().getWindow().GetHeight()) {
+
+		// -------------------------------------------------------------------------
+		// ----------------------- Fragment Rendering ------------------------------
+		// -------------------------------------------------------------------------
+
 		// Vertex buffer (stores data about vertices)
-		float positions[] = {
+		float fragVertices[] = {
 			-50.0f, -50.0f, 0.0f, 0.0f, 0.0f, 0.0f, // Vertex 1
 			50.0f,	-50.0f, 0.0f, 1.0f, 0.0f, 0.0f, // Vertex 2
 			50.0f,	50.0f,	0.0f, 0.0f, 1.0f, 0.0f, // Vertex 3
 			-50.0f, 50.0f,	0.0f, 0.0f, 0.0f, 1.0f	// Vertex 4
 		};
 
-		std::shared_ptr<Nutella::VertexBuffer> vertexBuffer;
-		vertexBuffer.reset(Nutella::VertexBuffer::Create(positions, sizeof(positions)));
+		std::shared_ptr<Nutella::VertexBuffer> fragVertexBuffer;
+		fragVertexBuffer.reset(Nutella::VertexBuffer::Create(fragVertices, sizeof(fragVertices)));
 
 		// Index Buffer (list of order to render vertices)
-		unsigned int vertices[] = {0, 1, 2, 2, 3, 0};
+		unsigned int fragIndices[] = {0, 1, 2, 2, 3, 0};
 
-		std::shared_ptr<Nutella::IndexBuffer> indexBuffer;
-		indexBuffer.reset(Nutella::IndexBuffer::Create(vertices, sizeof(vertices)));
+		std::shared_ptr<Nutella::IndexBuffer> fragIndexBuffer;
+		fragIndexBuffer.reset(Nutella::IndexBuffer::Create(fragIndices, sizeof(fragIndices)));
 
 		// Vertex array (combines vertex buffer + index buffer)
-		Nutella::VertexBufferLayout layout;
-		layout.push(Nutella::VertexAttribType::FLOAT, 3, false); // position
-		layout.push(Nutella::VertexAttribType::FLOAT, 3, false); // color
+		Nutella::VertexBufferLayout fragLayout;
+		fragLayout.push(Nutella::VertexAttribType::FLOAT, 3, false); // position
+		fragLayout.push(Nutella::VertexAttribType::FLOAT, 3, false); // color
 
-		m_VertexArray.reset(Nutella::VertexArray::Create(layout, vertexBuffer, indexBuffer));
+		m_FragVertexArray.reset(
+			Nutella::VertexArray::Create(fragLayout, fragVertexBuffer, fragIndexBuffer));
 
 		// Shader (colors geometry)
-		m_Shader.reset(Nutella::Shader::Create("nutella/res/shaders/MVP.shader"));
+		m_FragShader.reset(Nutella::Shader::Create("nutella/res/shaders/MVP.shader"));
+
+		// -------------------------------------------------------------------------
+		// ------------------------ Texture Rendering ------------------------------
+		// -------------------------------------------------------------------------
+
+		float texVertices[] = {
+			-50.0f, -50.0f, 0.0f, 0.0f, 0.0f, // Vertex 1
+			50.0f,	-50.0f, 0.0f, 2.0f, 0.0f, // Vertex 2
+			50.0f,	50.0f,	0.0f, 2.0f, 2.0f, // Vertex 3
+			-50.0f, 50.0f,	0.0f, 0.0f, 2.0f  // Vertex 4
+		};
+
+		std::shared_ptr<Nutella::VertexBuffer> texVertexBuffer;
+		texVertexBuffer.reset(Nutella::VertexBuffer::Create(texVertices, sizeof(texVertices)));
+
+		unsigned int texIndices[] = {0, 1, 2, 2, 3, 0};
+
+		std::shared_ptr<Nutella::IndexBuffer> texIndexBuffer;
+		texIndexBuffer.reset(Nutella::IndexBuffer::Create(texIndices, sizeof(texIndices)));
+
+		Nutella::VertexBufferLayout texLayout;
+		texLayout.push(Nutella::VertexAttribType::FLOAT, 3, false); // position
+		texLayout.push(Nutella::VertexAttribType::FLOAT, 2, false); // tex coord
+
+		m_TexVertexArray.reset(
+			Nutella::VertexArray::Create(texLayout, texVertexBuffer, texIndexBuffer));
+
+		m_TexShader.reset(Nutella::Shader::Create("nutella/res/shaders/Tex.shader"));
+
+		// Texture (wraps around geometry)
+		m_Texture.reset(Nutella::Texture::Create("nutella/res/textures/dog.png"));
+		m_Texture->CreateMipmaps();
 	};
 
 	void OnUpdate() override {
 		// TEMP: this should be set by the model itself
-		m_Shader->Bind();
-		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(400.0, 200.0, 0.0));
-		m_Shader->SetUniformMat4f("u_Model", model);
+		m_FragShader->Bind();
+		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(400.0, 400.0, 0.0));
+		m_FragShader->SetUniformMat4f("u_Model", model);
+
+		m_TexShader->Bind();
+		model = glm::translate(glm::mat4(1.0f), glm::vec3(600.0, 400.0, 0.0));
+		m_TexShader->SetUniformMat4f("u_Model", model);
+		m_TexShader->SetUniform1i("u_Texture", 0);
 
 		Nutella::Renderer::BeginScene(m_Camera);
-		Nutella::Renderer::Submit(m_VertexArray, m_Shader);
+		Nutella::Renderer::Submit(m_FragVertexArray, m_FragShader);
+		Nutella::Renderer::Submit(m_TexVertexArray, m_TexShader);
 		Nutella::Renderer::EndScene();
 	}
 
+	void OnImGuiRender() override {
+		static glm::vec3 localCameraPos(0.0f, 0.0f, 0.0f);
+		static float localCameraRot = 0.0f;
+
+		ImGui::Begin("Renderer Test");
+		ImGui::SliderFloat2("Camera Pos", &localCameraPos.x, 0, 500);
+		ImGui::SliderFloat("Camera Rotation", &localCameraRot, 0, 360);
+		ImGui::End();
+
+		m_Camera.SetPosition(localCameraPos);
+		m_Camera.SetRotation(localCameraRot);
+	}
+
   private:
-	std::shared_ptr<Nutella::VertexArray> m_VertexArray;
-	std::shared_ptr<Nutella::Shader> m_Shader;
+	std::shared_ptr<Nutella::VertexArray> m_FragVertexArray, m_TexVertexArray;
+	std::shared_ptr<Nutella::Shader> m_FragShader, m_TexShader;
+	std::shared_ptr<Nutella::Texture> m_Texture;
 	Nutella::OrthographicCamera m_Camera;
 };
 

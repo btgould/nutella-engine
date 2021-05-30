@@ -18,6 +18,7 @@ namespace Nutella {
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
 
+		virtual void SetUniform1i(const std::string& name, const int num) override;
 		virtual void SetUniformVec4f(const std::string& name, const glm::vec4& vec) override;
 		virtual void SetUniformMat4f(const std::string& name, const glm::mat4& mat) override;
 

@@ -3,6 +3,7 @@
 
 #include "glad/glad.h"
 #include "Platform/OpenGL/glutil.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 #include <fstream>
 
@@ -18,12 +19,16 @@ namespace Nutella {
 
 	void OpenGLShader::Unbind() const { GL_CALL(glUseProgram(0)); }
 
+	void OpenGLShader::SetUniform1i(const std::string& name, const int num) {
+		GL_CALL(glUniform1i(GetUniformLocation(name), num));
+	}
+
 	void OpenGLShader::SetUniformVec4f(const std::string& name, const glm::vec4& vec) {
 		GL_CALL(glUniform4f(GetUniformLocation(name), vec.x, vec.y, vec.z, vec.w));
 	}
 
 	void OpenGLShader::SetUniformMat4f(const std::string& name, const glm::mat4& mat) {
-		GL_CALL(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &mat[0][0]));
+		GL_CALL(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat)));
 	}
 
 	ShaderProgramSource OpenGLShader::sourceShaders(const std::string& filepath) {

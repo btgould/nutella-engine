@@ -5,11 +5,13 @@
 #include "Nutella/Renderer/IndexBuffer.hpp"
 #include "Nutella/Renderer/VertexArray.hpp"
 #include "Nutella/Renderer/Shader.hpp"
+#include "Nutella/Renderer/Texture.hpp"
 
 #include "Platform/OpenGL/OpenGLVertexBuffer.hpp"
 #include "Platform/OpenGL/OpenGLIndexBuffer.hpp"
 #include "Platform/OpenGL/OpenGLVertexArray.hpp"
 #include "Platform/OpenGL/OpenGLShader.hpp"
+#include "Platform/OpenGL/OpenGLTexture.hpp"
 
 namespace Nutella {
 
@@ -71,6 +73,22 @@ namespace Nutella {
 			break;
 		case RendererAPI::API::OPEN_GL:
 			return new OpenGLShader(filepath);
+			break;
+		default:
+			NT_CORE_ASSERT(false, "Unrecognized render API selected!");
+			return nullptr;
+			break;
+		}
+	}
+
+	Texture* Texture::Create(const std::string& filepath) {
+		switch (Renderer::getAPI()) {
+		case RendererAPI::API::NONE:
+			NT_CORE_ASSERT(false, "No render API selected!");
+			return nullptr;
+			break;
+		case RendererAPI::API::OPEN_GL:
+			return new OpenGLTexture(filepath);
 			break;
 		default:
 			NT_CORE_ASSERT(false, "Unrecognized render API selected!");
