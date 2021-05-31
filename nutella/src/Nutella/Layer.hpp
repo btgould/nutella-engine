@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Nutella/Events/Event.hpp"
+#include "Nutella/Core/Timestep.hpp"
 
 namespace Nutella {
 	class Layer {
@@ -10,7 +11,7 @@ namespace Nutella {
 
 		virtual void OnAttach() {};
 		virtual void OnDetach() {};
-		virtual void OnUpdate() {};
+		virtual void OnUpdate(Timestep ts) {};
 		virtual void OnEvent(Event& e) {};
 
 		virtual void OnImGuiRender() {};

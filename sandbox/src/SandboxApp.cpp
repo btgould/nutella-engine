@@ -8,7 +8,7 @@ class ExampleLayer : public Nutella::Layer {
   public:
 	ExampleLayer() : Layer("Example") {};
 
-	void OnUpdate() override {
+	void OnUpdate(Nutella::Timestep ts) override {
 		if (Nutella::Input::isKeyPressed(NT_KEY_TAB)) {
 			NT_TRACE("Tab is pressed");
 		}
@@ -97,7 +97,7 @@ class RenderingLayer : public Nutella::Layer {
 		m_Texture->CreateMipmaps();
 	};
 
-	void OnUpdate() override {
+	void OnUpdate(Nutella::Timestep ts) override {
 		// TEMP: this should be set by the model itself
 		m_FragShader->Bind();
 		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(400.0, 400.0, 0.0));
@@ -108,6 +108,24 @@ class RenderingLayer : public Nutella::Layer {
 		m_TexShader->SetUniformMat4f("u_Model", model);
 		m_TexShader->SetUniform1i("u_Texture", 0);
 
+		if (Nutella::Input::isKeyPressed(NT_KEY_RIGHT)) {
+			m_Camera.Move({m_CamMoveSpeed * ts, 0, 0});
+		} else if (Nutella::Input::isKeyPressed(NT_KEY_LEFT)) {
+			m_Camera.Move({-m_CamMoveSpeed * ts, 0, 0});
+		}
+
+		if (Nutella::Input::isKeyPressed(NT_KEY_UP)) {
+			m_Camera.Move({0, m_CamMoveSpeed * ts, 0});
+		} else if (Nutella::Input::isKeyPressed(NT_KEY_DOWN)) {
+			m_Camera.Move({0, -m_CamMoveSpeed * ts, 0});
+		}
+
+		if (Nutella::Input::isKeyPressed(NT_KEY_Q)) {
+			m_Camera.Rotate(m_CamRotSpeed * ts);
+		} else if (Nutella::Input::isKeyPressed(NT_KEY_E)) {
+			m_Camera.Rotate(-m_CamRotSpeed * ts);
+		}
+
 		Nutella::Renderer::BeginScene(m_Camera);
 		Nutella::Renderer::Submit(m_FragVertexArray, m_FragShader);
 		Nutella::Renderer::Submit(m_TexVertexArray, m_TexShader);
@@ -115,12 +133,17 @@ class RenderingLayer : public Nutella::Layer {
 	}
 
 	void OnImGuiRender() override {
-		static glm::vec3 localCameraPos(0.0f, 0.0f, 0.0f);
-		static float localCameraRot = 0.0f;
+		glm::vec3 localCameraPos = m_Camera.GetPosition();
+		float localCameraRot = m_Camera.GetRotation();
 
 		ImGui::Begin("Renderer Test");
-		ImGui::SliderFloat2("Camera Pos", &localCameraPos.x, 0, 500);
-		ImGui::SliderFloat("Camera Rotation", &localCameraRot, 0, 360);
+		if (ImGui::CollapsingHeader("Camera Controls")) {
+			ImGui::SliderFloat2("Camera Pos", &localCameraPos.x, 0, 500);
+			ImGui::SliderFloat("Camera Rotation", &localCameraRot, 0, 360);
+
+			ImGui::SliderFloat("Camera Move Speed", &m_CamMoveSpeed, 200, 800);
+			ImGui::SliderFloat("Camera Rotation Speed", &m_CamRotSpeed, 30, 360);
+		}
 		ImGui::End();
 
 		m_Camera.SetPosition(localCameraPos);
@@ -132,6 +155,9 @@ class RenderingLayer : public Nutella::Layer {
 	std::shared_ptr<Nutella::Shader> m_FragShader, m_TexShader;
 	std::shared_ptr<Nutella::Texture> m_Texture;
 	Nutella::OrthographicCamera m_Camera;
+
+	float m_CamMoveSpeed = 500.0f;
+	float m_CamRotSpeed = 90.0f;
 };
 
 class Sandbox : public Nutella::Application {

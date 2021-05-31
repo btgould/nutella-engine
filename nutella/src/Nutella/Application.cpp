@@ -7,12 +7,15 @@
 
 #include "Renderer/RendererCommand.hpp"
 
+// TEMP: needed to get application time
+#include "GLFW/glfw3.h"
+
 namespace Nutella {
 
 	// Singleton instance of Application
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application() {
+	Application::Application() : m_Time(0) {
 		// ensure only one instance exists
 		NT_CORE_ASSERT(!s_Instance, "Cannot create multiple instances of Application class");
 		s_Instance = this;
@@ -44,8 +47,13 @@ namespace Nutella {
 			RenderCommand::SetClearColor({0.2f, 0.2f, 0.2f, 1.0f});
 			RenderCommand::Clear();
 
+			// calculate delta time of previous frame
+			float prevTime = m_Time;
+			m_Time = glfwGetTime();
+			Timestep frameTime = m_Time - prevTime;
+
 			for (Layer* layer : m_LayerStack)
-				layer->OnUpdate();
+				layer->OnUpdate(frameTime);
 
 			m_ImGuiLayer->begin();
 			for (Layer* layer : m_LayerStack)

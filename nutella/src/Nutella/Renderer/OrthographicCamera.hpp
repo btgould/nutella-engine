@@ -25,6 +25,10 @@ namespace Nutella {
 		}
 
 		inline float GetRotation() const { return m_Rotation; }
+		inline void Rotate(float rot) {
+			m_Rotation += rot;
+			UpdateView();
+		}
 		inline void SetRotation(const float& rot) {
 			m_Rotation = rot;
 			UpdateView();

@@ -57,9 +57,7 @@ namespace Nutella {
 		ImGui::DestroyContext();
 	}
 
-	void ImGuiLayer::OnImGuiRender() {
-		ImGui::ShowDemoWindow();
-	}
+	void ImGuiLayer::OnImGuiRender() { ImGui::ShowDemoWindow(); }
 
 	void ImGuiLayer::begin() {
 		ImGui_ImplOpenGL3_NewFrame();
