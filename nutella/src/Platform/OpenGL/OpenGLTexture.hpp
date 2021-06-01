@@ -8,7 +8,7 @@ namespace Nutella {
 		OpenGLTexture(const std::string& filepath);
 		virtual ~OpenGLTexture();
 
-		virtual void Bind(unsigned int slot /*= 0*/) const override;
+		virtual void Bind(unsigned int slot = 0) const override;
 		virtual void Unbind() const override;
 
 		virtual void CreateMipmaps() const override;

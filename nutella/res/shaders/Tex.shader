@@ -5,13 +5,13 @@ layout(location = 0) in vec4 a_position;
 layout(location = 1) in vec2 a_texCoord;
 
 uniform mat4 u_VP;
-uniform mat4 u_Model;
+uniform mat4 u_ModelTRS;
 
 out vec2 v_TexCoord;
 
 void main() {
 	v_TexCoord = a_texCoord;
-	gl_Position = u_VP * u_Model * a_position;
+	gl_Position = u_VP * u_ModelTRS * a_position;
 };
 
 #shader fragment

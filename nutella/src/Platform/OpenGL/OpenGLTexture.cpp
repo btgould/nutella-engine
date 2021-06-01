@@ -32,7 +32,7 @@ namespace Nutella {
 
 	OpenGLTexture::~OpenGLTexture() { GL_CALL(glDeleteTextures(1, &m_RendererID)); }
 
-	void OpenGLTexture::Bind(unsigned int slot) const {
+	void OpenGLTexture::Bind(unsigned int slot /* = 0 */) const {
 		GL_CALL(glActiveTexture(GL_TEXTURE0 + slot));
 		GL_CALL(glBindTexture(GL_TEXTURE_2D, m_RendererID));
 	}

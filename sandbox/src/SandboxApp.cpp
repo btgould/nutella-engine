@@ -98,25 +98,17 @@ class RenderingLayer : public Nutella::Layer {
 	};
 
 	void OnUpdate(Nutella::Timestep ts) override {
-		// TEMP: this should be set by the model itself
-		m_FragShader->Bind();
-		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(400.0, 400.0, 0.0));
-		m_FragShader->SetUniformMat4f("u_Model", model);
 
-		m_TexShader->Bind();
-		model = glm::translate(glm::mat4(1.0f), glm::vec3(600.0, 400.0, 0.0));
-		m_TexShader->SetUniformMat4f("u_Model", model);
-		m_TexShader->SetUniform1i("u_Texture", 0);
-
-		if (Nutella::Input::isKeyPressed(NT_KEY_RIGHT)) {
+		// Camera movement controls
+		if (Nutella::Input::isKeyPressed(NT_KEY_D)) {
 			m_Camera.Move({m_CamMoveSpeed * ts, 0, 0});
-		} else if (Nutella::Input::isKeyPressed(NT_KEY_LEFT)) {
+		} else if (Nutella::Input::isKeyPressed(NT_KEY_A)) {
 			m_Camera.Move({-m_CamMoveSpeed * ts, 0, 0});
 		}
 
-		if (Nutella::Input::isKeyPressed(NT_KEY_UP)) {
+		if (Nutella::Input::isKeyPressed(NT_KEY_W)) {
 			m_Camera.Move({0, m_CamMoveSpeed * ts, 0});
-		} else if (Nutella::Input::isKeyPressed(NT_KEY_DOWN)) {
+		} else if (Nutella::Input::isKeyPressed(NT_KEY_S)) {
 			m_Camera.Move({0, -m_CamMoveSpeed * ts, 0});
 		}
 
@@ -126,9 +118,32 @@ class RenderingLayer : public Nutella::Layer {
 			m_Camera.Rotate(-m_CamRotSpeed * ts);
 		}
 
+		// dog movement controls
+		if (Nutella::Input::isKeyPressed(NT_KEY_RIGHT)) {
+			m_DogPos += glm::vec3(m_DogMoveSpeed * ts, 0.0f, 0.0f);
+		} else if (Nutella::Input::isKeyPressed(NT_KEY_LEFT)) {
+			m_DogPos += glm::vec3(-m_DogMoveSpeed * ts, 0.0f, 0.0f);
+		}
+
+		if (Nutella::Input::isKeyPressed(NT_KEY_UP)) {
+			m_DogPos += glm::vec3(0.0f, m_DogMoveSpeed * ts, 0.0f);
+		} else if (Nutella::Input::isKeyPressed(NT_KEY_DOWN)) {
+			m_DogPos += glm::vec3(0.0f, -m_DogMoveSpeed * ts, 0.0f);
+		}
+
+		// calculate model matrices
+		glm::mat4 fragTRS = glm::translate(glm::mat4(1.0f), glm::vec3(400.0, 400.0, 0.0));
+		glm::mat4 texTRS =
+			glm::translate(glm::mat4(1.0f), m_DogPos) *
+			glm::rotate(glm::mat4(1.0f), glm::radians(m_DogRot), glm::vec3(0.0f, 0.0f, 1.0f)) *
+			glm::scale(glm::mat4(1.0f), m_DogScale);
+
+		m_TexShader->Bind();
+		m_TexShader->SetUniform1i("u_Texture", 0);
+
 		Nutella::Renderer::BeginScene(m_Camera);
-		Nutella::Renderer::Submit(m_FragVertexArray, m_FragShader);
-		Nutella::Renderer::Submit(m_TexVertexArray, m_TexShader);
+		Nutella::Renderer::Submit(m_FragVertexArray, m_FragShader, fragTRS);
+		Nutella::Renderer::Submit(m_TexVertexArray, m_TexShader, texTRS);
 		Nutella::Renderer::EndScene();
 	}
 
@@ -137,13 +152,23 @@ class RenderingLayer : public Nutella::Layer {
 		float localCameraRot = m_Camera.GetRotation();
 
 		ImGui::Begin("Renderer Test");
-		if (ImGui::CollapsingHeader("Camera Controls")) {
-			ImGui::SliderFloat2("Camera Pos", &localCameraPos.x, 0, 500);
-			ImGui::SliderFloat("Camera Rotation", &localCameraRot, 0, 360);
 
-			ImGui::SliderFloat("Camera Move Speed", &m_CamMoveSpeed, 200, 800);
-			ImGui::SliderFloat("Camera Rotation Speed", &m_CamRotSpeed, 30, 360);
+		if (ImGui::CollapsingHeader("Object Controls", ImGuiTreeNodeFlags_DefaultOpen)) {
+			ImGui::SliderFloat2("Position##dog", &m_DogPos.x, 0, 1000);
+			ImGui::SliderFloat("Rotation##dog", &m_DogRot, 0, 360);
+			ImGui::SliderFloat2("Scale##dog", &m_DogScale.x, 0, 5);
+
+			ImGui::SliderFloat("Move Speed##dog", &m_DogMoveSpeed, 200, 800);
 		}
+
+		if (ImGui::CollapsingHeader("Camera Controls", ImGuiTreeNodeFlags_DefaultOpen)) {
+			ImGui::SliderFloat2("Position##cam", &localCameraPos.x, 0, 500);
+			ImGui::SliderFloat("Rotation##cam", &localCameraRot, 0, 360);
+
+			ImGui::SliderFloat("Move Speed##cam", &m_CamMoveSpeed, 200, 800);
+			ImGui::SliderFloat("Rotation Speed##cam", &m_CamRotSpeed, 30, 360);
+		}
+
 		ImGui::End();
 
 		m_Camera.SetPosition(localCameraPos);
@@ -158,6 +183,11 @@ class RenderingLayer : public Nutella::Layer {
 
 	float m_CamMoveSpeed = 500.0f;
 	float m_CamRotSpeed = 90.0f;
+
+	glm::vec3 m_DogPos = {600.0f, 400.0f, 0.0f};
+	glm::vec3 m_DogScale = {1.0f, 1.0f, 1.0f};
+	float m_DogRot = 0.0f;
+	float m_DogMoveSpeed = 500.0f;
 };
 
 class Sandbox : public Nutella::Application {
