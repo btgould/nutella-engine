@@ -23,8 +23,36 @@ namespace Nutella {
 		GL_CALL(glUniform1i(GetUniformLocation(name), num));
 	}
 
+	void OpenGLShader::SetUniformVec2i(const std::string& name, const glm::ivec2& vec) {
+		GL_CALL(glUniform2i(GetUniformLocation(name), vec.x, vec.y));
+	}
+
+	void OpenGLShader::SetUniformVec3i(const std::string& name, const glm::ivec3& vec) {
+		GL_CALL(glUniform3i(GetUniformLocation(name), vec.x, vec.y, vec.z));
+	}
+
+	void OpenGLShader::SetUniformVec4i(const std::string& name, const glm::ivec4& vec) {
+		GL_CALL(glUniform4i(GetUniformLocation(name), vec.x, vec.y, vec.z, vec.w));
+	}
+
+	void OpenGLShader::SetUniform1f(const std::string& name, const float num) {
+		GL_CALL(glUniform1f(GetUniformLocation(name), num));
+	}
+
+	void OpenGLShader::SetUniformVec2f(const std::string& name, const glm::vec2& vec) {
+		GL_CALL(glUniform2f(GetUniformLocation(name), vec.x, vec.y));
+	}
+
+	void OpenGLShader::SetUniformVec3f(const std::string& name, const glm::vec3& vec) {
+		GL_CALL(glUniform3f(GetUniformLocation(name), vec.x, vec.y, vec.z));
+	}
+
 	void OpenGLShader::SetUniformVec4f(const std::string& name, const glm::vec4& vec) {
 		GL_CALL(glUniform4f(GetUniformLocation(name), vec.x, vec.y, vec.z, vec.w));
+	}
+
+	void OpenGLShader::SetUniformMat3f(const std::string& name, const glm::mat3& mat) {
+		GL_CALL(glUniformMatrix3fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat)));
 	}
 
 	void OpenGLShader::SetUniformMat4f(const std::string& name, const glm::mat4& mat) {
