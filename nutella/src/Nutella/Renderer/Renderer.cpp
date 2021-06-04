@@ -11,7 +11,7 @@ namespace Nutella {
 
 	void Renderer::EndScene() {}
 
-	void Renderer::Submit(std::shared_ptr<VertexArray>& vao, std::shared_ptr<Shader>& shader,
+	void Renderer::Submit(Ref<VertexArray>& vao, Ref<Shader>& shader,
 						  const glm::mat4& modelTRS /*= glm::mat4(1)*/) {
 		shader->Bind();
 		shader->SetUniformMat4f("u_VP", m_SceneData->ViewProjMat);

@@ -11,7 +11,7 @@ namespace Nutella {
 		static void BeginScene(const OrthographicCamera& camera);
 		static void EndScene();
 
-		static void Submit(std::shared_ptr<VertexArray>& vao, std::shared_ptr<Shader>& shader,
+		static void Submit(Ref<VertexArray>& vao, Ref<Shader>& shader,
 						   const glm::mat4& modelTRS = glm::mat4(1));
 
 		inline static RendererAPI::API getAPI() { return RendererAPI::GetAPI(); }

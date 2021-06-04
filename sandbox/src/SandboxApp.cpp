@@ -44,13 +44,13 @@ class RenderingLayer : public Nutella::Layer {
 			-50.0f, 50.0f,	0.0f, 0.0f, 0.0f, 1.0f	// Vertex 4
 		};
 
-		std::shared_ptr<Nutella::VertexBuffer> fragVertexBuffer;
+		Nutella::Ref<Nutella::VertexBuffer> fragVertexBuffer;
 		fragVertexBuffer.reset(Nutella::VertexBuffer::Create(fragVertices, sizeof(fragVertices)));
 
 		// Index Buffer (list of order to render vertices)
 		unsigned int fragIndices[] = {0, 1, 2, 2, 3, 0};
 
-		std::shared_ptr<Nutella::IndexBuffer> fragIndexBuffer;
+		Nutella::Ref<Nutella::IndexBuffer> fragIndexBuffer;
 		fragIndexBuffer.reset(Nutella::IndexBuffer::Create(fragIndices, sizeof(fragIndices)));
 
 		// Vertex array (combines vertex buffer + index buffer)
@@ -75,12 +75,12 @@ class RenderingLayer : public Nutella::Layer {
 			-50.0f, 50.0f,	0.0f, 0.0f, 2.0f  // Vertex 4
 		};
 
-		std::shared_ptr<Nutella::VertexBuffer> texVertexBuffer;
+		Nutella::Ref<Nutella::VertexBuffer> texVertexBuffer;
 		texVertexBuffer.reset(Nutella::VertexBuffer::Create(texVertices, sizeof(texVertices)));
 
 		unsigned int texIndices[] = {0, 1, 2, 2, 3, 0};
 
-		std::shared_ptr<Nutella::IndexBuffer> texIndexBuffer;
+		Nutella::Ref<Nutella::IndexBuffer> texIndexBuffer;
 		texIndexBuffer.reset(Nutella::IndexBuffer::Create(texIndices, sizeof(texIndices)));
 
 		Nutella::VertexBufferLayout texLayout;
@@ -176,9 +176,9 @@ class RenderingLayer : public Nutella::Layer {
 	}
 
   private:
-	std::shared_ptr<Nutella::VertexArray> m_FragVertexArray, m_TexVertexArray;
-	std::shared_ptr<Nutella::Shader> m_FragShader, m_TexShader;
-	std::shared_ptr<Nutella::Texture> m_Texture;
+	Nutella::Ref<Nutella::VertexArray> m_FragVertexArray, m_TexVertexArray;
+	Nutella::Ref<Nutella::Shader> m_FragShader, m_TexShader;
+	Nutella::Ref<Nutella::Texture> m_Texture;
 	Nutella::OrthographicCamera m_Camera;
 
 	float m_CamMoveSpeed = 500.0f;

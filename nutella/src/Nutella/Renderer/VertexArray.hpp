@@ -55,15 +55,14 @@ namespace Nutella {
 
 	class VertexArray {
 	  public:
-		static VertexArray* Create(const VertexBufferLayout& layout,
-								   const std::shared_ptr<VertexBuffer>& vbo,
-								   const std::shared_ptr<IndexBuffer>& ibo);
+		static VertexArray* Create(const VertexBufferLayout& layout, const Ref<VertexBuffer>& vbo,
+								   const Ref<IndexBuffer>& ibo);
 		virtual ~VertexArray() {};
 
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
 
-		virtual const std::shared_ptr<VertexBuffer>& GetVertexBuffer() const = 0;
-		virtual const std::shared_ptr<IndexBuffer>& GetIndexBuffer() const = 0;
+		virtual const Ref<VertexBuffer>& GetVertexBuffer() const = 0;
+		virtual const Ref<IndexBuffer>& GetIndexBuffer() const = 0;
 	};
 } // namespace Nutella

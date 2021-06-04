@@ -5,6 +5,6 @@ namespace Nutella {
 		virtual void SetClearColor(glm::vec4 color) override;
 		virtual void Clear() override;
 
-		virtual void DrawIndexed(std::shared_ptr<VertexArray>& vao) override;
+		virtual void DrawIndexed(Ref<VertexArray>& vao) override;
 	};
 } // namespace Nutella

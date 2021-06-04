@@ -8,7 +8,7 @@ namespace Nutella {
 		inline static void SetClearColor(glm::vec4 color) { s_RendererAPI->SetClearColor(color); }
 		inline static void Clear() { s_RendererAPI->Clear(); }
 
-		inline static void DrawIndexed(std::shared_ptr<VertexArray>& vao) {
+		inline static void DrawIndexed(Ref<VertexArray>& vao) {
 			s_RendererAPI->DrawIndexed(vao);
 		}
 

@@ -47,9 +47,8 @@ namespace Nutella {
 		}
 	}
 
-	VertexArray* VertexArray::Create(const VertexBufferLayout& layout,
-									 const std::shared_ptr<VertexBuffer>& vbo,
-									 const std::shared_ptr<IndexBuffer>& ibo) {
+	VertexArray* VertexArray::Create(const VertexBufferLayout& layout, const Ref<VertexBuffer>& vbo,
+									 const Ref<IndexBuffer>& ibo) {
 		switch (Renderer::getAPI()) {
 		case RendererAPI::API::NONE:
 			NT_CORE_ASSERT(false, "No render API selected!");
