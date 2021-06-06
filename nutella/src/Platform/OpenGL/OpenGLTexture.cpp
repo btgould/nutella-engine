@@ -21,8 +21,14 @@ namespace Nutella {
 		unsigned char* imgData = stbi_load(filepath.c_str(), &m_Width, &m_Height, &m_BPP, 4);
 
 		NT_CORE_ASSERT(imgData, "Failed to load texture!");
+		NT_CORE_ASSERT(m_BPP == 3 || m_BPP == 4, "Texture image format not supported!");
 
-		GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, GL_RGBA,
+		// dataFormat specifies components of imgData ptr, internalFormat specifies how we would
+		// like OpenGL to store the texture
+		GLenum dataFormat = (m_BPP == 3) ? GL_RGB : GL_RGBA;
+		GLenum internalFormat = (m_BPP == 3) ? GL_RGB8 : GL_RGBA8;
+
+		GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, m_Width, m_Height, 0, dataFormat,
 							 GL_UNSIGNED_BYTE, imgData));
 
 		stbi_image_free(imgData);

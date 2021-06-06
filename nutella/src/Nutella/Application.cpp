@@ -5,6 +5,7 @@
 #include "Nutella/Core.hpp"
 #include "Nutella/Events/Event.hpp"
 
+#include "Renderer/Renderer.hpp"
 #include "Renderer/RendererCommand.hpp"
 
 // TEMP: needed to get application time
@@ -22,6 +23,8 @@ namespace Nutella {
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
+
+		Renderer::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);

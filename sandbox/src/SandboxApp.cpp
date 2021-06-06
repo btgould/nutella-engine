@@ -92,7 +92,7 @@ class RenderingLayer : public Nutella::Layer {
 		m_TexShader = Nutella::Shader::Create("nutella/res/shaders/Tex.shader");
 
 		// Texture (wraps around geometry)
-		m_Texture = Nutella::Texture2D::Create("nutella/res/textures/dog.png");
+		m_Texture = Nutella::Texture2D::Create("nutella/res/textures/dog_transparent.png");
 		m_Texture->CreateMipmaps();
 	};
 

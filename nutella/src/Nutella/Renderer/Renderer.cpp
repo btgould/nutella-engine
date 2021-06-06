@@ -5,10 +5,11 @@
 namespace Nutella {
 	Renderer::SceneData* Renderer::m_SceneData = new Renderer::SceneData();
 
+	void Renderer::Init() { RenderCommand::Init(); }
+
 	void Renderer::BeginScene(const OrthographicCamera& camera) {
 		m_SceneData->ViewProjMat = camera.GetVPMat();
 	}
-
 	void Renderer::EndScene() {}
 
 	void Renderer::Submit(Ref<VertexArray>& vao, Ref<Shader>& shader,
