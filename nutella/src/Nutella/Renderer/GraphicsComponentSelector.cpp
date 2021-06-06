@@ -81,6 +81,22 @@ namespace Nutella {
 		}
 	}
 
+	Ref<Shader> Shader::Create(const std::string& vertexSrc, const std::string& fragmentSrc) {
+		switch (Renderer::getAPI()) {
+		case RendererAPI::API::NONE:
+			NT_CORE_ASSERT(false, "No render API selected!");
+			return nullptr;
+			break;
+		case RendererAPI::API::OPEN_GL:
+			return std::make_shared<OpenGLShader>(vertexSrc, fragmentSrc);
+			break;
+		default:
+			NT_CORE_ASSERT(false, "Unrecognized render API selected!");
+			return nullptr;
+			break;
+		}
+	}
+
 	Ref<Texture> Texture2D::Create(const std::string& filepath) {
 		switch (Renderer::getAPI()) {
 		case RendererAPI::API::NONE:

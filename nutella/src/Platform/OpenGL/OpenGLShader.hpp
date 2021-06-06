@@ -2,17 +2,17 @@
 
 #include "Nutella/Renderer/Shader.hpp"
 
+#include "glad/glad.h"
 #include "glm/glm.hpp"
 
 namespace Nutella {
-	struct ShaderProgramSource {
-		std::string vertexSource;
-		std::string fragmentSource;
-	};
+	using ShaderProgramSource = std::unordered_map<GLenum, std::string>;
 
 	class OpenGLShader : public Shader {
 	  public:
 		OpenGLShader(const std::string& filepath);
+		OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc);
+
 		virtual ~OpenGLShader();
 
 		virtual void Bind() const override;
@@ -34,10 +34,9 @@ namespace Nutella {
 	  private:
 		uint32_t m_RendererID;
 
-		ShaderProgramSource sourceShaders(const std::string& filepath);
-		unsigned int compileShader(unsigned int type, const std::string& source);
-		unsigned int createShader(const std::string& vertexShader,
-								  const std::string& fragmentShader);
+		ShaderProgramSource SourceShaders(const std::string& filepath);
+		unsigned int CompileShader(GLenum type, const std::string& source);
+		unsigned int CreateShader(ShaderProgramSource sources);
 
 		std::unordered_map<std::string, int> m_UniformLocationCache;
 
