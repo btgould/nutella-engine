@@ -55,8 +55,8 @@ namespace Nutella {
 
 	class VertexArray {
 	  public:
-		static VertexArray* Create(const VertexBufferLayout& layout, const Ref<VertexBuffer>& vbo,
-								   const Ref<IndexBuffer>& ibo);
+		static Ref<VertexArray> Create(const VertexBufferLayout& layout,
+									   const Ref<VertexBuffer>& vbo, const Ref<IndexBuffer>& ibo);
 		virtual ~VertexArray() {};
 
 		virtual void Bind() const = 0;

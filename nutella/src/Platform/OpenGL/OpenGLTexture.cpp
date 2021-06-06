@@ -6,7 +6,8 @@
 #include "Platform/OpenGL/glutil.hpp"
 
 namespace Nutella {
-	OpenGLTexture::OpenGLTexture(const std::string& filepath) : m_Width(0), m_Height(0), m_BPP(0) {
+	OpenGLTexture2D::OpenGLTexture2D(const std::string& filepath)
+		: m_Width(0), m_Height(0), m_BPP(0) {
 		GL_CALL(glGenTextures(1, &m_RendererID));
 		GL_CALL(glBindTexture(GL_TEXTURE_2D, m_RendererID));
 
@@ -19,10 +20,7 @@ namespace Nutella {
 		stbi_set_flip_vertically_on_load(1); // OpenGL bottom-left is 0, 0
 		unsigned char* imgData = stbi_load(filepath.c_str(), &m_Width, &m_Height, &m_BPP, 4);
 
-		if (!imgData) {
-			NT_CORE_ASSERT(false, "Failed to load texture!");
-			return;
-		}
+		NT_CORE_ASSERT(imgData, "Failed to load texture!");
 
 		GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, GL_RGBA,
 							 GL_UNSIGNED_BYTE, imgData));
@@ -30,16 +28,16 @@ namespace Nutella {
 		stbi_image_free(imgData);
 	}
 
-	OpenGLTexture::~OpenGLTexture() { GL_CALL(glDeleteTextures(1, &m_RendererID)); }
+	OpenGLTexture2D::~OpenGLTexture2D() { GL_CALL(glDeleteTextures(1, &m_RendererID)); }
 
-	void OpenGLTexture::Bind(unsigned int slot /* = 0 */) const {
+	void OpenGLTexture2D::Bind(unsigned int slot /* = 0 */) const {
 		GL_CALL(glActiveTexture(GL_TEXTURE0 + slot));
 		GL_CALL(glBindTexture(GL_TEXTURE_2D, m_RendererID));
 	}
 
-	void OpenGLTexture::Unbind() const { GL_CALL(glBindTexture(GL_TEXTURE_2D, 0)); }
+	void OpenGLTexture2D::Unbind() const { GL_CALL(glBindTexture(GL_TEXTURE_2D, 0)); }
 
-	void OpenGLTexture::CreateMipmaps() const {
+	void OpenGLTexture2D::CreateMipmaps() const {
 		GL_CALL(glBindTexture(GL_TEXTURE_2D, m_RendererID));
 		GL_CALL(glGenerateMipmap(GL_TEXTURE_2D));
 	}

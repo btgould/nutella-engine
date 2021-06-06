@@ -3,7 +3,7 @@
 namespace Nutella {
 	class IndexBuffer {
 	  public:
-		static IndexBuffer* Create(const unsigned int* vertexOrder, const unsigned int size);
+		static Ref<IndexBuffer> Create(const unsigned int* vertexOrder, const unsigned int size);
 		virtual ~IndexBuffer() {};
 
 		virtual void Bind() const = 0;

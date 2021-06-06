@@ -3,10 +3,10 @@
 #include "Nutella/Renderer/Texture.hpp"
 
 namespace Nutella {
-	class OpenGLTexture : public Texture {
+	class OpenGLTexture2D : public Texture2D {
 	  public:
-		OpenGLTexture(const std::string& filepath);
-		virtual ~OpenGLTexture();
+		OpenGLTexture2D(const std::string& filepath);
+		virtual ~OpenGLTexture2D();
 
 		virtual void Bind(unsigned int slot = 0) const override;
 		virtual void Unbind() const override;

@@ -3,7 +3,7 @@
 namespace Nutella {
 	class VertexBuffer {
 	  public:
-		static VertexBuffer* Create(const void* data, const unsigned int size);
+		static Ref<VertexBuffer> Create(const void* data, const unsigned int size);
 		virtual ~VertexBuffer() {};
 
 		virtual void Bind() const = 0;

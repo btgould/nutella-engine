@@ -45,24 +45,24 @@ class RenderingLayer : public Nutella::Layer {
 		};
 
 		Nutella::Ref<Nutella::VertexBuffer> fragVertexBuffer;
-		fragVertexBuffer.reset(Nutella::VertexBuffer::Create(fragVertices, sizeof(fragVertices)));
+		fragVertexBuffer = Nutella::VertexBuffer::Create(fragVertices, sizeof(fragVertices));
 
 		// Index Buffer (list of order to render vertices)
 		unsigned int fragIndices[] = {0, 1, 2, 2, 3, 0};
 
 		Nutella::Ref<Nutella::IndexBuffer> fragIndexBuffer;
-		fragIndexBuffer.reset(Nutella::IndexBuffer::Create(fragIndices, sizeof(fragIndices)));
+		fragIndexBuffer = Nutella::IndexBuffer::Create(fragIndices, sizeof(fragIndices));
 
 		// Vertex array (combines vertex buffer + index buffer)
 		Nutella::VertexBufferLayout fragLayout;
 		fragLayout.push(Nutella::VertexAttribType::FLOAT, 3, false); // position
 		fragLayout.push(Nutella::VertexAttribType::FLOAT, 3, false); // color
 
-		m_FragVertexArray.reset(
-			Nutella::VertexArray::Create(fragLayout, fragVertexBuffer, fragIndexBuffer));
+		m_FragVertexArray =
+			Nutella::VertexArray::Create(fragLayout, fragVertexBuffer, fragIndexBuffer);
 
 		// Shader (colors geometry)
-		m_FragShader.reset(Nutella::Shader::Create("nutella/res/shaders/MVP.shader"));
+		m_FragShader = Nutella::Shader::Create("nutella/res/shaders/MVP.shader");
 
 		// -------------------------------------------------------------------------
 		// ------------------------ Texture Rendering ------------------------------
@@ -76,24 +76,23 @@ class RenderingLayer : public Nutella::Layer {
 		};
 
 		Nutella::Ref<Nutella::VertexBuffer> texVertexBuffer;
-		texVertexBuffer.reset(Nutella::VertexBuffer::Create(texVertices, sizeof(texVertices)));
+		texVertexBuffer = Nutella::VertexBuffer::Create(texVertices, sizeof(texVertices));
 
 		unsigned int texIndices[] = {0, 1, 2, 2, 3, 0};
 
 		Nutella::Ref<Nutella::IndexBuffer> texIndexBuffer;
-		texIndexBuffer.reset(Nutella::IndexBuffer::Create(texIndices, sizeof(texIndices)));
+		texIndexBuffer = Nutella::IndexBuffer::Create(texIndices, sizeof(texIndices));
 
 		Nutella::VertexBufferLayout texLayout;
 		texLayout.push(Nutella::VertexAttribType::FLOAT, 3, false); // position
 		texLayout.push(Nutella::VertexAttribType::FLOAT, 2, false); // tex coord
 
-		m_TexVertexArray.reset(
-			Nutella::VertexArray::Create(texLayout, texVertexBuffer, texIndexBuffer));
+		m_TexVertexArray = Nutella::VertexArray::Create(texLayout, texVertexBuffer, texIndexBuffer);
 
-		m_TexShader.reset(Nutella::Shader::Create("nutella/res/shaders/Tex.shader"));
+		m_TexShader = Nutella::Shader::Create("nutella/res/shaders/Tex.shader");
 
 		// Texture (wraps around geometry)
-		m_Texture.reset(Nutella::Texture::Create("nutella/res/textures/dog.png"));
+		m_Texture = Nutella::Texture2D::Create("nutella/res/textures/dog.png");
 		m_Texture->CreateMipmaps();
 	};
 

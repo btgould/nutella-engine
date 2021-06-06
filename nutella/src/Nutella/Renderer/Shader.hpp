@@ -7,7 +7,7 @@
 namespace Nutella {
 	class Shader {
 	  public:
-		static Shader* Create(const std::string& filepath);
+		static Ref<Shader> Create(const std::string& filepath);
 		virtual ~Shader() {};
 
 		virtual void Bind() const = 0;
