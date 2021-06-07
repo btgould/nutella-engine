@@ -62,7 +62,7 @@ class RenderingLayer : public Nutella::Layer {
 			Nutella::VertexArray::Create(fragLayout, fragVertexBuffer, fragIndexBuffer);
 
 		// Shader (colors geometry)
-		m_FragShader = Nutella::Shader::Create("nutella/res/shaders/MVP.shader");
+		m_ShaderLibrary.Load("VertexColor", "nutella/res/shaders/MVP.shader");
 
 		// -------------------------------------------------------------------------
 		// ------------------------ Texture Rendering ------------------------------
@@ -89,7 +89,7 @@ class RenderingLayer : public Nutella::Layer {
 
 		m_TexVertexArray = Nutella::VertexArray::Create(texLayout, texVertexBuffer, texIndexBuffer);
 
-		m_TexShader = Nutella::Shader::Create("nutella/res/shaders/Tex.shader");
+		m_ShaderLibrary.Load("nutella/res/shaders/Tex.shader");
 
 		// Texture (wraps around geometry)
 		m_Texture = Nutella::Texture2D::Create("nutella/res/textures/dog_transparent.png");
@@ -137,12 +137,15 @@ class RenderingLayer : public Nutella::Layer {
 			glm::rotate(glm::mat4(1.0f), glm::radians(m_DogRot), glm::vec3(0.0f, 0.0f, 1.0f)) *
 			glm::scale(glm::mat4(1.0f), m_DogScale);
 
-		m_TexShader->Bind();
-		m_TexShader->SetUniform1i("u_Texture", 0);
+		auto fragShader = m_ShaderLibrary.Get("VertexColor");
+		auto texShader = m_ShaderLibrary.Get("Tex");
+
+		texShader->Bind();
+		texShader->SetUniform1i("u_Texture", 0);
 
 		Nutella::Renderer::BeginScene(m_Camera);
-		Nutella::Renderer::Submit(m_FragVertexArray, m_FragShader, fragTRS);
-		Nutella::Renderer::Submit(m_TexVertexArray, m_TexShader, texTRS);
+		Nutella::Renderer::Submit(m_FragVertexArray, fragShader, fragTRS);
+		Nutella::Renderer::Submit(m_TexVertexArray, texShader, texTRS);
 		Nutella::Renderer::EndScene();
 	}
 
@@ -176,7 +179,7 @@ class RenderingLayer : public Nutella::Layer {
 
   private:
 	Nutella::Ref<Nutella::VertexArray> m_FragVertexArray, m_TexVertexArray;
-	Nutella::Ref<Nutella::Shader> m_FragShader, m_TexShader;
+	Nutella::ShaderLibrary m_ShaderLibrary;
 	Nutella::Ref<Nutella::Texture> m_Texture;
 	Nutella::OrthographicCamera m_Camera;
 

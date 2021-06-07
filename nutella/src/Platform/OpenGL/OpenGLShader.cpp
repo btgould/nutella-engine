@@ -5,14 +5,20 @@
 #include "glm/gtc/type_ptr.hpp"
 
 #include <fstream>
+#include <filesystem>
 
 namespace Nutella {
 	OpenGLShader::OpenGLShader(const std::string& filepath) {
 		ShaderProgramSource source = SourceShaders(filepath);
 		m_RendererID = CreateShader(source);
+
+		std::filesystem::path path = filepath;
+		m_Name = path.stem().string();
 	}
 
-	OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc) {
+	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc,
+							   const std::string& fragmentSrc)
+		: m_Name(name) {
 		ShaderProgramSource source;
 		source[GL_VERTEX_SHADER] = vertexSrc;
 		source[GL_FRAGMENT_SHADER] = fragmentSrc;
@@ -24,6 +30,8 @@ namespace Nutella {
 	void OpenGLShader::Bind() const { GL_CALL(glUseProgram(m_RendererID)); }
 
 	void OpenGLShader::Unbind() const { GL_CALL(glUseProgram(0)); }
+
+	const std::string& OpenGLShader::GetName() const { return m_Name; }
 
 	// Utility functions to create shaders
 	// -----------------------------------------------------------------------

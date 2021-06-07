@@ -11,12 +11,15 @@ namespace Nutella {
 	class OpenGLShader : public Shader {
 	  public:
 		OpenGLShader(const std::string& filepath);
-		OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc);
+		OpenGLShader(const std::string& name, const std::string& vertexSrc,
+					 const std::string& fragmentSrc);
 
 		virtual ~OpenGLShader();
 
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
+
+		virtual const std::string& GetName() const override;
 
 		virtual void SetUniform1i(const std::string& name, const int num) override;
 		virtual void SetUniformVec2i(const std::string& name, const glm::ivec2& vec) override;
@@ -33,6 +36,7 @@ namespace Nutella {
 
 	  private:
 		uint32_t m_RendererID;
+		std::string m_Name;
 
 		ShaderProgramSource SourceShaders(const std::string& filepath);
 		unsigned int CompileShader(GLenum type, const std::string& source);
