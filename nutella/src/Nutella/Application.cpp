@@ -35,7 +35,7 @@ namespace Nutella {
 	}
 
 	void Application::OnEvent(Event& e) {
-		EventDistpatcher dispatcher(e);
+		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowClosedEvent>(BIND_EVENT_FN(Application::OnWindowClose));
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();) {

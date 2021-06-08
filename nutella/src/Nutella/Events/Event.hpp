@@ -49,7 +49,7 @@ namespace Nutella {
 
 	// class representing an application event
 	class Event {
-		friend class EventDistpatcher;
+		friend class EventDispatcher;
 
 	  public:
 		// What type an event is
@@ -70,12 +70,11 @@ namespace Nutella {
 		bool handled = false;
 	};
 
-	// TODO: fix spelling error in class name
-	class EventDistpatcher {
+	class EventDispatcher {
 		template <typename T> using EventFn = std::function<bool(T&)>;
 
 	  public:
-		EventDistpatcher(Event& event) : m_Event(event) {};
+		EventDispatcher(Event& event) : m_Event(event) {};
 
 		template <typename T> bool Dispatch(EventFn<T> func) {
 			// check if the dispatch function is valid for current event

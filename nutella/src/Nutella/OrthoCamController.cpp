@@ -37,7 +37,7 @@ namespace Nutella {
 	}
 
 	void OrthoCamController::OnEvent(Event& event) {
-		EventDistpatcher dispatcher(event);
+		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<MouseScrolledEvent>(
 			BIND_EVENT_FN(OrthoCamController::OnMouseScrolledEvent));
 		dispatcher.Dispatch<WindowResizedEvent>(
