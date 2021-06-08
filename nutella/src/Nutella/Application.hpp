@@ -28,11 +28,13 @@ namespace Nutella {
 
 	  private:
 		bool OnWindowClose(WindowClosedEvent& e);
+		bool OnWindowResize(WindowResizedEvent& e);
 
 		std::unique_ptr<Window> m_Window;
 		LayerStack m_LayerStack;
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
+		bool m_Minimized = false;
 
 		float m_Time;
 

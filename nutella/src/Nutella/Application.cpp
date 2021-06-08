@@ -37,6 +37,7 @@ namespace Nutella {
 	void Application::OnEvent(Event& e) {
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowClosedEvent>(BIND_EVENT_FN(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowResizedEvent>(BIND_EVENT_FN(Application::OnWindowResize));
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();) {
 			(*--it)->OnEvent(e);
@@ -55,8 +56,10 @@ namespace Nutella {
 			m_Time = glfwGetTime();
 			Timestep frameTime = m_Time - prevTime;
 
-			for (Layer* layer : m_LayerStack)
-				layer->OnUpdate(frameTime);
+			if (!m_Minimized) {
+				for (Layer* layer : m_LayerStack)
+					layer->OnUpdate(frameTime);
+			}
 
 			m_ImGuiLayer->begin();
 			for (Layer* layer : m_LayerStack)
@@ -90,6 +93,21 @@ namespace Nutella {
 	bool Application::OnWindowClose(WindowClosedEvent& e) {
 		m_Running = false;
 		return true;
+	}
+
+	bool Application::OnWindowResize(WindowResizedEvent& e) {
+		uint32_t width = e.GetWidth();
+		uint32_t height = e.GetHeight();
+
+		if (width == 0 || height == 0) {
+			m_Minimized = true;
+			return false;
+		}
+
+		m_Minimized = false;
+
+		Renderer::OnWindowResize(width, height);
+		return false;
 	}
 
 } // namespace Nutella
