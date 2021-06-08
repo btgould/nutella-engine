@@ -70,6 +70,7 @@ namespace Nutella {
 		bool handled = false;
 	};
 
+	// TODO: fix spelling error in class name
 	class EventDistpatcher {
 		template <typename T> using EventFn = std::function<bool(T&)>;
 

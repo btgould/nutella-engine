@@ -11,11 +11,36 @@ namespace Nutella {
 
 	OrthographicCamera::~OrthographicCamera() {}
 
+	void OrthographicCamera::Move(const glm::vec3& mv) {
+		m_Position += mv;
+		UpdateView();
+	}
+
+	void OrthographicCamera::SetPosition(const glm::vec3& pos) {
+		m_Position = pos;
+		UpdateView();
+	}
+
+	void OrthographicCamera::Rotate(float rot) {
+		m_Rotation += rot;
+		UpdateView();
+	}
+
+	void OrthographicCamera::SetRotation(const float& rot) {
+		m_Rotation = rot;
+		UpdateView();
+	}
+
 	void OrthographicCamera::UpdateView() {
 		glm::mat4 pos = glm::translate(glm::mat4(1.0f), m_Position);
 		glm::mat4 rot = glm::rotate(glm::mat4(1.0f), glm::radians(m_Rotation), {0.0f, 0.0f, 1.0f});
 		m_View = glm::inverse(pos * rot);
 
+		m_VP = m_Proj * m_View;
+	}
+
+	void OrthographicCamera::SetProjection(float left, float right, float bottom, float top) {
+		m_Proj = glm::ortho(left, right, bottom, top);
 		m_VP = m_Proj * m_View;
 	}
 } // namespace Nutella

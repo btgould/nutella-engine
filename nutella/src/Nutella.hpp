@@ -9,6 +9,8 @@
 #include "Nutella/KeyCodes.hpp"
 #include "Nutella/MouseButtonCodes.hpp"
 
+#include "Nutella/OrthoCamController.hpp"
+
 #include "Nutella/Renderer/VertexArray.hpp"
 #include "Nutella/Renderer/IndexBuffer.hpp"
 #include "Nutella/Renderer/VertexBuffer.hpp"

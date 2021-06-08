@@ -15,24 +15,15 @@ namespace Nutella {
 		inline glm::mat4 GetVPMat() const { return m_VP; }
 
 		inline glm::vec3 GetPosition() const { return m_Position; }
-		inline void Move(const glm::vec3& mv) {
-			m_Position += mv;
-			UpdateView();
-		}
-		inline void SetPosition(const glm::vec3& pos) {
-			m_Position = pos;
-			UpdateView();
-		}
-
 		inline float GetRotation() const { return m_Rotation; }
-		inline void Rotate(float rot) {
-			m_Rotation += rot;
-			UpdateView();
-		}
-		inline void SetRotation(const float& rot) {
-			m_Rotation = rot;
-			UpdateView();
-		}
+
+		void Move(const glm::vec3& mv);
+		void SetPosition(const glm::vec3& pos);
+
+		void Rotate(float rot);
+		void SetRotation(const float& rot);
+
+		void SetProjection(float left, float right, float bottom, float top);
 
 	  private:
 		void UpdateView();

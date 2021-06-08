@@ -1,3 +1,5 @@
+#pragma once
+
 namespace Nutella {
 	class Timestep {
 	  public:
