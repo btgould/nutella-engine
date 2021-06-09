@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Nutella/Layer.hpp"
+#include "Nutella/Core/Layer.hpp"
 
 #include "Nutella/Events/MouseEvent.hpp"
 #include "Nutella/Events/KeyEvent.hpp"

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Nutella/Log.hpp"
+#include "Nutella/Core/Log.hpp"
 
 // application creation implemented in client
 extern Nutella::Application* Nutella::CreateApplication();

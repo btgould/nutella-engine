@@ -108,18 +108,18 @@ endif
 
 OBJECTS := \
 	$(OBJDIR)/Application.o \
-	$(OBJDIR)/ImGuiBuild.o \
-	$(OBJDIR)/ImGuiLayer.o \
 	$(OBJDIR)/Layer.o \
 	$(OBJDIR)/LayerStack.o \
 	$(OBJDIR)/Log.o \
-	$(OBJDIR)/OrthoCamController.o \
+	$(OBJDIR)/ImGuiBuild.o \
+	$(OBJDIR)/ImGuiLayer.o \
 	$(OBJDIR)/GraphicsComponentSelector.o \
 	$(OBJDIR)/OrthographicCamera.o \
 	$(OBJDIR)/Renderer.o \
 	$(OBJDIR)/RendererAPI.o \
 	$(OBJDIR)/RendererCommand.o \
 	$(OBJDIR)/Shader.o \
+	$(OBJDIR)/OrthoCamController.o \
 	$(OBJDIR)/LinuxInput.o \
 	$(OBJDIR)/LinuxWindow.o \
 	$(OBJDIR)/OpenGLContext.o \
@@ -188,25 +188,22 @@ else
 $(OBJECTS): | $(OBJDIR)
 endif
 
-$(OBJDIR)/Application.o: src/Nutella/Application.cpp
+$(OBJDIR)/Application.o: src/Nutella/Core/Application.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Layer.o: src/Nutella/Core/Layer.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/LayerStack.o: src/Nutella/Core/LayerStack.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Log.o: src/Nutella/Core/Log.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/ImGuiBuild.o: src/Nutella/ImGui/ImGuiBuild.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/ImGuiLayer.o: src/Nutella/ImGui/ImGuiLayer.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/Layer.o: src/Nutella/Layer.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/LayerStack.o: src/Nutella/LayerStack.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/Log.o: src/Nutella/Log.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/OrthoCamController.o: src/Nutella/OrthoCamController.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/GraphicsComponentSelector.o: src/Nutella/Renderer/GraphicsComponentSelector.cpp
@@ -225,6 +222,9 @@ $(OBJDIR)/RendererCommand.o: src/Nutella/Renderer/RendererCommand.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Shader.o: src/Nutella/Renderer/Shader.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/OrthoCamController.o: src/Nutella/Util/OrthoCamController.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/LinuxInput.o: src/Platform/Linux/LinuxInput.cpp

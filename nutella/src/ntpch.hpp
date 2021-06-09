@@ -12,5 +12,5 @@
 #include <unordered_set>
 #include <vector>
 
-#include "Nutella/Log.hpp"
-#include "Nutella/Core.hpp"
+#include "Nutella/Core/Log.hpp"
+#include "Nutella/Core/Core.hpp"

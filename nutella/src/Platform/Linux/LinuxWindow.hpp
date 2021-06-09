@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Nutella/Window.hpp"
+#include "Nutella/Core/Window.hpp"
 
 #include "Nutella/Renderer/GraphicsContext.hpp"
 #include "GLFW/glfw3.h"

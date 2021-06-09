@@ -1,7 +1,7 @@
 #include "ntpch.hpp"
 #include "LinuxWindow.hpp"
 
-#include "Nutella/KeyCodes.hpp"
+#include "Nutella/Input/KeyCodes.hpp"
 
 #include "Nutella/Events/ApplicationEvent.hpp"
 #include "Nutella/Events/KeyEvent.hpp"
@@ -18,17 +18,11 @@ namespace Nutella {
 		NT_CORE_ERROR("GLFW Error ({0}): {1}", errorCode, description);
 	}
 
-	Window* Window::Create(const WindowProps& props) {
-		return new LinuxWindow(props);
-	}
+	Window* Window::Create(const WindowProps& props) { return new LinuxWindow(props); }
 
-	LinuxWindow::LinuxWindow(const WindowProps& props) {
-		Init(props);
-	}
+	LinuxWindow::LinuxWindow(const WindowProps& props) { Init(props); }
 
-	LinuxWindow::~LinuxWindow() {
-		Shutdown();
-	}
+	LinuxWindow::~LinuxWindow() { Shutdown(); }
 
 	void LinuxWindow::Init(const WindowProps& props) {
 		// save window properties
@@ -162,9 +156,7 @@ namespace Nutella {
 		});
 	}
 
-	void LinuxWindow::Shutdown() {
-		glfwDestroyWindow(m_Window);
-	}
+	void LinuxWindow::Shutdown() { glfwDestroyWindow(m_Window); }
 
 	void LinuxWindow::OnUpdate() {
 		glfwPollEvents();
@@ -180,8 +172,6 @@ namespace Nutella {
 		m_Data.VSync = enabled;
 	}
 
-	bool LinuxWindow::IsVSync() const {
-		return m_Data.VSync;
-	}
+	bool LinuxWindow::IsVSync() const { return m_Data.VSync; }
 
 } // namespace Nutella

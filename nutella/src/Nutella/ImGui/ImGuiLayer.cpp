@@ -4,9 +4,9 @@
 #include "examples/imgui_impl_opengl3.h"
 #include "examples/imgui_impl_glfw.h"
 
-#include "Nutella/Core.hpp"
-#include "Nutella/Application.hpp"
-#include "Nutella/KeyCodes.hpp"
+#include "Nutella/Core/Core.hpp"
+#include "Nutella/Core/Application.hpp"
+#include "Nutella/Input/KeyCodes.hpp"
 
 #include "ImGuiLayer.hpp"
 

@@ -1,9 +1,9 @@
 #include "OrthoCamController.hpp"
 
-#include "Nutella/Core.hpp"
+#include "Nutella/Core/Core.hpp"
 
-#include "Nutella/Input.hpp"
-#include "Nutella/KeyCodes.hpp"
+#include "Nutella/Input/Input.hpp"
+#include "Nutella/Input/KeyCodes.hpp"
 
 namespace Nutella {
 	OrthoCamController::OrthoCamController(float aspectRatio, bool rotationEnabled)

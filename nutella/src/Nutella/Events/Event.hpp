@@ -2,7 +2,7 @@
 
 #include "ntpch.hpp"
 
-#include "Nutella/Core.hpp"
+#include "Nutella/Core/Core.hpp"
 
 // NOTE: currently, events block execution of other parts of the engine
 

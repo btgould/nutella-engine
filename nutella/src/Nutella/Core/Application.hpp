@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Window.hpp"
+#include "Nutella/Core/Window.hpp"
 
 #include "Nutella/Events/ApplicationEvent.hpp"
 
-#include "Nutella/LayerStack.hpp"
+#include "Nutella/Core/LayerStack.hpp"
 #include "Nutella/ImGui/ImGuiLayer.hpp"
 
 namespace Nutella {

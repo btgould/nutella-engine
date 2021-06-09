@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Nutella/Input.hpp"
+#include "Nutella/Input/Input.hpp"
 
 namespace Nutella {
 	class LinuxInput : public Input {

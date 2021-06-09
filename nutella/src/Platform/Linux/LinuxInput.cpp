@@ -2,8 +2,8 @@
 
 #include "Platform/Linux/LinuxInput.hpp"
 
-#include "Nutella/Application.hpp"
-#include "Nutella/KeyCodes.hpp"
+#include "Nutella/Core/Application.hpp"
+#include "Nutella/Input/KeyCodes.hpp"
 
 #include <GLFW/glfw3.h>
 

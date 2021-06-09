@@ -1,12 +1,12 @@
 #include "ntpch.hpp"
-#include "Nutella/Application.hpp"
+#include "Nutella/Core/Application.hpp"
 #include "Log.hpp"
 
-#include "Nutella/Core.hpp"
+#include "Nutella/Core/Core.hpp"
 #include "Nutella/Events/Event.hpp"
 
-#include "Renderer/Renderer.hpp"
-#include "Renderer/RendererCommand.hpp"
+#include "Nutella/Renderer/Renderer.hpp"
+#include "Nutella/Renderer/RendererCommand.hpp"
 
 // TEMP: needed to get application time
 #include "GLFW/glfw3.h"
