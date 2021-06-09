@@ -92,6 +92,7 @@ all: prebuild prelink $(TARGET)
 endif
 
 OBJECTS := \
+	$(OBJDIR)/Sandbox2D.o \
 	$(OBJDIR)/SandboxApp.o \
 
 RESOURCES := \
@@ -151,6 +152,9 @@ else
 $(OBJECTS): | $(OBJDIR)
 endif
 
+$(OBJDIR)/Sandbox2D.o: src/Sandbox2D.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/SandboxApp.o: src/SandboxApp.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"

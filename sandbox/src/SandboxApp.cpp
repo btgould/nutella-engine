@@ -1,8 +1,11 @@
 #include <Nutella.hpp>
+#include <Nutella/Core/EntryPoint.hpp>
 
-#include "imgui.h"
+#include <imgui.h>
 
-#include "glm/gtc/matrix_transform.hpp"
+#include <glm/gtc/matrix_transform.hpp>
+
+#include "Sandbox2D.hpp"
 
 class RenderingLayer : public Nutella::Layer {
   public:
@@ -142,7 +145,10 @@ class RenderingLayer : public Nutella::Layer {
 
 class Sandbox : public Nutella::Application {
   public:
-	Sandbox() { PushLayer(new RenderingLayer()); }
+	Sandbox() {
+		// PushLayer(new RenderingLayer());
+		PushLayer(new Sandbox2D());
+	}
 	~Sandbox() {}
 };
 

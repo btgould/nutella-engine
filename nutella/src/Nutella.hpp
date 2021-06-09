@@ -8,8 +8,6 @@
 #include "Nutella/Core/Layer.hpp"
 #include "Nutella/ImGui/ImGuiLayer.hpp"
 
-#include "Nutella/Core/EntryPoint.hpp"
-
 #include "Nutella/Core/Log.hpp"
 
 // -------------------------------------------------------------------------
