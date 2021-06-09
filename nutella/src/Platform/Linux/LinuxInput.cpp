@@ -9,7 +9,7 @@
 
 namespace Nutella {
 	// NOTE: platform dependent, should add ifdef?
-	Input* Input::s_instance = new LinuxInput();
+	ScopedRef<Input> Input::s_instance = CreateScopedRef<LinuxInput>();
 
 	bool LinuxInput::isKeyPressedImpl(int keycode) {
 		auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());

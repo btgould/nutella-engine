@@ -3,7 +3,7 @@
 #include "RendererCommand.hpp"
 
 namespace Nutella {
-	Renderer::SceneData* Renderer::m_SceneData = new Renderer::SceneData();
+	ScopedRef<Renderer::SceneData> Renderer::m_SceneData = CreateScopedRef<Renderer::SceneData>();
 
 	void Renderer::Init() { RenderCommand::Init(); }
 

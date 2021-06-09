@@ -31,7 +31,7 @@ namespace Nutella {
 
 	  private:
 		GLFWwindow* m_Window;
-		GraphicsContext* m_Context;
+		ScopedRef<GraphicsContext> m_Context;
 
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();

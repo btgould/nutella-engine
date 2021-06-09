@@ -28,6 +28,6 @@ namespace Nutella {
 		virtual float getMouseYImpl() = 0;
 
 	  private:
-		static Input* s_instance;
+		static ScopedRef<Input> s_instance;
 	};
 } // namespace Nutella

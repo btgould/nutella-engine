@@ -17,6 +17,6 @@ namespace Nutella {
 		}
 
 	  private:
-		static RendererAPI* s_RendererAPI;
+		static ScopedRef<RendererAPI> s_RendererAPI;
 	};
 } // namespace Nutella

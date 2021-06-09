@@ -25,6 +25,6 @@ namespace Nutella {
 			glm::mat4 ViewProjMat;
 		};
 
-		static SceneData* m_SceneData;
+		static ScopedRef<SceneData> m_SceneData;
 	};
 } // namespace Nutella

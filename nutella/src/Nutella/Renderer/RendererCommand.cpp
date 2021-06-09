@@ -2,7 +2,6 @@
 
 #include "Platform/OpenGL/OpenGLRendererAPI.hpp"
 
-namespace Nutella
-{
-    RendererAPI* RenderCommand::s_RendererAPI = new OpenGLRendererAPI();   
+namespace Nutella {
+	ScopedRef<RendererAPI> RenderCommand::s_RendererAPI = CreateScopedRef<OpenGLRendererAPI>();
 } // namespace Nutella

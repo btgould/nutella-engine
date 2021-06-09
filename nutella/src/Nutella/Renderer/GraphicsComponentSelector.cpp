@@ -22,7 +22,7 @@ namespace Nutella {
 			return nullptr;
 			break;
 		case RendererAPI::API::OPEN_GL:
-			return std::make_shared<OpenGLVertexBuffer>(data, size);
+			return CreateRef<OpenGLVertexBuffer>(data, size);
 			break;
 		default:
 			NT_CORE_ASSERT(false, "Unrecognized render API selected!");
@@ -38,7 +38,7 @@ namespace Nutella {
 			return nullptr;
 			break;
 		case RendererAPI::API::OPEN_GL:
-			return std::make_shared<OpenGLIndexBuffer>(vertexOrder, size);
+			return CreateRef<OpenGLIndexBuffer>(vertexOrder, size);
 			break;
 		default:
 			NT_CORE_ASSERT(false, "Unrecognized render API selected!");
@@ -56,7 +56,7 @@ namespace Nutella {
 			return nullptr;
 			break;
 		case RendererAPI::API::OPEN_GL:
-			return std::make_shared<OpenGLVertexArray>(layout, vbo, ibo);
+			return CreateRef<OpenGLVertexArray>(layout, vbo, ibo);
 			break;
 		default:
 			NT_CORE_ASSERT(false, "Unrecognized render API selected!");
@@ -72,7 +72,7 @@ namespace Nutella {
 			return nullptr;
 			break;
 		case RendererAPI::API::OPEN_GL:
-			return std::make_shared<OpenGLShader>(filepath);
+			return CreateRef<OpenGLShader>(filepath);
 			break;
 		default:
 			NT_CORE_ASSERT(false, "Unrecognized render API selected!");
@@ -89,7 +89,7 @@ namespace Nutella {
 			return nullptr;
 			break;
 		case RendererAPI::API::OPEN_GL:
-			return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
+			return CreateRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
 			break;
 		default:
 			NT_CORE_ASSERT(false, "Unrecognized render API selected!");
@@ -105,7 +105,7 @@ namespace Nutella {
 			return nullptr;
 			break;
 		case RendererAPI::API::OPEN_GL:
-			return std::make_shared<OpenGLTexture2D>(filepath);
+			return CreateRef<OpenGLTexture2D>(filepath);
 			break;
 		default:
 			NT_CORE_ASSERT(false, "Unrecognized render API selected!");

@@ -56,7 +56,7 @@ namespace Nutella {
 		glfwSetWindowIcon(m_Window, 1, images);
 		stbi_image_free(images[0].pixels);
 
-		m_Context = new OpenGLContext(m_Window);
+		m_Context = CreateScopedRef<OpenGLContext>(m_Window);
 		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window,
