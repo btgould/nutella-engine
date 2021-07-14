@@ -1,3 +1,8 @@
+require('gmake2')
+
+local p = premake
+local gmake2 = p.modules.gmake2
+
 workspace "Nutella"
     configurations {"Debug", "Release", "Dist"}
     architecture "x86_64"
@@ -11,7 +16,6 @@ IncludeDir["Glad"] = "nutella/vendor/Glad/include"
 IncludeDir["ImGui"] = "nutella/vendor/imgui"
 IncludeDir["glm"] = "nutella/vendor/glm"
 IncludeDir["stb_image"] = "nutella/vendor/stb_image"
-
 
 -- include vendor premake files
 include "nutella/vendor/GLFW"
@@ -121,3 +125,28 @@ project "Sandbox"
         defines "NT_DIST"
         runtime "Release"
         optimize "On"
+
+premake.override(gmake2, 'projectrules', function(base, wks)
+    local project = p.project
+
+    for prj in p.workspace.eachproject(wks) do
+        local deps = project.getdependencies(prj)
+        deps = table.extract(deps, "name")
+        _p('%s:%s', p.esc(prj.name), gmake2.list(deps))
+
+        local cfgvar = gmake2.tovar(prj.name)
+        _p('ifneq (,$(%s_config))', cfgvar)
+
+        _p(1,'@echo "==== Building %s ($(%s_config)) ===="', prj.name, cfgvar)
+
+        local prjpath = p.filename(prj, gmake2.getmakefilename(prj, true))
+        local prjdir = path.getdirectory(path.getrelative(wks.location, prjpath))
+        local prjname = path.getname(prjpath)
+
+        -- removed `--no-print-directory` here --
+        _x(1,'@${MAKE} -C %s -f %s config=$(%s_config)', prjdir, prjname, cfgvar)
+
+        _p('endif')
+        _p('')
+    end
+end)

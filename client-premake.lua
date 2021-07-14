@@ -1,12 +1,12 @@
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-IncludeDir = {}
-IncludeDir["spdlog"] = "nutella/vendor/spdlog/include"
-IncludeDir["GLFW"] = "nutella/vendor/GLFW/include"
-IncludeDir["Glad"] = "nutella/vendor/Glad/include"
-IncludeDir["ImGui"] = "nutella/vendor/imgui"
-IncludeDir["glm"] = "nutella/vendor/glm"
-IncludeDir["stb_image"] = "nutella/vendor/stb_image"
+NTIncludeDir = {}
+NTIncludeDir["spdlog"] = "nutella/vendor/spdlog/include"
+NTIncludeDir["GLFW"] = "nutella/vendor/GLFW/include"
+NTIncludeDir["Glad"] = "nutella/vendor/Glad/include"
+NTIncludeDir["ImGui"] = "nutella/vendor/imgui"
+NTIncludeDir["glm"] = "nutella/vendor/glm"
+NTIncludeDir["stb_image"] = "nutella/vendor/stb_image"
 
 -- include vendor premake files
 include "nutella/vendor/GLFW"
@@ -34,12 +34,12 @@ project "Nutella"
 
     includedirs {
         "%{prj.location}/src",
-        "%{IncludeDir.spdlog}",
-        "%{IncludeDir.GLFW}",
-        "%{IncludeDir.Glad}",
-        "%{IncludeDir.ImGui}",
-        "%{IncludeDir.glm}",
-        "%{IncludeDir.stb_image}"
+        "%{NTIncludeDir.spdlog}",
+        "%{NTIncludeDir.GLFW}",
+        "%{NTIncludeDir.Glad}",
+        "%{NTIncludeDir.ImGui}",
+        "%{NTIncludeDir.glm}",
+        "%{NTIncludeDir.stb_image}"
     }
 
     links {
