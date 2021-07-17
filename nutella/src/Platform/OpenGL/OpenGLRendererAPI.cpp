@@ -7,6 +7,8 @@ namespace Nutella {
 	void OpenGLRendererAPI::Init() {
 		GL_CALL(glEnable(GL_BLEND));
 		GL_CALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
+		GL_CALL(glEnable(GL_DEPTH_TEST));
 	}
 
 	void OpenGLRendererAPI::SetClearColor(glm::vec4 color) {

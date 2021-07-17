@@ -27,6 +27,7 @@
 #include "Nutella/Renderer/Texture.hpp"
 #include "Nutella/Renderer/OrthographicCamera.hpp"
 #include "Nutella/Renderer/Renderer.hpp"
+#include "Nutella/Renderer/Renderer2D.hpp"
 #include "Nutella/Renderer/RendererCommand.hpp"
 
 // -------------------------------------------------------------------------

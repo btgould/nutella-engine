@@ -18,5 +18,9 @@ class Sandbox2D : public Nutella::Layer {
 	Nutella::ShaderLibrary m_ShaderLibrary;
 	Nutella::OrthoCamController m_CameraController;
 
+	Nutella::Ref<Nutella::Texture> m_Texture;
+
+	glm::vec2 m_Pos;
+	glm::vec2 m_Size;
 	glm::vec4 m_Color;
 };
