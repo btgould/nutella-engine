@@ -111,6 +111,7 @@ GENERATED += $(OBJDIR)/OpenGLVertexBuffer.o
 GENERATED += $(OBJDIR)/OrthoCamController.o
 GENERATED += $(OBJDIR)/OrthographicCamera.o
 GENERATED += $(OBJDIR)/Renderer.o
+GENERATED += $(OBJDIR)/Renderer2D.o
 GENERATED += $(OBJDIR)/RendererAPI.o
 GENERATED += $(OBJDIR)/RendererCommand.o
 GENERATED += $(OBJDIR)/Shader.o
@@ -134,6 +135,7 @@ OBJECTS += $(OBJDIR)/OpenGLVertexBuffer.o
 OBJECTS += $(OBJDIR)/OrthoCamController.o
 OBJECTS += $(OBJDIR)/OrthographicCamera.o
 OBJECTS += $(OBJDIR)/Renderer.o
+OBJECTS += $(OBJDIR)/Renderer2D.o
 OBJECTS += $(OBJDIR)/RendererAPI.o
 OBJECTS += $(OBJDIR)/RendererCommand.o
 OBJECTS += $(OBJDIR)/Shader.o
@@ -226,6 +228,9 @@ $(OBJDIR)/OrthographicCamera.o: src/Nutella/Renderer/OrthographicCamera.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Renderer.o: src/Nutella/Renderer/Renderer.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Renderer2D.o: src/Nutella/Renderer/Renderer2D.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/RendererAPI.o: src/Nutella/Renderer/RendererAPI.cpp
