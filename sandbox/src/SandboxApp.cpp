@@ -72,7 +72,7 @@ class RenderingLayer : public Nutella::Layer {
 
 		m_TexVertexArray = Nutella::VertexArray::Create(texLayout, texVertexBuffer, texIndexBuffer);
 
-		m_ShaderLibrary.Load("nutella/res/shaders/Tex.shader");
+		m_ShaderLibrary.Load("nutella/res/shaders/2D.shader");
 
 		// Texture (wraps around geometry)
 		m_Texture = Nutella::Texture2D::Create("nutella/res/textures/dog_transparent.png");
@@ -104,10 +104,11 @@ class RenderingLayer : public Nutella::Layer {
 			glm::scale(glm::mat4(1.0f), m_DogScale);
 
 		auto fragShader = m_ShaderLibrary.Get("VertexColor");
-		auto texShader = m_ShaderLibrary.Get("Tex");
+		auto texShader = m_ShaderLibrary.Get("2D");
 
 		texShader->Bind();
 		texShader->SetUniform1i("u_Texture", 0);
+		texShader->SetUniformVec4f("u_Color", {1.0f, 1.0f, 1.0f, 1.0f});
 
 		Nutella::Renderer::BeginScene(m_CameraController.GetCamera());
 		Nutella::Renderer::Submit(m_FragVertexArray, fragShader, fragTRS);

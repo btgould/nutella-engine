@@ -41,7 +41,7 @@ namespace Nutella {
 
 	  private:
 		static Ref<VertexArray> m_VertexArray;
-		static Ref<Shader> m_FlatColorShader;
-		static Ref<Shader> m_TextureShader;
+		static Ref<Shader> m_Shader;
+		static Ref<Texture> m_WhiteTex;
 	};
 } // namespace Nutella
