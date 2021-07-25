@@ -9,6 +9,8 @@ namespace Nutella {
 	Ref<Texture> Renderer2D::m_WhiteTex;
 
 	void Renderer2D::Init() {
+		NT_PROFILE_FUNC();
+
 		float vertices[] = {
 			-0.25f, -0.25f, 0.0f, 0.0f, 0.0f, // Vertex 1
 			0.25f,	-0.25f, 0.0f, 1.0f, 0.0f, // Vertex 2
@@ -33,23 +35,29 @@ namespace Nutella {
 	}
 
 	void Renderer2D::Shutdown() {
+		NT_PROFILE_FUNC();
+
 		m_VertexArray->~VertexArray();
 		m_Shader->~Shader();
 		m_WhiteTex->~Texture();
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera) {
+		NT_PROFILE_FUNC();
+
 		m_Shader->Bind();
 		m_Shader->SetUniformMat4f("u_VP", camera.GetVPMat());
 	}
 
-	void Renderer2D::EndScene() {}
+	void Renderer2D::EndScene() { NT_PROFILE_FUNC(); }
 
 	void Renderer2D::DrawQuad(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color) {
 		DrawQuad({pos.x, pos.y, 0.0f}, size, color);
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec3& pos, const glm::vec2& size, const glm::vec4& color) {
+		NT_PROFILE_FUNC();
+
 		m_WhiteTex->Bind();
 		m_Shader->Bind();
 		m_Shader->SetUniform1i("u_Texture", 0);
@@ -69,6 +77,8 @@ namespace Nutella {
 
 	void Renderer2D::DrawQuad(const glm::vec3& pos, const float rotation, const glm::vec2& size,
 							  const glm::vec4& color) {
+		NT_PROFILE_FUNC();
+
 		m_WhiteTex->Bind();
 		m_Shader->Bind();
 		m_Shader->SetUniform1i("u_Texture", 0);
@@ -90,6 +100,8 @@ namespace Nutella {
 
 	void Renderer2D::DrawQuad(const glm::vec3& pos, const glm::vec2& size,
 							  const Ref<Texture>& texture, const glm::vec4& color) {
+		NT_PROFILE_FUNC();
+
 		texture->Bind();
 		m_Shader->Bind();
 		m_Shader->SetUniform1i("u_Texture", 0);
@@ -109,6 +121,8 @@ namespace Nutella {
 
 	void Renderer2D::DrawQuad(const glm::vec3& pos, const float rotation, const glm::vec2& size,
 							  const Ref<Texture>& texture, const glm::vec4& color) {
+		NT_PROFILE_FUNC();
+
 		texture->Bind();
 		m_Shader->Bind();
 		m_Shader->SetUniform1i("u_Texture", 0);

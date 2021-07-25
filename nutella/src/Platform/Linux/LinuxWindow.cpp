@@ -25,6 +25,8 @@ namespace Nutella {
 	LinuxWindow::~LinuxWindow() { Shutdown(); }
 
 	void LinuxWindow::Init(const WindowProps& props) {
+		NT_PROFILE_FUNC();
+
 		// save window properties
 		m_Data.Title = props.Title;
 		m_Data.Width = props.Width;
@@ -156,14 +158,22 @@ namespace Nutella {
 		});
 	}
 
-	void LinuxWindow::Shutdown() { glfwDestroyWindow(m_Window); }
+	void LinuxWindow::Shutdown() {
+		NT_PROFILE_FUNC();
+
+		glfwDestroyWindow(m_Window);
+	}
 
 	void LinuxWindow::OnUpdate() {
+		NT_PROFILE_FUNC();
+
 		glfwPollEvents();
 		m_Context->SwapBuffers();
 	}
 
 	void LinuxWindow::SetVSync(bool enabled) {
+		NT_PROFILE_FUNC();
+
 		if (enabled)
 			glfwSwapInterval(1);
 		else

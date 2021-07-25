@@ -5,6 +5,8 @@
 
 namespace Nutella {
 	void OpenGLRendererAPI::Init() {
+		NT_PROFILE_FUNC();
+		
 		GL_CALL(glEnable(GL_BLEND));
 		GL_CALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 

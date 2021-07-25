@@ -7,6 +7,8 @@
 namespace Nutella {
 	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
 		: m_Width(width), m_Height(height), m_BPP(4) {
+		NT_PROFILE_FUNC();
+
 		GL_CALL(glGenTextures(1, &m_RendererID));
 		GL_CALL(glBindTexture(GL_TEXTURE_2D, m_RendererID));
 
@@ -30,6 +32,8 @@ namespace Nutella {
 
 	OpenGLTexture2D::OpenGLTexture2D(const std::string& filepath)
 		: m_Width(0), m_Height(0), m_BPP(0) {
+		NT_PROFILE_FUNC();
+
 		GL_CALL(glGenTextures(1, &m_RendererID));
 		GL_CALL(glBindTexture(GL_TEXTURE_2D, m_RendererID));
 
@@ -39,8 +43,12 @@ namespace Nutella {
 		GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST));
 		GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
 
-		stbi_set_flip_vertically_on_load(1); // OpenGL bottom-left is 0, 0
-		unsigned char* imgData = stbi_load(filepath.c_str(), &m_Width, &m_Height, &m_BPP, 4);
+		unsigned char* imgData;
+		{
+			NT_PROFILE_SCOPE("Loading Texture Data");
+			stbi_set_flip_vertically_on_load(1); // OpenGL bottom-left is 0, 0
+			imgData = stbi_load(filepath.c_str(), &m_Width, &m_Height, &m_BPP, 4);
+		}
 
 		NT_CORE_ASSERT(imgData, "Failed to load texture!");
 		NT_CORE_ASSERT(m_BPP == 3 || m_BPP == 4, "Texture image format not supported!");
@@ -54,16 +62,28 @@ namespace Nutella {
 		stbi_image_free(imgData);
 	}
 
-	OpenGLTexture2D::~OpenGLTexture2D() { GL_CALL(glDeleteTextures(1, &m_RendererID)); }
+	OpenGLTexture2D::~OpenGLTexture2D() {
+		NT_PROFILE_FUNC();
+
+		GL_CALL(glDeleteTextures(1, &m_RendererID));
+	}
 
 	void OpenGLTexture2D::Bind(unsigned int slot /* = 0 */) const {
+		NT_PROFILE_FUNC();
+
 		GL_CALL(glActiveTexture(GL_TEXTURE0 + slot));
 		GL_CALL(glBindTexture(GL_TEXTURE_2D, m_RendererID));
 	}
 
-	void OpenGLTexture2D::Unbind() const { GL_CALL(glBindTexture(GL_TEXTURE_2D, 0)); }
+	void OpenGLTexture2D::Unbind() const {
+		NT_PROFILE_FUNC();
+
+		GL_CALL(glBindTexture(GL_TEXTURE_2D, 0));
+	}
 
 	void OpenGLTexture2D::Set(void* data, uint32_t size) {
+		NT_PROFILE_FUNC();
+
 		NT_CORE_ASSERT(size == m_Width * m_Height * m_BPP,
 					   "Must provide enough data to set entire texture!");
 
@@ -72,6 +92,8 @@ namespace Nutella {
 	}
 
 	void OpenGLTexture2D::CreateMipmaps() const {
+		NT_PROFILE_FUNC();
+
 		GL_CALL(glBindTexture(GL_TEXTURE_2D, m_RendererID));
 		GL_CALL(glGenerateMipmap(GL_TEXTURE_2D));
 	}

@@ -9,6 +9,8 @@
 
 namespace Nutella {
 	OpenGLShader::OpenGLShader(const std::string& filepath) {
+		NT_PROFILE_FUNC();
+
 		ShaderProgramSource source = SourceShaders(filepath);
 		m_RendererID = CreateShader(source);
 
@@ -19,6 +21,8 @@ namespace Nutella {
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc,
 							   const std::string& fragmentSrc)
 		: m_Name(name) {
+		NT_PROFILE_FUNC();
+
 		ShaderProgramSource source;
 		source[GL_VERTEX_SHADER] = vertexSrc;
 		source[GL_FRAGMENT_SHADER] = fragmentSrc;
@@ -46,6 +50,8 @@ namespace Nutella {
 	}
 
 	ShaderProgramSource OpenGLShader::SourceShaders(const std::string& filepath) {
+		NT_PROFILE_FUNC();
+
 		const char* declKeyword = "#shader";
 		unsigned int declKeywordLen = strlen(declKeyword);
 
@@ -84,6 +90,8 @@ namespace Nutella {
 	}
 
 	unsigned int OpenGLShader::CompileShader(GLenum type, const std::string& source) {
+		NT_PROFILE_FUNC();
+
 		// create + compile shader
 		GL_CALL(unsigned int id = glCreateShader(type));
 		const char* const src = source.c_str();
@@ -111,6 +119,8 @@ namespace Nutella {
 	}
 
 	unsigned int OpenGLShader::CreateShader(ShaderProgramSource sources) {
+		NT_PROFILE_FUNC();
+
 		GL_CALL(unsigned int id = glCreateProgram());
 		std::vector<unsigned int> shaderProgramIDs;
 		shaderProgramIDs.reserve(sources.size());

@@ -12,6 +12,8 @@ namespace Nutella {
 				   m_ZoomLevel) {}
 
 	void OrthoCamController::OnUpdate(Timestep ts) {
+		NT_PROFILE_FUNC();
+
 		float mvStep = m_CamMoveSpeed * ts * m_ZoomLevel;
 		float rotStep = m_CamRotationSpeed * ts;
 
@@ -37,6 +39,8 @@ namespace Nutella {
 	}
 
 	void OrthoCamController::OnEvent(Event& event) {
+		NT_PROFILE_FUNC();
+
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<MouseScrolledEvent>(
 			BIND_EVENT_FN(OrthoCamController::OnMouseScrolledEvent));
@@ -45,6 +49,8 @@ namespace Nutella {
 	}
 
 	bool OrthoCamController::OnMouseScrolledEvent(MouseScrolledEvent& event) {
+		NT_PROFILE_FUNC();
+
 		m_ZoomLevel -= event.GetYOffset() * m_CamZoomSpeed;
 		m_ZoomLevel = std::clamp(m_ZoomLevel, 0.25f, 10.0f);
 		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel,
@@ -53,6 +59,8 @@ namespace Nutella {
 	}
 
 	bool OrthoCamController::OnWindowResizeEvent(WindowResizedEvent& event) {
+		NT_PROFILE_FUNC();
+
 		m_AspectRatio = (float) event.GetWidth() / (float) event.GetHeight();
 		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel,
 							   -m_ZoomLevel, m_ZoomLevel);

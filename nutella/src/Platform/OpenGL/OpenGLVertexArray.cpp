@@ -7,9 +7,10 @@
 
 namespace Nutella {
 	OpenGLVertexArray::OpenGLVertexArray(const VertexBufferLayout& layout,
-										 const Ref<VertexBuffer>& vbo,
-										 const Ref<IndexBuffer>& ibo)
+										 const Ref<VertexBuffer>& vbo, const Ref<IndexBuffer>& ibo)
 		: m_VertexBuffer(vbo), m_IndexBuffer(ibo) {
+		NT_PROFILE_FUNC();
+
 		GL_CALL(glCreateVertexArrays(1, &m_RendererID));
 		this->Bind();
 		vbo->Bind();
@@ -31,24 +32,26 @@ namespace Nutella {
 	}
 
 	OpenGLVertexArray::~OpenGLVertexArray() {
+		NT_PROFILE_FUNC();
+
 		GL_CALL(glDeleteVertexArrays(1, &m_RendererID))
 	}
 
 	void OpenGLVertexArray::Bind() const {
+		NT_PROFILE_FUNC();
+
 		GL_CALL(glBindVertexArray(m_RendererID));
 	}
 
 	void OpenGLVertexArray::Unbind() const {
+		NT_PROFILE_FUNC();
+
 		GL_CALL(glBindVertexArray(m_RendererID));
 	}
 
-	const Ref<VertexBuffer>& OpenGLVertexArray::GetVertexBuffer() const {
-		return m_VertexBuffer;
-	}
+	const Ref<VertexBuffer>& OpenGLVertexArray::GetVertexBuffer() const { return m_VertexBuffer; }
 
-	const Ref<IndexBuffer>& OpenGLVertexArray::GetIndexBuffer() const {
-		return m_IndexBuffer;
-	}
+	const Ref<IndexBuffer>& OpenGLVertexArray::GetIndexBuffer() const { return m_IndexBuffer; }
 
 	unsigned int OpenGLVertexArray::getOpenGLType(VertexAttribType type) {
 		switch (type) {

@@ -48,6 +48,8 @@ void Sandbox2D::OnEvent(Event& event) {
 }
 
 void Sandbox2D::OnImGuiRender() {
+	NT_PROFILE_FUNC();
+
 	ImGui::Begin("2D Rendering Test");
 	ImGui::ColorPicker4("Quad Color", glm::value_ptr(m_Color));
 

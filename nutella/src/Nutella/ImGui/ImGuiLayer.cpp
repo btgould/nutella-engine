@@ -18,6 +18,8 @@ namespace Nutella {
 	ImGuiLayer::~ImGuiLayer() {}
 
 	void ImGuiLayer::OnAttach() {
+		NT_PROFILE_FUNC();
+
 		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -52,6 +54,8 @@ namespace Nutella {
 	}
 
 	void ImGuiLayer::OnDetach() {
+		NT_PROFILE_FUNC();
+
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
@@ -60,12 +64,16 @@ namespace Nutella {
 	void ImGuiLayer::OnImGuiRender() { ImGui::ShowDemoWindow(); }
 
 	void ImGuiLayer::begin() {
+		NT_PROFILE_FUNC();
+
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 	}
 
 	void ImGuiLayer::end() {
+		NT_PROFILE_FUNC();
+
 		// update window size
 		ImGuiIO& io = ImGui::GetIO();
 		io.DisplaySize = ImVec2(app.getWindow().GetWidth(), app.getWindow().GetHeight());

@@ -9,6 +9,8 @@ namespace Nutella {
 	}
 
 	void OpenGLContext::Init() {
+		NT_PROFILE_FUNC();
+
 		glfwMakeContextCurrent(m_Window);
 
 		int status = gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
@@ -20,7 +22,5 @@ namespace Nutella {
 		NT_CORE_INFO("  Renderer: {0}", glGetString(GL_RENDERER));
 	}
 
-	void OpenGLContext::SwapBuffers() {
-		glfwSwapBuffers(m_Window);
-	}
+	void OpenGLContext::SwapBuffers() { glfwSwapBuffers(m_Window); }
 } // namespace Nutella
