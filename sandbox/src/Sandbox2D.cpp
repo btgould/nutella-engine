@@ -20,6 +20,8 @@ void Sandbox2D::OnDetach() {
 }
 
 void Sandbox2D::OnUpdate(Timestep ts) {
+	NT_PROFILE_FUNC();
+
 	m_CameraController.OnUpdate(ts);
 
 	float moveSpeed = 0.05;

@@ -27,7 +27,9 @@ static bool glLogCall(const char* function, const char* file, int line) {
 #else
 static void glClearError() {}
 
-static bool glLogCall(const char* function, const char* file, int line) {}
+static bool glLogCall(const char* function, const char* file, int line) {
+	return true;
+}
 
 	#define GL_CALL(x) x;
 

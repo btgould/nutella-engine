@@ -36,7 +36,7 @@ ifeq ($(config),debug)
 TARGETDIR = ../bin/Debug-linux-x86_64/Nutella
 TARGET = $(TARGETDIR)/libNutella.so
 OBJDIR = ../bin-int/Debug-linux-x86_64/Nutella
-DEFINES += -DGLFW_INCLUDE_NONE -DNT_DEBUG -DNT_ENABLE_ASSERTS
+DEFINES += -DGLFW_INCLUDE_NONE -DNT_DEBUG -DNT_ENABLE_ASSERTS -DNT_PROFILE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17
 LIBS += vendor/GLFW/bin/Debug-linux-x86_64/GLFW/libGLFW.a vendor/Glad/bin/Debug-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Debug-linux-x86_64/ImGui/libImGui.a -lGL -ldl
@@ -52,7 +52,7 @@ else ifeq ($(config),release)
 TARGETDIR = ../bin/Release-linux-x86_64/Nutella
 TARGET = $(TARGETDIR)/libNutella.so
 OBJDIR = ../bin-int/Release-linux-x86_64/Nutella
-DEFINES += -DGLFW_INCLUDE_NONE -DNT_RELEASE
+DEFINES += -DGLFW_INCLUDE_NONE -DNT_RELEASE -DNT_PROFILE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17
 LIBS += vendor/GLFW/bin/Release-linux-x86_64/GLFW/libGLFW.a vendor/Glad/bin/Release-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Release-linux-x86_64/ImGui/libImGui.a -lGL -ldl
@@ -110,6 +110,7 @@ GENERATED += $(OBJDIR)/OpenGLVertexArray.o
 GENERATED += $(OBJDIR)/OpenGLVertexBuffer.o
 GENERATED += $(OBJDIR)/OrthoCamController.o
 GENERATED += $(OBJDIR)/OrthographicCamera.o
+GENERATED += $(OBJDIR)/Profiler.o
 GENERATED += $(OBJDIR)/Renderer.o
 GENERATED += $(OBJDIR)/Renderer2D.o
 GENERATED += $(OBJDIR)/RendererAPI.o
@@ -134,6 +135,7 @@ OBJECTS += $(OBJDIR)/OpenGLVertexArray.o
 OBJECTS += $(OBJDIR)/OpenGLVertexBuffer.o
 OBJECTS += $(OBJDIR)/OrthoCamController.o
 OBJECTS += $(OBJDIR)/OrthographicCamera.o
+OBJECTS += $(OBJDIR)/Profiler.o
 OBJECTS += $(OBJDIR)/Renderer.o
 OBJECTS += $(OBJDIR)/Renderer2D.o
 OBJECTS += $(OBJDIR)/RendererAPI.o
@@ -213,6 +215,9 @@ $(OBJDIR)/LayerStack.o: src/Nutella/Core/LayerStack.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Log.o: src/Nutella/Core/Log.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Profiler.o: src/Nutella/Debug/Profiler.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/ImGuiBuild.o: src/Nutella/ImGui/ImGuiBuild.cpp

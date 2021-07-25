@@ -35,7 +35,7 @@ ifeq ($(config),debug)
 TARGETDIR = ../bin/Debug-linux-x86_64/Sandbox
 TARGET = $(TARGETDIR)/Sandbox
 OBJDIR = ../bin-int/Debug-linux-x86_64/Sandbox
-DEFINES += -DNT_DEBUG
+DEFINES += -DNT_DEBUG -DNT_ENABLE_ASSERTS -DNT_PROFILE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++17
 LIBS += ../bin/Debug-linux-x86_64/Nutella/libNutella.so

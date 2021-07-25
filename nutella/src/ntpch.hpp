@@ -14,3 +14,4 @@
 
 #include "Nutella/Core/Log.hpp"
 #include "Nutella/Core/Core.hpp"
+#include "Nutella/Debug/Profiler.hpp"
