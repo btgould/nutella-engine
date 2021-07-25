@@ -5,18 +5,22 @@
 #include "Platform/OpenGL/glutil.hpp"
 
 namespace Nutella {
-	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
+	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height, TexWrapType wrapType,
+									 TexMinFilter minFilter, TexMagFilter magFilter)
 		: m_Width(width), m_Height(height), m_BPP(4) {
 		NT_PROFILE_FUNC();
 
 		GL_CALL(glGenTextures(1, &m_RendererID));
 		GL_CALL(glBindTexture(GL_TEXTURE_2D, m_RendererID));
 
-		GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
-		GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
+		GLint GLWrapType = TexWrapTypeNTtoGL(wrapType);
+		GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GLWrapType));
+		GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GLWrapType));
 
-		GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST));
-		GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
+		GLint GLMinFilter = TexMinFilterNTtoGL(minFilter);
+		GLint GLMagFilter = TexMagFilterNTtoGL(magFilter);
+		GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GLMinFilter));
+		GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GLMagFilter));
 
 		m_DataFormat = GL_RGBA;
 		m_InternalFormat = GL_RGBA8;
@@ -30,18 +34,22 @@ namespace Nutella {
 							 GL_UNSIGNED_BYTE, imgData));
 	}
 
-	OpenGLTexture2D::OpenGLTexture2D(const std::string& filepath)
+	OpenGLTexture2D::OpenGLTexture2D(const std::string& filepath, TexWrapType wrapType,
+									 TexMinFilter minFilter, TexMagFilter magFilter)
 		: m_Width(0), m_Height(0), m_BPP(0) {
 		NT_PROFILE_FUNC();
 
 		GL_CALL(glGenTextures(1, &m_RendererID));
 		GL_CALL(glBindTexture(GL_TEXTURE_2D, m_RendererID));
 
-		GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
-		GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
+		GLint GLWrapType = TexWrapTypeNTtoGL(wrapType);
+		GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GLWrapType));
+		GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GLWrapType));
 
-		GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST));
-		GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
+		GLint GLMinFilter = TexMinFilterNTtoGL(minFilter);
+		GLint GLMagFilter = TexMagFilterNTtoGL(magFilter);
+		GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GLMinFilter));
+		GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GLMagFilter));
 
 		unsigned char* imgData;
 		{
@@ -96,5 +104,59 @@ namespace Nutella {
 
 		GL_CALL(glBindTexture(GL_TEXTURE_2D, m_RendererID));
 		GL_CALL(glGenerateMipmap(GL_TEXTURE_2D));
+	}
+
+	GLint OpenGLTexture2D::TexWrapTypeNTtoGL(TexWrapType wrapType) {
+		switch (wrapType) {
+		case TexWrapType::NONE:
+			return GL_CLAMP_TO_BORDER;
+
+		case TexWrapType::REPEAT:
+			return GL_REPEAT;
+
+		case TexWrapType::MIRRORED_REPEAT:
+			return GL_MIRRORED_REPEAT;
+
+		case TexWrapType::CLAMP:
+			return GL_CLAMP_TO_EDGE;
+
+		default:
+			NT_CORE_ASSERT(false, "Unrecognized Texture Wrapping Type!");
+			return GL_REPEAT;
+		}
+	}
+
+	GLint OpenGLTexture2D::TexMinFilterNTtoGL(TexMinFilter minFilter) {
+		switch (minFilter) {
+		case TexMinFilter::NEAREST:
+			return GL_NEAREST;
+
+		case TexMinFilter::LERP:
+			return GL_LINEAR;
+
+		case TexMinFilter::MIPMAP_NEAREST:
+			return GL_NEAREST_MIPMAP_NEAREST;
+
+		case TexMinFilter::MIPMAP_LERP:
+			return GL_LINEAR_MIPMAP_NEAREST;
+
+		default:
+			NT_CORE_ASSERT(false, "Unrecognized Texture Min Filter!");
+			return GL_NEAREST;
+		}
+	}
+
+	GLint OpenGLTexture2D::TexMagFilterNTtoGL(TexMagFilter magFilter) {
+		switch (magFilter) {
+		case TexMagFilter::NEAREST:
+			return GL_NEAREST;
+
+		case TexMagFilter::LERP:
+			return GL_LINEAR;
+
+		default:
+			NT_CORE_ASSERT(false, "Unrecognized Texture Mag Filter!");
+			return GL_NEAREST;
+		}
 	}
 } // namespace Nutella

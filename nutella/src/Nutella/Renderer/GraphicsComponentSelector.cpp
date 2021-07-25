@@ -98,14 +98,15 @@ namespace Nutella {
 		}
 	}
 
-	Ref<Texture> Texture2D::Create(uint32_t width, uint32_t height) {
+	Ref<Texture> Texture2D::Create(uint32_t width, uint32_t height, TexWrapType wrapType,
+								   TexMinFilter minFilter, TexMagFilter magFilter) {
 		switch (Renderer::getAPI()) {
 		case RendererAPI::API::NONE:
 			NT_CORE_ASSERT(false, "No render API selected!");
 			return nullptr;
 			break;
 		case RendererAPI::API::OPEN_GL:
-			return CreateRef<OpenGLTexture2D>(width, height);
+			return CreateRef<OpenGLTexture2D>(width, height, wrapType, minFilter, magFilter);
 			break;
 		default:
 			NT_CORE_ASSERT(false, "Unrecognized render API selected!");
@@ -114,14 +115,15 @@ namespace Nutella {
 		}
 	}
 
-	Ref<Texture> Texture2D::Create(const std::string& filepath) {
+	Ref<Texture> Texture2D::Create(const std::string& filepath, TexWrapType wrapType,
+								   TexMinFilter minFilter, TexMagFilter magFilter) {
 		switch (Renderer::getAPI()) {
 		case RendererAPI::API::NONE:
 			NT_CORE_ASSERT(false, "No render API selected!");
 			return nullptr;
 			break;
 		case RendererAPI::API::OPEN_GL:
-			return CreateRef<OpenGLTexture2D>(filepath);
+			return CreateRef<OpenGLTexture2D>(filepath, wrapType, minFilter, magFilter);
 			break;
 		default:
 			NT_CORE_ASSERT(false, "Unrecognized render API selected!");

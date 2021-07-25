@@ -27,16 +27,16 @@ namespace Nutella {
 							 const glm::vec4& color = {1.0f, 1.0f, 1.0f, 1.0f});
 
 		static void DrawQuad(const glm::vec2& pos, const glm::vec2& size,
-							 const Ref<Texture>& texture,
+							 const Ref<Texture>& texture, float repeatFactor = 1.0f,
 							 const glm::vec4& color = {1.0f, 1.0f, 1.0f, 1.0f});
 		static void DrawQuad(const glm::vec3& pos, const glm::vec2& size,
-							 const Ref<Texture>& texture,
+							 const Ref<Texture>& texture, float repeatFactor = 1.0f,
 							 const glm::vec4& color = {1.0f, 1.0f, 1.0f, 1.0f});
 		static void DrawQuad(const glm::vec2& pos, const float rotation, const glm::vec2& size,
-							 const Ref<Texture>& texture,
+							 const Ref<Texture>& texture, float repeatFactor = 1.0f,
 							 const glm::vec4& color = {1.0f, 1.0f, 1.0f, 1.0f});
 		static void DrawQuad(const glm::vec3& pos, const float rotation, const glm::vec2& size,
-							 const Ref<Texture>& texture,
+							 const Ref<Texture>& texture, float repeatFactor = 1.0f,
 							 const glm::vec4& color = {1.0f, 1.0f, 1.0f, 1.0f});
 
 	  private:

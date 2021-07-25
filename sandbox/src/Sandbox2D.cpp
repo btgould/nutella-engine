@@ -12,7 +12,7 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::OnAttach() {
 	m_Texture = Texture2D::Create("nutella/res/textures/dog.png");
-	m_Texture->CreateMipmaps();
+	// m_Texture->CreateMipmaps();
 }
 
 void Sandbox2D::OnDetach() {
@@ -38,7 +38,7 @@ void Sandbox2D::OnUpdate(Timestep ts) {
 
 	Renderer2D::BeginScene(m_CameraController.GetCamera());
 	Renderer2D::DrawQuad(m_Pos, m_Size, m_Color);
-	Renderer2D::DrawQuad({0.5f, 0.5f, -0.1}, 30.0f, {1.0f, 1.0f}, m_Texture,
+	Renderer2D::DrawQuad({0.5f, 0.5f, -0.1}, 30.0f, {1.0f, 1.0f}, m_Texture, 1.0f,
 						 {0.5f, 0.5f, 1.0f, 1.0f});
 	Renderer2D::EndScene();
 }

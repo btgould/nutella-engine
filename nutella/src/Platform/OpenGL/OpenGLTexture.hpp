@@ -7,8 +7,10 @@
 namespace Nutella {
 	class OpenGLTexture2D : public Texture2D {
 	  public:
-		OpenGLTexture2D(uint32_t width, uint32_t height);
-		OpenGLTexture2D(const std::string& filepath);
+		OpenGLTexture2D(uint32_t width, uint32_t height, TexWrapType wrapType,
+						TexMinFilter minFilter, TexMagFilter magFilter);
+		OpenGLTexture2D(const std::string& filepath, TexWrapType wrapType, TexMinFilter minFilter,
+						TexMagFilter magFilter);
 		virtual ~OpenGLTexture2D();
 
 		virtual void Bind(unsigned int slot = 0) const override;
@@ -17,6 +19,11 @@ namespace Nutella {
 		virtual void Set(void* data, uint32_t size) override;
 
 		virtual void CreateMipmaps() const override;
+
+	  private:
+		GLint TexWrapTypeNTtoGL(TexWrapType wrapType);
+		GLint TexMinFilterNTtoGL(TexMinFilter minFilter);
+		GLint TexMagFilterNTtoGL(TexMagFilter magFilter);
 
 	  private:
 		uint32_t m_RendererID;
