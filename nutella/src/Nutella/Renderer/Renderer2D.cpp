@@ -30,6 +30,7 @@ namespace Nutella {
 			Nutella::IndexBuffer::Create(indices, sizeof(indices));
 
 		m_VertexArray = Nutella::VertexArray::Create(layout, vbo, ibo);
+		// TODO: find a way of specifying relative resource paths for client applications
 		m_Shader = Shader::Create("nutella/res/shaders/2D.shader");
 		m_WhiteTex = Texture2D::Create(1, 1);
 	}
