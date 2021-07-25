@@ -40,7 +40,6 @@ namespace Nutella {
 
 		m_VertexArray->~VertexArray();
 		m_Shader->~Shader();
-		m_WhiteTex->~Texture();
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera) {
@@ -52,98 +51,44 @@ namespace Nutella {
 
 	void Renderer2D::EndScene() { NT_PROFILE_FUNC(); }
 
-	void Renderer2D::DrawQuad(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& color) {
-		DrawQuad({pos.x, pos.y, 0.0f}, size, color);
-	}
-
-	void Renderer2D::DrawQuad(const glm::vec3& pos, const glm::vec2& size, const glm::vec4& color) {
+	void Renderer2D::DrawSprite(Sprite2D& sprite) {
 		NT_PROFILE_FUNC();
 
-		m_WhiteTex->Bind();
+		if (sprite.texture) {
+			sprite.texture->Bind();
+		} else {
+			m_WhiteTex->Bind();
+		}
 		m_Shader->Bind();
 		m_Shader->SetUniform1i("u_Texture", 0);
-		m_Shader->SetUniformVec4f("u_Color", color);
-		m_Shader->SetUniform1f("u_RepeatFactor", 1.0f);
+		m_Shader->SetUniformVec4f("u_Color", sprite.color);
+		m_Shader->SetUniform1f("u_RepeatFactor", sprite.texRepeatFactor);
 
-		glm::mat4 modelTRS = glm::translate(glm::mat4(1.0f), pos) *
-							 glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
+		glm::mat4 modelTRS = glm::translate(glm::mat4(1.0f), sprite.position) *
+							 glm::scale(glm::mat4(1.0f), {sprite.size.x, sprite.size.y, 1.0f});
 		m_Shader->SetUniformMat4f("u_ModelTRS", modelTRS);
 
 		RenderCommand::DrawIndexed(m_VertexArray);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& pos, const float rotation, const glm::vec2& size,
-							  const glm::vec4& color) {
-		DrawQuad({pos.x, pos.y, 0.0f}, rotation, size, color);
-	}
-
-	void Renderer2D::DrawQuad(const glm::vec3& pos, const float rotation, const glm::vec2& size,
-							  const glm::vec4& color) {
+	void Renderer2D::DrawRotatedSprite(Sprite2D& sprite) {
 		NT_PROFILE_FUNC();
 
-		m_WhiteTex->Bind();
+		if (sprite.texture) {
+			sprite.texture->Bind();
+		} else {
+			m_WhiteTex->Bind();
+		}
 		m_Shader->Bind();
 		m_Shader->SetUniform1i("u_Texture", 0);
-		m_Shader->SetUniformVec4f("u_Color", color);
-		m_Shader->SetUniform1f("u_RepeatFactor", 1.0f);
+		m_Shader->SetUniformVec4f("u_Color", sprite.color);
+		m_Shader->SetUniform1f("u_RepeatFactor", sprite.texRepeatFactor);
 
-		glm::mat4 modelTRS =
-			glm::translate(glm::mat4(1.0f), pos) *
-			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), {0.0f, 0.0f, 1.0f}) *
-			glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
+		glm::mat4 modelTRS = glm::translate(glm::mat4(1.0f), sprite.position) *
+							 glm::rotate(glm::mat4(1.0f), sprite.rotation, {0.0f, 0.0f, 1.0f}) *
+							 glm::scale(glm::mat4(1.0f), {sprite.size.x, sprite.size.y, 1.0f});
 		m_Shader->SetUniformMat4f("u_ModelTRS", modelTRS);
 
 		RenderCommand::DrawIndexed(m_VertexArray);
 	}
-
-	void Renderer2D::DrawQuad(const glm::vec2& pos, const glm::vec2& size,
-							  const Ref<Texture>& texture, float repeatFactor,
-							  const glm::vec4& color) {
-		DrawQuad({pos.x, pos.y, 0.0f}, size, texture, repeatFactor, color);
-	}
-
-	void Renderer2D::DrawQuad(const glm::vec3& pos, const glm::vec2& size,
-							  const Ref<Texture>& texture, float repeatFactor,
-							  const glm::vec4& color) {
-		NT_PROFILE_FUNC();
-
-		texture->Bind();
-		m_Shader->Bind();
-		m_Shader->SetUniform1i("u_Texture", 0);
-		m_Shader->SetUniformVec4f("u_Color", color);
-		m_Shader->SetUniform1f("u_RepeatFactor", repeatFactor);
-
-		glm::mat4 modelTRS = glm::translate(glm::mat4(1.0f), pos) *
-							 glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
-		m_Shader->SetUniformMat4f("u_ModelTRS", modelTRS);
-
-		RenderCommand::DrawIndexed(m_VertexArray);
-	}
-
-	void Renderer2D::DrawQuad(const glm::vec2& pos, const float rotation, const glm::vec2& size,
-							  const Ref<Texture>& texture, float repeatFactor,
-							  const glm::vec4& color) {
-		DrawQuad({pos.x, pos.y, 0.0f}, rotation, size, texture, repeatFactor, color);
-	}
-
-	void Renderer2D::DrawQuad(const glm::vec3& pos, const float rotation, const glm::vec2& size,
-							  const Ref<Texture>& texture, float repeatFactor,
-							  const glm::vec4& color) {
-		NT_PROFILE_FUNC();
-
-		texture->Bind();
-		m_Shader->Bind();
-		m_Shader->SetUniform1i("u_Texture", 0);
-		m_Shader->SetUniformVec4f("u_Color", color);
-		m_Shader->SetUniform1f("u_RepeatFactor", repeatFactor);
-
-		glm::mat4 modelTRS =
-			glm::translate(glm::mat4(1.0f), pos) *
-			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), {0.0f, 0.0f, 1.0f}) *
-			glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
-		m_Shader->SetUniformMat4f("u_ModelTRS", modelTRS);
-
-		RenderCommand::DrawIndexed(m_VertexArray);
-	}
-
 } // namespace Nutella

@@ -19,9 +19,6 @@ class Sandbox2D : public Layer {
 	ShaderLibrary m_ShaderLibrary;
 	OrthoCamController m_CameraController;
 
-	Ref<Texture> m_Texture;
-
-	glm::vec2 m_Pos;
-	glm::vec2 m_Size;
-	glm::vec4 m_Color;
+	Sprite2D m_Sprite1;
+	Sprite2D m_Sprite2;
 };
