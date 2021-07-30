@@ -61,7 +61,7 @@ namespace Nutella {
 		ImGui::DestroyContext();
 	}
 
-	void ImGuiLayer::OnImGuiRender() { ImGui::ShowDemoWindow(); }
+	void ImGuiLayer::OnImGuiRender() {}
 
 	void ImGuiLayer::begin() {
 		NT_PROFILE_FUNC();
