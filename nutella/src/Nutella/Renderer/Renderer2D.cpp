@@ -45,6 +45,9 @@ namespace Nutella {
 	void Renderer2D::BeginScene(const OrthographicCamera& camera) {
 		NT_PROFILE_FUNC();
 
+		// TEMP: this could go badly if I want to draw objects with different VAOs
+		m_VertexArray->Bind();
+
 		m_Shader->Bind();
 		m_Shader->SetUniformMat4f("u_VP", camera.GetVPMat());
 	}

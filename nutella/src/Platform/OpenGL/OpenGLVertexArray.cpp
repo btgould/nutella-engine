@@ -12,7 +12,7 @@ namespace Nutella {
 		NT_PROFILE_FUNC();
 
 		GL_CALL(glCreateVertexArrays(1, &m_RendererID));
-		this->Bind();
+		GL_CALL(glBindVertexArray(m_RendererID));
 		vbo->Bind();
 		ibo->Bind();
 
@@ -29,12 +29,16 @@ namespace Nutella {
 										  layout.getStride(), (void*) offset));
 			offset += attrib.count * VertexBufferAttrib::getTypeSize(attrib.type);
 		}
+
+		// This is necessary so that creating other primitives (which have to be bound) does not
+		// affect the data in this VAO
+		GL_CALL(glBindVertexArray(0));
 	}
 
 	OpenGLVertexArray::~OpenGLVertexArray() {
 		NT_PROFILE_FUNC();
 
-		GL_CALL(glDeleteVertexArrays(1, &m_RendererID))
+		GL_CALL(glDeleteVertexArrays(1, &m_RendererID));
 	}
 
 	void OpenGLVertexArray::Bind() const {
@@ -46,7 +50,7 @@ namespace Nutella {
 	void OpenGLVertexArray::Unbind() const {
 		NT_PROFILE_FUNC();
 
-		GL_CALL(glBindVertexArray(m_RendererID));
+		GL_CALL(glBindVertexArray(0));
 	}
 
 	const Ref<VertexBuffer>& OpenGLVertexArray::GetVertexBuffer() const { return m_VertexBuffer; }
