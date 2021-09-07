@@ -14,7 +14,8 @@ void Sandbox2D::OnAttach() {
 
 	m_Sprite2.position = glm::vec3(0.5f, 0.5f, 0.0f);
 	m_Sprite2.rotation = glm::radians(30.0f);
-	m_Sprite2.texture = Texture2D::Create("nutella/res/textures/dog.png");
+	m_Sprite2.texture = Texture2D::Create("nutella/res/textures/dog_transparent.png");
+	m_Sprite2.texRepeatFactor = 2;
 	m_Sprite2.color = glm::vec4(0.6f, 0.6f, 1.0f, 1.0f);
 }
 
