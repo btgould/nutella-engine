@@ -46,7 +46,7 @@ else ifeq ($(config),release)
 TARGETDIR = ../bin/Release-linux-x86_64/Sandbox
 TARGET = $(TARGETDIR)/Sandbox
 OBJDIR = ../bin-int/Release-linux-x86_64/Sandbox
-DEFINES += -DNT_RELEASE
+DEFINES += -DNT_RELEASE -DNT_PROFILE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17
 LIBS += ../bin/Release-linux-x86_64/Nutella/libNutella.so

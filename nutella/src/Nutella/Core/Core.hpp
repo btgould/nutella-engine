@@ -39,7 +39,11 @@
 
 #define STR(string) #string
 #define XSTR(string) STR(string)
-#define NT_PATH_STR std::string(XSTR(NT_PATH))
+#ifdef NT_PATH
+	#define NT_PATH_STR std::string(XSTR(NT_PATH))
+#else
+	#define NT_PATH_STR std::string()
+#endif
 
 #define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 

@@ -53,7 +53,6 @@ namespace Nutella {
 
 		// set window icon
 		GLFWimage images[1];
-		// TODO: find a way of specifying relative resource paths for client applications
 		images[0].pixels = stbi_load((NT_PATH_STR + "nutella/res/app_icon.jpg").c_str(),
 									 &images[0].width, &images[0].height, 0, 4);
 		NT_CORE_ASSERT(images[0].pixels, "App Icon could not be loaded!");
