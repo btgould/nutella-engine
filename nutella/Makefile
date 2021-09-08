@@ -36,7 +36,7 @@ ifeq ($(config),debug)
 TARGETDIR = ../bin/Debug-linux-x86_64/Nutella
 TARGET = $(TARGETDIR)/libNutella.so
 OBJDIR = ../bin-int/Debug-linux-x86_64/Nutella
-DEFINES += -DGLFW_INCLUDE_NONE -DNT_DEBUG -DNT_ENABLE_ASSERTS -DNT_PROFILE
+DEFINES += -DNT_PATH=nutella/ -DGLFW_INCLUDE_NONE -DNT_DEBUG -DNT_ENABLE_ASSERTS -DNT_PROFILE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17
 LIBS += vendor/GLFW/bin/Debug-linux-x86_64/GLFW/libGLFW.a vendor/Glad/bin/Debug-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Debug-linux-x86_64/ImGui/libImGui.a -lGL -ldl
@@ -52,7 +52,7 @@ else ifeq ($(config),release)
 TARGETDIR = ../bin/Release-linux-x86_64/Nutella
 TARGET = $(TARGETDIR)/libNutella.so
 OBJDIR = ../bin-int/Release-linux-x86_64/Nutella
-DEFINES += -DGLFW_INCLUDE_NONE -DNT_RELEASE -DNT_PROFILE
+DEFINES += -DNT_PATH=nutella/ -DGLFW_INCLUDE_NONE -DNT_RELEASE -DNT_PROFILE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17
 LIBS += vendor/GLFW/bin/Release-linux-x86_64/GLFW/libGLFW.a vendor/Glad/bin/Release-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Release-linux-x86_64/ImGui/libImGui.a -lGL -ldl
@@ -68,7 +68,7 @@ else ifeq ($(config),dist)
 TARGETDIR = ../bin/Dist-linux-x86_64/Nutella
 TARGET = $(TARGETDIR)/libNutella.so
 OBJDIR = ../bin-int/Dist-linux-x86_64/Nutella
-DEFINES += -DGLFW_INCLUDE_NONE -DNT_DIST
+DEFINES += -DNT_PATH=nutella/ -DGLFW_INCLUDE_NONE -DNT_DIST
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17
 LIBS += vendor/GLFW/bin/Dist-linux-x86_64/GLFW/libGLFW.a vendor/Glad/bin/Dist-linux-x86_64/Glad/libGlad.a vendor/imgui/bin/Dist-linux-x86_64/ImGui/libImGui.a -lGL -ldl

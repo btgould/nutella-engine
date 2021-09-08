@@ -37,6 +37,10 @@
 
 #define BIT(x) (1 << x)
 
+#define STR(string) #string
+#define XSTR(string) STR(string)
+#define NT_PATH_STR std::string(XSTR(NT_PATH))
+
 #define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 
 namespace Nutella {

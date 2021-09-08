@@ -52,6 +52,12 @@ project "Nutella"
         "-pthread"
     }
 
+    if nutellaPath then 
+        defines { "NT_PATH=" .. nutellaPath }
+    else
+        define { "NT_PATH=" }
+    end
+
     defines {
         "GLFW_INCLUDE_NONE"
     }
