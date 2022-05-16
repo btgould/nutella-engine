@@ -4,8 +4,10 @@
 null.d
 
 # ignore generated resources
-/bin/
-/bin-int/
+bin/
+!vendor/bin/ 
+bin-int/
+Makefile
 
 # ignore profile files
 *Profile.json
