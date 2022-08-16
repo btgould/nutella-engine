@@ -75,6 +75,8 @@ project "Nutella"
         runtime "Debug"
         symbols "On"
 
+		forceincludes { "ntpch.hpp" } -- to let clangd read from original header file
+
     filter "configurations:Release"
         defines {"NT_RELEASE", "NT_PROFILE"}
         runtime "Release"

@@ -1,0 +1,44 @@
+return {
+	languages = {
+		cpp = {
+			default_task = "debug",
+			tasks = {
+				clean = {
+					command = "make config=debug clean && make config=release clean && make config=dist clean",
+					output = "quickfix",
+				},
+				prebuild = {
+					command = "premake5 gmake2",
+					output = "quickfix",
+				},
+				build_debug = {
+					command = "make config=debug all",
+					output = "quickfix",
+				},
+				build_release = {
+					command = "make config=release all",
+					output = "quickfix",
+				},
+				build_dist = {
+					command = "make config=dist all",
+					output = "quickfix",
+				},
+				debug = {
+					command = function()
+						require("dap").run({
+							type = "cppdbg",
+							request = "launch",
+							name = "Launch file",
+							program = "/home/bgould/dev/nutella-engine/bin/Debug-linux-x86_64/Sandbox/Sandbox",
+							cwd = "/home/bgould/dev/nutella-engine",
+						})
+					end,
+					type = "lua",
+					output = "quickfix",
+				},
+			},
+		},
+	},
+}
+
+-- vim:ft=lua

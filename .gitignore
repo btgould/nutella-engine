@@ -3,6 +3,10 @@
 *.code-workspace
 null.d
 
+# clang lsp ignores
+.cache
+compile_commands.json
+
 # ignore generated resources
 bin/
 !vendor/bin/ 
